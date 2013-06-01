@@ -124,4 +124,14 @@ public class PipeLogicDiamond extends PipeLogic implements ISpecialInventory {
 		this.readFromNBT(packet.getTagCompound());
 	}
 
+	@Override
+	public boolean isInvNameLocalized() {
+		return false;
+	}
+
+	@Override
+	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
+		return true;
+	}
+
 }

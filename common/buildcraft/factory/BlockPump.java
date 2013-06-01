@@ -11,11 +11,16 @@ package buildcraft.factory;
 
 import java.util.ArrayList;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import buildcraft.core.DefaultProps;
 import buildcraft.core.utils.Utils;
@@ -34,20 +39,25 @@ public class BlockPump extends BlockContainer {
 		return new TilePump();
 	}
 	
+	private Icon texTop, texBottom, texSide;
+	
 	@Override
-	public String getTextureFile() {
-		return DefaultProps.TEXTURE_BLOCKS;
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister r) {
+		texTop = r.registerIcon(DefaultProps.ICON_PREFIX + "pump-top");
+		texBottom = r.registerIcon(DefaultProps.ICON_PREFIX + "pump-bottom");
+		texSide = r.registerIcon(DefaultProps.ICON_PREFIX + "pump-side");
 	}
 
 	@Override
-	public int getBlockTextureFromSide(int i) {
+	public Icon getIcon(int i, int j) {
 		switch (i) {
 		case 0:
-			return 6 * 16 + 4;
+			return texTop;
 		case 1:
-			return 6 * 16 + 5;
+			return texBottom;
 		default:
-			return 6 * 16 + 3;
+			return texSide;
 		}
 	}
 

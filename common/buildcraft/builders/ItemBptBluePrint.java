@@ -9,7 +9,12 @@
 
 package buildcraft.builders;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.util.Icon;
 import buildcraft.BuildCraftBuilders;
+import buildcraft.core.DefaultProps;
 import buildcraft.core.blueprints.BptBase;
 
 public class ItemBptBluePrint extends ItemBptBase {
@@ -17,14 +22,23 @@ public class ItemBptBluePrint extends ItemBptBase {
 	public ItemBptBluePrint(int i) {
 		super(i);
 	}
+	
+	private Icon tex, texBlank;
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister r) {
+		tex = r.registerIcon(DefaultProps.ICON_PREFIX + "blueprint");
+		texBlank = r.registerIcon(DefaultProps.ICON_PREFIX + "blueprint-blank");
+	}
 
 	@Override
-	public int getIconFromDamage(int i) {
+	public Icon getIconFromDamage(int i) {
 		BptBase bpt = BuildCraftBuilders.getBptRootIndex().getBluePrint(i);
 		if (bpt == null) {
-			return 5 * 16 + 2;
+			return texBlank;
 		} else {
-			return 5 * 16 + 3;
+			return tex;
 		}
 	}
 }

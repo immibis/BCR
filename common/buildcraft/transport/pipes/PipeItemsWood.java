@@ -8,9 +8,11 @@
 
 package buildcraft.transport.pipes;
 
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISidedInventory;
 import buildcraft.api.core.Orientations;
@@ -21,7 +23,6 @@ import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerFramework;
 import buildcraft.api.transport.IPipedItem;
 import buildcraft.api.transport.PipeManager;
-import buildcraft.core.DefaultProps;
 import buildcraft.core.EntityPassiveItem;
 import buildcraft.core.utils.Utils;
 import buildcraft.transport.Pipe;
@@ -45,23 +46,26 @@ public class PipeItemsWood extends Pipe implements IPowerReceptor {
 	public PipeItemsWood(int itemID) {
 		this(itemID, new PipeTransportItems());
 	}
-
+	
+	private Icon iconActive;
+	
 	@Override
-	public String getTextureFile() {
-		return DefaultProps.TEXTURE_BLOCKS;
+	public void registerIcons(IconRegister r) {
+		super.registerIcons(r);
+		iconActive = r.registerIcon(getDefaultIconPath() + "-active");
 	}
 	
 	@Override
-	public int getTextureIndex(Orientations direction) {
+	public Icon getTexture(Orientations direction) {
 		if (direction == Orientations.Unknown)
-			return baseTexture;
+			return super.getTexture(direction);
 		else {
 			int metadata = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
 
 			if (metadata == direction.ordinal())
-				return plainTexture;
+				return iconActive;
 			else
-				return baseTexture;
+				return super.getTexture(direction);
 		}
 	}
 

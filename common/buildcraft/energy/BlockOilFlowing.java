@@ -11,9 +11,14 @@ package buildcraft.energy;
 
 import java.util.Random;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFluid;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import buildcraft.BuildCraftCore;
 import buildcraft.BuildCraftEnergy;
@@ -37,11 +42,6 @@ public class BlockOilFlowing extends BlockFluid implements ILiquid {
 	@Override
 	public int getRenderType() {
 		return BuildCraftCore.oilModel;
-	}
-
-	@Override
-	public String getTextureFile() {
-		return DefaultProps.TEXTURE_BLOCKS;
 	}
 
 	private void func_30003_j(World world, int i, int j, int k) {
@@ -271,6 +271,12 @@ public class BlockOilFlowing extends BlockFluid implements ILiquid {
 	@Override
 	public boolean isBlockReplaceable(World world, int i, int j, int k) {
 		return true;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister r) {
+		theIcon = new Icon[] {r.registerIcon(DefaultProps.ICON_PREFIX + "oil"), r.registerIcon(DefaultProps.ICON_PREFIX + "oil-flow")};
 	}
 
 }

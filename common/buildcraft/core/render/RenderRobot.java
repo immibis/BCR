@@ -1,11 +1,10 @@
 package buildcraft.core.render;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
-import net.minecraftforge.client.ForgeHooksClient;
-
 import org.lwjgl.opengl.GL11;
 
 import buildcraft.core.DefaultProps;
@@ -35,7 +34,7 @@ public class RenderRobot extends Render {
 		GL11.glDisable(2896 /* GL_LIGHTING */);
 		GL11.glTranslated(x, y, z);
 
-		ForgeHooksClient.bindTexture(DefaultProps.TEXTURE_PATH_ENTITIES + "/robot.png", 0);
+		Minecraft.getMinecraft().renderEngine.bindTexture(DefaultProps.TEXTURE_PATH_ENTITIES + "/robot.png");
 
 		float factor = (float) (1.0 / 16.0);
 

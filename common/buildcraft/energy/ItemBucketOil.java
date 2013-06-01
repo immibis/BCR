@@ -12,7 +12,6 @@ package buildcraft.energy;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import buildcraft.BuildCraftEnergy;
-import buildcraft.core.DefaultProps;
 import buildcraft.core.utils.StringUtil;
 
 
@@ -20,17 +19,11 @@ public class ItemBucketOil extends ItemBucket {
 
 	public ItemBucketOil(int i) {
 		super(i, BuildCraftEnergy.oilMoving.blockID);
-		iconIndex = 0 * 16 + 1;
 	}
 
 	@Override
 	public String getItemDisplayName(ItemStack itemstack) {
 		return StringUtil.localize(getUnlocalizedName(itemstack));
-	}
-
-	@Override
-	public String getTextureFile() {
-		return DefaultProps.TEXTURE_ITEMS;
 	}
 
 }

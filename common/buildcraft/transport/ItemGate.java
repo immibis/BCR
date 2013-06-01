@@ -2,13 +2,17 @@ package buildcraft.transport;
 
 import java.util.List;
 
+import buildcraft.core.DefaultProps;
+
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import buildcraft.core.ItemBuildCraft;
+import net.minecraft.util.Icon;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemGate extends ItemBuildCraft {
+public class ItemGate extends Item {
 
 	private int series;
 
@@ -21,32 +25,21 @@ public class ItemGate extends ItemBuildCraft {
 		setMaxDamage(0);
 		setCreativeTab(CreativeTabs.tabRedstone);
 	}
+	
+	private Icon[] icons;
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister r) {
+		icons = new Icon[7];
+		for(int k = 0; k < icons.length; k++)
+			r.registerIcon(DefaultProps.ICON_PREFIX + (series > 0 ? "gate-a" : "gate-") + k);
+	}
 
 	@SuppressWarnings({ "all" })
 	@Override
-	public int getIconFromDamage(int i) {
-		int n = 0;
-		if (series > 0)
-			n = 3;
-		else
-			n = 2;
-
-		switch (i) {
-		case 0:
-			return n * 16 + 6;
-		case 1:
-			return n * 16 + 7;
-		case 2:
-			return n * 16 + 8;
-		case 3:
-			return n * 16 + 9;
-		case 4:
-			return n * 16 + 10;
-		case 5:
-			return n * 16 + 11;
-		default:
-			return n * 16 + 12;
-		}
+	public Icon getIconFromDamage(int i) {
+		return i < 0 || i >= icons.length ? icons[0] : icons[i];
 	}
 
 	@Override

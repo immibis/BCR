@@ -79,4 +79,14 @@ public class SidedInventoryAdapter implements IInventory {
 	public ItemStack getStackInSlotOnClosing(int slot) {
 		return _sidedInventory.getStackInSlotOnClosing(slot + _slotOffset);
 	}
+
+	@Override
+	public boolean isInvNameLocalized() {
+		return _sidedInventory.isInvNameLocalized();
+	}
+
+	@Override
+	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
+		return _sidedInventory.isStackValidForSlot(i + _slotOffset, itemstack);
+	}
 }

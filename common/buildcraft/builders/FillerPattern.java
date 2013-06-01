@@ -11,17 +11,37 @@ package buildcraft.builders;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.ForgeSubscribe;
 import buildcraft.BuildCraftBuilders;
 import buildcraft.api.core.BuildCraftAPI;
 import buildcraft.api.core.IBox;
 import buildcraft.api.filler.IFillerPattern;
+import buildcraft.core.DefaultProps;
 import buildcraft.core.proxy.CoreProxy;
 import buildcraft.core.utils.BlockUtil;
 
 public abstract class FillerPattern implements IFillerPattern {
 
 	protected int id;
+	
+	private String texName;
+	
+	private Icon icon;
+	
+	public FillerPattern(String texName) {
+		MinecraftForge.EVENT_BUS.register(this);
+		this.texName = texName;
+	}
+	
+	@ForgeSubscribe
+	public void registerTexture(TextureStitchEvent evt) {
+		if(evt.map.textureType == 0)
+			icon = evt.map.registerIcon(DefaultProps.ICON_PREFIX + texName);
+	}
 
 	/**
 	 * stackToPlace contains the next item that can be place in the world. Null
@@ -32,10 +52,9 @@ public abstract class FillerPattern implements IFillerPattern {
 	public abstract boolean iteratePattern(TileEntity tile, IBox box, ItemStack stackToPlace);
 
 	@Override
-	public abstract String getTextureFile();
-
-	@Override
-	public abstract int getTextureIndex();
+	public Icon getTexture() {
+		return icon;
+	}
 
 	@Override
 	public void setId(int id) {

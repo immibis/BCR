@@ -98,7 +98,7 @@ public class OilPopulate implements IWorldGenerator {
 						int d2 = bx * bx + by * by + bz * bz;
 
 						if (d2 <= r2) {
-							world.setBlockWithNotify(bx + cx, by + cy, bz + cz, BuildCraftEnergy.oilStill.blockID);
+							world.setBlock(bx + cx, by + cy, bz + cz, BuildCraftEnergy.oilStill.blockID, 0, 3);
 						}
 					}
 				}
@@ -128,11 +128,11 @@ public class OilPopulate implements IWorldGenerator {
 					}
 
 					for (int h = y + 1; h <= ymax; ++h) {
-						world.setBlockWithNotify(cx, h, cz, BuildCraftEnergy.oilStill.blockID);
+						world.setBlock(cx, h, cz, BuildCraftEnergy.oilStill.blockID, 0, 3);
 					}
 
 				} else if (started) {
-					world.setBlockWithNotify(cx, y, cz, BuildCraftEnergy.oilStill.blockID);
+					world.setBlock(cx, y, cz, BuildCraftEnergy.oilStill.blockID, 0, 3);
 				}
 			}
 
@@ -185,12 +185,12 @@ public class OilPopulate implements IWorldGenerator {
 				if (world.getBlockId(x, y, z) == Block.waterMoving.blockID
 						|| world.getBlockId(x, y, z) == Block.waterStill.blockID || isOil(world, x, y, z)) {
 
-					world.setBlockWithNotify(x, y, z, BuildCraftEnergy.oilStill.blockID);
+					world.setBlock(x, y, z, BuildCraftEnergy.oilStill.blockID, 0, 3);
 				} else {
 					world.setBlockToAir(x, y, z);
 				}
 
-				world.setBlockWithNotify(x, y - 1, z, BuildCraftEnergy.oilStill.blockID);
+				world.setBlock(x, y - 1, z, BuildCraftEnergy.oilStill.blockID, 0, 3);
 			}
 		}
 	}

@@ -1,16 +1,16 @@
 package buildcraft.transport.render;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.ForgeHooksClient;
+import net.minecraft.util.Icon;
 import net.minecraftforge.client.IItemRenderer;
 
 import org.lwjgl.opengl.GL11;
 
 import buildcraft.BuildCraftTransport;
-import buildcraft.core.DefaultProps;
 import buildcraft.core.utils.Utils;
 import buildcraft.transport.ItemFacade;
 
@@ -28,71 +28,71 @@ public class FacadeItemRenderer implements IItemRenderer {
 			return;
 		}
 		
+		Minecraft.getMinecraft().renderEngine.bindTexture("/terrain.png");
+		
 		//Render Facade
 		GL11.glPushMatrix();
-		ForgeHooksClient.bindTexture(block.getTextureFile(), 0);
 		block.setBlockBounds(0F, 0F, 1F - 1F/16F, 1F, 1F, 1F);
 		GL11.glTranslatef(translateX, translateY, translateZ);
 		
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(0.0F, -1F, 0.0F);
-		render.renderBottomFace(block, 0.0D, 0.0D, 0.0D, block.getIcon(0, decodedMeta));
+		render.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, block.getIcon(0, decodedMeta));
 		tessellator.draw();
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(0.0F, 1.0F, 0.0F);
-		render.renderTopFace(block, 0.0D, 0.0D, 0.0D, block.getIcon(1, decodedMeta));
+		render.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, block.getIcon(1, decodedMeta));
 		tessellator.draw();
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(0.0F, 0.0F, -1F);
-		render.renderEastFace(block, 0.0D, 0.0D, 0.0D, block.getIcon(2, decodedMeta));
+		render.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, block.getIcon(2, decodedMeta));
 		tessellator.draw();
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(0.0F, 0.0F, 1.0F);
-		render.renderWestFace(block, 0.0D, 0.0D, 0.0D, block.getIcon(3, decodedMeta));
+		render.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, block.getIcon(3, decodedMeta));
 		tessellator.draw();
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(-1F, 0.0F, 0.0F);
-		render.renderNorthFace(block, 0.0D, 0.0D, 0.0D, block.getIcon(4, decodedMeta));
+		render.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, block.getIcon(4, decodedMeta));
 		tessellator.draw();
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(1.0F, 0.0F, 0.0F);
-		render.renderSouthFace(block, 0.0D, 0.0D, 0.0D, block.getIcon(5, decodedMeta));
+		render.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, block.getIcon(5, decodedMeta));
 		tessellator.draw();
 		block.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 		GL11.glPopMatrix();
 		
 		
 		//Render StructurePipe
-		ForgeHooksClient.bindTexture(DefaultProps.TEXTURE_BLOCKS, 0);
 		block = BuildCraftTransport.genericPipeBlock;
-		int textureID = 7 * 16 + 13; //Structure pipe
+		Icon textureID = BuildCraftTransport.pipeStructureCobblestone.getIconFromDamage(0);
 		block.setBlockBounds(Utils.pipeMinPos, Utils.pipeMinPos, Utils.pipeMinPos, Utils.pipeMaxPos, Utils.pipeMaxPos, Utils.pipeMaxPos - 1F/16F);
 		block.setBlockBoundsForItemRender();
 		GL11.glTranslatef(translateX, translateY, translateZ + 0.25F);
 		
 		tessellator.startDrawingQuads();
-		tessellator.setNormal(0.0F, -0F, 0.0F);
-		render.renderBottomFace(block, 0.0D, 0.0D, 0.0D, textureID);
+		tessellator.setNormal(0.0F, -1.0F, 0.0F);
+		render.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, textureID);
 		tessellator.draw();
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(0.0F, 1.0F, 0.0F);
-		render.renderTopFace(block, 0.0D, 0.0D, 0.0D, textureID);
+		render.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, textureID);
 		tessellator.draw();
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(0.0F, 0.0F, -1F);
-		render.renderEastFace(block, 0.0D, 0.0D, 0.0D, textureID);
+		render.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, textureID);
 		tessellator.draw();
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(0.0F, 0.0F, 1.0F);
-		render.renderWestFace(block, 0.0D, 0.0D, 0.0D, textureID);
+		render.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, textureID);
 		tessellator.draw();
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(-1F, 0.0F, 0.0F);
-		render.renderNorthFace(block, 0.0D, 0.0D, 0.0D, textureID);
+		render.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, textureID);
 		tessellator.draw();
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(1.0F, 0.0F, 0.0F);
-		render.renderSouthFace(block, 0.0D, 0.0D, 0.0D, textureID);
+		render.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, textureID);
 		tessellator.draw();
 		GL11.glTranslatef(0.5F, 0.5F, 0.5F);
 		block.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);

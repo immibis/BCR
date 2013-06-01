@@ -9,8 +9,12 @@
 
 package buildcraft.energy;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockStationary;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import buildcraft.BuildCraftCore;
 import buildcraft.BuildCraftEnergy;
@@ -33,11 +37,6 @@ public class BlockOilStill extends BlockStationary implements ILiquid {
 	}
 
 	@Override
-	public String getTextureFile() {
-		return DefaultProps.TEXTURE_BLOCKS;
-	}
-
-	@Override
 	public int stillLiquidId() {
 		return BuildCraftEnergy.oilStill.blockID;
 	}
@@ -55,6 +54,12 @@ public class BlockOilStill extends BlockStationary implements ILiquid {
 	@Override
 	public boolean isBlockReplaceable(World world, int i, int j, int k) {
 		return true;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister r) {
+		theIcon = new Icon[] {r.registerIcon(DefaultProps.ICON_PREFIX + "oil"), r.registerIcon(DefaultProps.ICON_PREFIX + "oil-flow")};
 	}
 
 }

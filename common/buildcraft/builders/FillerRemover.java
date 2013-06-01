@@ -12,9 +12,12 @@ package buildcraft.builders;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import buildcraft.api.core.IBox;
-import buildcraft.core.DefaultProps;
 
 public class FillerRemover extends FillerPattern {
+	
+	public FillerRemover() {
+		super("filler-clear");
+	}
 
 	@Override
 	public boolean iteratePattern(TileEntity tile, IBox box, ItemStack stackToPlace) {
@@ -27,16 +30,6 @@ public class FillerRemover extends FillerPattern {
 		int zMax = (int) box.pMax().z;
 
 		return empty(xMin, yMin, zMin, xMax, yMax, zMax, tile.worldObj);
-	}
-
-	@Override
-	public String getTextureFile() {
-		return DefaultProps.TEXTURE_BLOCKS;
-	}
-
-	@Override
-	public int getTextureIndex() {
-		return 4 * 16 + 4;
 	}
 
 	@Override

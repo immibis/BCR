@@ -13,7 +13,6 @@ import buildcraft.api.core.Orientations;
 import buildcraft.api.power.IPowerProvider;
 import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerFramework;
-import buildcraft.core.DefaultProps;
 import buildcraft.core.utils.Utils;
 import buildcraft.transport.Pipe;
 import buildcraft.transport.PipeTransportPower;
@@ -32,25 +31,6 @@ public class PipePowerWood extends Pipe implements IPowerReceptor {
 		powerProvider = PowerFramework.currentFramework.createPowerProvider();
 		powerProvider.configure(50, 1, 1000, 1, 1000);
 		powerProvider.configurePowerPerdition(1, 100);
-	}
-
-	@Override
-	public String getTextureFile() {
-		return DefaultProps.TEXTURE_BLOCKS;
-	}
-	
-	@Override
-	public int getTextureIndex(Orientations direction) {
-		if (direction == Orientations.Unknown)
-			return baseTexture;
-		else {
-			int metadata = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
-
-			if (metadata == direction.ordinal())
-				return plainTexture;
-			else
-				return baseTexture;
-		}
 	}
 
 	@Override

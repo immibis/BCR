@@ -10,6 +10,7 @@
 package buildcraft.builders.gui;
 
 import net.minecraft.inventory.IInventory;
+import net.minecraft.util.Icon;
 
 import org.lwjgl.opengl.GL11;
 
@@ -52,12 +53,11 @@ public class GuiFiller extends GuiBuildCraft {
 
 		if (filler.currentPattern != null) {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			mc.renderEngine.bindTexture(filler.currentPattern.getTextureFile());
-
-			int textureI = filler.currentPattern.getTextureIndex() >> 4;
-			int textureJ = filler.currentPattern.getTextureIndex() - textureI * 16;
-
-			drawTexturedModalRect(guiLeft + patternSymbolX, guiTop + patternSymbolY, 16 * textureJ, 16 * textureI, 16, 16);
+			
+			Icon icon = filler.currentPattern.getTexture();
+			mc.renderEngine.bindTexture("/terrain.png");
+			
+			drawTexturedModelRectFromIcon(guiLeft + patternSymbolX, guiTop + patternSymbolY, icon, 16, 16);
 		}
 
 	}

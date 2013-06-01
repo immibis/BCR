@@ -17,8 +17,6 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.client.ForgeHooksClient;
-
 import org.lwjgl.opengl.GL11;
 
 import buildcraft.api.liquids.LiquidStack;
@@ -42,7 +40,7 @@ public class RenderTank extends TileEntitySpecialRenderer {
 
 		BlockInterface block = new BlockInterface();
 		if (liquidId < Block.blocksList.length && Block.blocksList[liquidId] != null)
-			block.texture = Block.blocksList[liquidId].blockIndexInTexture;
+			block.texture = Block.blocksList[liquidId].getBlockTextureFromSide(0);
 		else if(Item.itemsList[liquidId] != null)
 			block.texture = Item.itemsList[liquidId].getIconFromDamage(damage);
 		else
@@ -86,11 +84,11 @@ public class RenderTank extends TileEntitySpecialRenderer {
 		GL11.glPushMatrix();
 		GL11.glDisable(2896 /* GL_LIGHTING */);
 
-		if (liquid.itemID < Block.blocksList.length && Block.blocksList[liquid.itemID] != null) {
+		/*if (liquid.itemID < Block.blocksList.length && Block.blocksList[liquid.itemID] != null) {
 			ForgeHooksClient.bindTexture(Block.blocksList[liquid.itemID].getTextureFile(), 0);
 		} else {
 			ForgeHooksClient.bindTexture(Item.itemsList[liquid.itemID].getTextureFile(), 0);
-		}
+		}*/
 
 		GL11.glTranslatef((float) x + 0.5F, (float) y + 0.5F, (float) z + 0.5F);
 

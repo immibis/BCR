@@ -9,16 +9,19 @@
 
 package buildcraft.transport;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import buildcraft.BuildCraftTransport;
 import buildcraft.core.IItemPipe;
-import buildcraft.core.ItemBuildCraft;
 
-public class ItemPipe extends ItemBuildCraft implements IItemPipe {
+public class ItemPipe extends Item implements IItemPipe {
 
 	Pipe dummyPipe;
 
@@ -27,6 +30,12 @@ public class ItemPipe extends ItemBuildCraft implements IItemPipe {
 	protected ItemPipe(int i) {
 		super(i);
 		this.setCreativeTab(CreativeTabs.tabTransport);
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister r) {
+		dummyPipe.registerIcons(r);
 	}
 
 	@Override
@@ -52,8 +61,8 @@ public class ItemPipe extends ItemBuildCraft implements IItemPipe {
 
 		if (itemstack.stackSize == 0)
 			return false;
-		if (entityplayer.canPlayerEdit(itemstack, i, j, k)
-				&& world.canPlaceEntityOnSide(blockID, i, j, k, false, side, entityplayer)) {
+		if (entityplayer.canPlayerEdit(i, j, k, side, itemstack)
+				&& world.canPlaceEntityOnSide(blockID, i, j, k, false, side, entityplayer, itemstack)) {
 
 			Pipe pipe = BlockGenericPipe.createPipe(itemID);
 			if (BlockGenericPipe.placePipe(pipe, world, i, j, k, blockID, 0)) {

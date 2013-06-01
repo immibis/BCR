@@ -12,7 +12,7 @@ import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.item.EntityMinecart;
+import net.minecraft.entity.item.EntityMinecartContainer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -24,7 +24,6 @@ import buildcraft.api.power.IPowerProvider;
 import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerFramework;
 import buildcraft.api.transport.IPipedItem;
-import buildcraft.core.DefaultProps;
 import buildcraft.core.EntityPassiveItem;
 import buildcraft.core.proxy.CoreProxy;
 import buildcraft.core.utils.Utils;
@@ -49,16 +48,6 @@ public class PipeItemsObsidian extends Pipe implements IPowerReceptor {
 		powerProvider = PowerFramework.currentFramework.createPowerProvider();
 		powerProvider.configure(25, 1, 64, 1, 256);
 		powerProvider.configurePowerPerdition(1, 1);
-	}
-
-	@Override
-	public String getTextureFile() {
-		return DefaultProps.TEXTURE_BLOCKS;
-	}
-	
-	@Override
-	public int getTextureIndex(Orientations direction) {
-		return 1 * 16 + 12;
 	}
 
 	@Override
@@ -164,8 +153,8 @@ public class PipeItemsObsidian extends Pipe implements IPowerReceptor {
 					return true;
 				}
 
-				if (distance == 1 && list.get(g) instanceof EntityMinecart) {
-					EntityMinecart cart = (EntityMinecart) list.get(g);
+				if (distance == 1 && list.get(g) instanceof EntityMinecartContainer) {
+					EntityMinecartContainer cart = (EntityMinecartContainer) list.get(g);
 					if (!cart.isDead && cart.getMinecartType() == 1) {
 						ItemStack stack = checkExtractGeneric(cart, true, getOpenOrientation());
 						if (stack != null && powerProvider.useEnergy(1, 1, true) == 1) {

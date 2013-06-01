@@ -14,18 +14,21 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Random;
 
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import buildcraft.BuildCraftTransport;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.core.SafeTimeTracker;
 import buildcraft.api.gates.*;
 import buildcraft.api.transport.IPipe;
+import buildcraft.core.DefaultProps;
 import buildcraft.core.IDropControlInventory;
 import buildcraft.core.network.TilePacketWrapper;
 import buildcraft.core.triggers.ActionRedstoneOutput;
@@ -126,17 +129,24 @@ public abstract class Pipe implements IPipe, IDropControlInventory {
 		return logic.isPipeConnected(tile) && transport.isPipeConnected(tile);
 	}
 
+	protected Icon icon;
+	
+	protected String getDefaultIconPath() {
+		return DefaultProps.ICON_PREFIX + "pipes/" + getClass().getSimpleName();
+	}
+	
+	public void registerIcons(IconRegister r) {
+		icon = r.registerIcon(getDefaultIconPath());
+	}
+	
 	/**
-	 * Should return the texture file that is used to render this pipe
-	 */
-	public abstract String getTextureFile();
-
-	/**
-	 * Should return the textureindex in the file specified by getTextureFile() 
+	 * Should return the texture.
 	 * @param direction The orientation for the texture that is requested. Unknown for the center pipe center 
 	 * @return the index in the texture sheet
 	 */
-	public abstract int getTextureIndex(Orientations direction);
+	public Icon getTexture(Orientations direction) {
+		return icon;
+	}
 	
 	
 	/**
@@ -144,8 +154,8 @@ public abstract class Pipe implements IPipe, IDropControlInventory {
 	 *  not work if your getTextureIndex(Orienations.Unknown) has logic 
 	 * @return
 	 */
-	public int getTextureIndexForItem(){
-		return getTextureIndex(Orientations.Unknown);
+	public Icon getTextureForItem(){
+		return getTexture(Orientations.Unknown);
 	}
 	
 	public void updateEntity() {
@@ -641,6 +651,5 @@ public abstract class Pipe implements IPipe, IDropControlInventory {
 	 * Called when TileGenericPipe.onChunkUnload is called
 	 */
 	public void onChunkUnload() {}
-	
 }
 

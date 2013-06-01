@@ -22,11 +22,14 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
-import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.IItemRenderer.ItemRenderType;
 import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.ForgeSubscribe;
 
 import org.lwjgl.opengl.GL11;
 
@@ -76,9 +79,18 @@ public class RenderPipe extends TileEntitySpecialRenderer {
 	public double[] displayPowerLimits = new double[displayPowerStages];
 
 	private RenderBlocks renderBlocks;
+	
+	private Icon iconPowerBeam;
 
 	public RenderPipe() {
 		renderBlocks = new RenderBlocks();
+		MinecraftForge.EVENT_BUS.register(this);
+	}
+	
+	@ForgeSubscribe
+	public void registerTextures(TextureStitchEvent evt) {
+		if(evt.map.textureType == 0)
+			iconPowerBeam = evt.map.registerIcon(DefaultProps.ICON_PREFIX + "power-beam");
 	}
 
 	private DisplayLiquidList getDisplayLiquidLists(int liquidId, int meta, World world) {
@@ -97,7 +109,7 @@ public class RenderPipe extends TileEntitySpecialRenderer {
 
 		BlockInterface block = new BlockInterface();
 		if (liquidId < Block.blocksList.length && Block.blocksList[liquidId] != null)
-			block.texture = Block.blocksList[liquidId].blockIndexInTexture;
+			block.texture = Block.blocksList[liquidId].getBlockTextureFromSide(0);
 		else
 			block.texture = Item.itemsList[liquidId].getIconFromDamage(meta);
 	
@@ -194,7 +206,7 @@ public class RenderPipe extends TileEntitySpecialRenderer {
 		initialized = true;
 
 		BlockInterface block = new BlockInterface();
-		block.texture = 0 * 16 + 4;
+		block.texture = iconPowerBeam;
 
 		float size = Utils.pipeMaxPos - Utils.pipeMinPos;
 
@@ -254,8 +266,6 @@ public class RenderPipe extends TileEntitySpecialRenderer {
 
 		GL11.glPushMatrix();
 		GL11.glDisable(2896 /* GL_LIGHTING */);
-
-		ForgeHooksClient.bindTexture(DefaultProps.TEXTURE_BLOCKS, 0);
 
 		GL11.glTranslatef((float) x + 0.5F, (float) y + 0.5F, (float) z + 0.5F);
 
@@ -374,11 +384,11 @@ public class RenderPipe extends TileEntitySpecialRenderer {
 		if (liquidId == 0)
 			return null;
 
-		if (liquidId < Block.blocksList.length && Block.blocksList[liquidId] != null) {
+		/*if (liquidId < Block.blocksList.length && Block.blocksList[liquidId] != null) {
 			ForgeHooksClient.bindTexture(Block.blocksList[liquidId].getTextureFile(), 0);
 		} else {
 			ForgeHooksClient.bindTexture(Item.itemsList[liquidId].getTextureFile(), 0);
-		}
+		}*/
 		return getDisplayLiquidLists(liquidId, stack.itemMeta, world);
 	}
 
@@ -426,7 +436,7 @@ public class RenderPipe extends TileEntitySpecialRenderer {
 		if (customRenderer != null) {
 
 			GL11.glTranslatef(0, 0.25F, 0); // BC SPECIFIC
-			ForgeHooksClient.bindTexture(itemstack.getItem().getTextureFile(), 0);
+			
 			float f4 = 0.25F;
 			f4 = 0.5F;
 			GL11.glScalef(f4, f4, f4);
@@ -442,7 +452,7 @@ public class RenderPipe extends TileEntitySpecialRenderer {
 					GL11.glTranslatef(f5, f7, f9);
 				}
 
-				RenderPipe.dummyEntityItem.item = itemstack;
+				RenderPipe.dummyEntityItem.setEntityItemStack(itemstack);
 
 				customRenderer.renderItem(ItemRenderType.ENTITY, itemstack, renderBlocks, RenderPipe.dummyEntityItem);
 				GL11.glPopMatrix();
@@ -453,7 +463,6 @@ public class RenderPipe extends TileEntitySpecialRenderer {
 				//&& RenderBlocks.renderItemIn3d(Block.blocksList[itemstack.itemID].getRenderType())) {
 			GL11.glTranslatef(0, 0.25F, 0); // BC SPECIFIC
 
-			ForgeHooksClient.bindTexture(Block.blocksList[itemstack.itemID].getTextureFile(), 0);
 			float f4 = 0.25F;
 			int j = Block.blocksList[itemstack.itemID].getRenderType();
 			if (j == 1 || j == 19 || j == 12 || j == 2)
@@ -480,14 +489,13 @@ public class RenderPipe extends TileEntitySpecialRenderer {
 
 			if (itemstack.getItem().requiresMultipleRenderPasses()) {
 				GL11.glScalef(0.5F, 0.5F, 0.5F);
-				ForgeHooksClient.bindTexture(Item.itemsList[itemstack.itemID].getTextureFile(), 0);
-
+				
 				for (int i = 0; i <= itemstack.getItem().getRenderPasses(itemstack.getItemDamage()); ++i) {
-					int iconIndex = itemstack.getItem().getIconFromDamageForRenderPass(itemstack.getItemDamage(), i);
+					Icon iconIndex = itemstack.getItem().getIconFromDamageForRenderPass(itemstack.getItemDamage(), i);
 					float scale = 1.0F;
 
 					if (true) {
-						int itemColour = Item.itemsList[itemstack.itemID].getColorFromDamage(itemstack.getItemDamage(), i);
+						int itemColour = Item.itemsList[itemstack.itemID].getColorFromItemStack(itemstack, i);
 						float var18 = (itemColour >> 16 & 255) / 255.0F;
 						float var19 = (itemColour >> 8 & 255) / 255.0F;
 						float var20 = (itemColour & 255) / 255.0F;
@@ -499,12 +507,12 @@ public class RenderPipe extends TileEntitySpecialRenderer {
 			} else {
 
 				GL11.glScalef(0.5F, 0.5F, 0.5F);
-				int i = itemstack.getIconIndex();
-				if (itemstack.itemID < Block.blocksList.length && Block.blocksList[itemstack.itemID] != null
+				Icon i = itemstack.getIconIndex();
+				/*if (itemstack.itemID < Block.blocksList.length && Block.blocksList[itemstack.itemID] != null
 						&& Block.blocksList[itemstack.itemID].blockID != 0)
 					ForgeHooksClient.bindTexture(Block.blocksList[itemstack.itemID].getTextureFile(), 0);
 				else
-					ForgeHooksClient.bindTexture(Item.itemsList[itemstack.itemID].getTextureFile(), 0);
+					ForgeHooksClient.bindTexture(Item.itemsList[itemstack.itemID].getTextureFile(), 0);*/
 
 				drawItem(i, quantity);
 			}
@@ -514,12 +522,12 @@ public class RenderPipe extends TileEntitySpecialRenderer {
 		GL11.glPopMatrix();
 	}
 
-	private void drawItem(int iconIndex, int quantity) {
+	private void drawItem(Icon icon, int quantity) {
 		Tessellator tesselator = Tessellator.instance;
-		float var4 = (iconIndex % 16 * 16 + 0) / 256.0F;
-		float var5 = (iconIndex % 16 * 16 + 16) / 256.0F;
-		float var6 = (iconIndex / 16 * 16 + 0) / 256.0F;
-		float var7 = (iconIndex / 16 * 16 + 16) / 256.0F;
+		float var4 = icon.getMinU();
+		float var5 = icon.getMaxU();
+		float var6 = icon.getMinV();
+		float var7 = icon.getMaxV();
 		float var8 = 1.0F;
 		float var9 = 0.5F;
 		float var10 = 0.25F;

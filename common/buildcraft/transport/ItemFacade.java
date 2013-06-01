@@ -16,12 +16,11 @@ import net.minecraft.world.World;
 import buildcraft.BuildCraftTransport;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.recipes.AssemblyRecipe;
-import buildcraft.core.ItemBuildCraft;
 import buildcraft.core.proxy.CoreProxy;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemFacade extends ItemBuildCraft {
+public class ItemFacade extends Item {
 
 	public final static LinkedList<ItemStack> allFacades = new LinkedList<ItemStack>();
 	

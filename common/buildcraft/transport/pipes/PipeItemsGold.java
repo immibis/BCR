@@ -10,12 +10,13 @@ package buildcraft.transport.pipes;
 
 import java.util.LinkedList;
 
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import buildcraft.BuildCraftTransport;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.core.Position;
 import buildcraft.api.transport.IPipedItem;
-import buildcraft.core.DefaultProps;
 import buildcraft.core.utils.Utils;
 import buildcraft.transport.IPipeTransportItemsHook;
 import buildcraft.transport.Pipe;
@@ -27,18 +28,21 @@ public class PipeItemsGold extends Pipe implements IPipeTransportItemsHook {
 	public PipeItemsGold(int itemID) {
 		super(new PipeTransportItems(), new PipeLogicGold(), itemID);
 	}
-
+	
+	private Icon iconOn;
+	
 	@Override
-	public String getTextureFile() {
-		return DefaultProps.TEXTURE_BLOCKS;
+	public void registerIcons(IconRegister r) {
+		super.registerIcons(r);
+		iconOn = r.registerIcon(getDefaultIconPath() + "-active");
 	}
 	
 	@Override
-	public int getTextureIndex(Orientations direction) {
+	public Icon getTexture(Orientations direction) {
 		if (broadcastRedstone || worldObj != null && worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord))
-			return 1 * 16 + 14;
+			return iconOn;
 		else
-			return 1 * 16 + 4;
+			return super.getTexture(direction);
 	}
 	
 	@Override

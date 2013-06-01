@@ -13,10 +13,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import buildcraft.api.core.BuildCraftAPI;
 import buildcraft.api.core.IBox;
-import buildcraft.core.DefaultProps;
 import buildcraft.core.proxy.CoreProxy;
 
 public class FillerFlattener extends FillerPattern {
+	
+	public FillerFlattener() {
+		super("filler-flatten");
+	}
 
 	@Override
 	public boolean iteratePattern(TileEntity tile, IBox box, ItemStack stackToPlace) {
@@ -73,16 +76,6 @@ public class FillerFlattener extends FillerPattern {
 		}
 
 		return empty(xMin, yMin, zMin, xMax, 64 * 2, zMax, tile.worldObj);
-	}
-
-	@Override
-	public String getTextureFile() {
-		return DefaultProps.TEXTURE_BLOCKS;
-	}
-
-	@Override
-	public int getTextureIndex() {
-		return 4 * 16 + 5;
 	}
 
 	@Override

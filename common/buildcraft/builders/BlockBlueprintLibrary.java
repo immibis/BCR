@@ -11,13 +11,18 @@ package buildcraft.builders;
 
 import java.util.ArrayList;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import buildcraft.BuildCraftBuilders;
 import buildcraft.core.DefaultProps;
@@ -27,15 +32,12 @@ import buildcraft.core.proxy.CoreProxy;
 
 public class BlockBlueprintLibrary extends BlockContainer {
 
+	private Icon texTop, texSide;
+	
 	public BlockBlueprintLibrary(int i) {
 		super(i, Material.wood);
 		setCreativeTab(CreativeTabs.tabRedstone);
 		setHardness(0.7F);
-	}
-
-	@Override
-	public String getTextureFile() {
-		return DefaultProps.TEXTURE_BLOCKS;
 	}
 
 	@Override
@@ -60,15 +62,22 @@ public class BlockBlueprintLibrary extends BlockContainer {
 	public TileEntity createNewTileEntity(World var1) {
 		return new TileBlueprintLibrary();
 	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister r) {
+		texSide = r.registerIcon(DefaultProps.ICON_PREFIX + "library-side");
+		texTop = r.registerIcon(DefaultProps.ICON_PREFIX + "library-top");
+	}
 
 	@Override
-	public int getBlockTextureFromSide(int i) {
+	public Icon getIcon(int i, int meta) {
 		switch (i) {
 		case 0:
 		case 1:
-			return 3 * 16 + 5;
+			return texTop;
 		default:
-			return 3 * 16 + 8;
+			return texSide;
 		}
 	}
 

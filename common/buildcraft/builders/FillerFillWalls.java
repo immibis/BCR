@@ -12,9 +12,12 @@ package buildcraft.builders;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import buildcraft.api.core.IBox;
-import buildcraft.core.DefaultProps;
 
 public class FillerFillWalls extends FillerPattern {
+	
+	public FillerFillWalls() {
+		super("filler-walls");
+	}
 
 	@Override
 	public boolean iteratePattern(TileEntity tile, IBox box, ItemStack stackToPlace) {
@@ -51,16 +54,6 @@ public class FillerFillWalls extends FillerPattern {
 		}
 
 		return true;
-	}
-
-	@Override
-	public String getTextureFile() {
-		return DefaultProps.TEXTURE_BLOCKS;
-	}
-
-	@Override
-	public int getTextureIndex() {
-		return 4 * 16 + 6;
 	}
 
 	@Override

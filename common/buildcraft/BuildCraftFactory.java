@@ -11,8 +11,12 @@ package buildcraft;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Icon;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Property;
+import net.minecraftforge.event.ForgeSubscribe;
 import buildcraft.core.DefaultProps;
 import buildcraft.core.Version;
 import buildcraft.core.proxy.CoreProxy;
@@ -45,19 +49,32 @@ public class BuildCraftFactory {
 	public static BlockHopper hopperBlock;
 	public static boolean hopperDisabled;
 
-	public static int drillTexture;
+	public static Icon drillTexture;
+	public static Icon quarryHeadTexture;
+	public static Icon pumpShaftTexture;
 
 	public static boolean allowMining = true;
 
 	@Instance("BuildCraft|Factory")
 	public static BuildCraftFactory instance;
 
+	@ForgeSubscribe
+	public void registerTextures(TextureStitchEvent evt) {
+		if(evt.map.textureType == 0) {
+			drillTexture = evt.map.registerIcon(DefaultProps.ICON_PREFIX + "quarry-drill");
+			quarryHeadTexture = evt.map.registerIcon(DefaultProps.ICON_PREFIX + "quarry-head");
+			pumpShaftTexture = evt.map.registerIcon(DefaultProps.ICON_PREFIX + "pump-shaft");
+		}
+	}
+	
 	@PostInit
 	public void postInit(FMLPostInitializationEvent evt) {
 		FactoryProxy.proxy.initializeNEIIntegration();
 	}
 	@Init
 	public void load(FMLInitializationEvent evt) {
+		MinecraftForge.EVENT_BUS.register(this);
+		
 		NetworkRegistry.instance().registerGuiHandler(instance, new GuiHandler());
 
 //		EntityRegistry.registerModEntity(EntityMechanicalArm.class, "bcMechanicalArm", EntityIds.MECHANICAL_ARM, instance, 50, 1, true);
@@ -77,7 +94,6 @@ public class BuildCraftFactory {
 
 		FactoryProxy.proxy.initializeTileEntities();
 		FactoryProxy.proxy.initializeEntityRenders();
-		drillTexture = 2 * 16 + 1;
 
 		new BptBlockAutoWorkbench(autoWorkbenchBlock.blockID);
 		new BptBlockFrame(frameBlock.blockID);
@@ -110,7 +126,7 @@ public class BuildCraftFactory {
 		CoreProxy.proxy.addName(miningWellBlock, "Mining Well");
 
 		plainPipeBlock = new BlockPlainPipe(plainPipeId.getInt());
-		CoreProxy.proxy.registerBlock(plainPipeBlock.setUnlocalizedName("plainPipeBlock"));
+		CoreProxy.proxy.registerBlock(plainPipeBlock.setUnlocalizedName(DefaultProps.ICON_PREFIX + "drill-pipe"));
 		CoreProxy.proxy.addName(plainPipeBlock, "Mining Pipe");
 
 		autoWorkbenchBlock = new BlockAutoWorkbench(autoWorkbenchId.getInt());
@@ -118,7 +134,7 @@ public class BuildCraftFactory {
 		CoreProxy.proxy.addName(autoWorkbenchBlock, "Automatic Crafting Table");
 
 		frameBlock = new BlockFrame(frameId.getInt());
-		CoreProxy.proxy.registerBlock(frameBlock.setUnlocalizedName("frameBlock"));
+		CoreProxy.proxy.registerBlock(frameBlock.setUnlocalizedName(DefaultProps.ICON_PREFIX + "frame"));
 		CoreProxy.proxy.addName(frameBlock, "Frame");
 
 		quarryBlock = new BlockQuarry(quarryId.getInt());

@@ -366,4 +366,14 @@ public class TileArchitect extends TileBuildCraft implements IInventory {
 	public void closeChest() {
 
 	}
+
+	@Override
+	public boolean isInvNameLocalized() {
+		return false;
+	}
+
+	@Override
+	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
+		return true;
+	}
 }

@@ -11,14 +11,19 @@ package buildcraft.builders;
 
 import java.util.ArrayList;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import buildcraft.BuildCraftBuilders;
@@ -33,26 +38,20 @@ import buildcraft.core.utils.Utils;
 
 public class BlockArchitect extends BlockContainer {
 
-	int blockTextureSides;
-	int blockTextureFront;
-	int blockTextureTopPos;
-	int blockTextureTopNeg;
-	int blockTextureTopArchitect;
+	private Icon texSide, texFront, texTop;
 
 	public BlockArchitect(int i) {
 		super(i, Material.iron);
 		setHardness(0.5F);
 		setCreativeTab(CreativeTabs.tabRedstone);
-		blockTextureSides = 3 * 16 + 0;
-		blockTextureTopNeg = 3 * 16 + 1;
-		blockTextureTopPos = 3 * 16 + 2;
-		blockTextureTopArchitect = 3 * 16 + 3;
-		blockTextureFront = 3 * 16 + 4;
 	}
-
+	
 	@Override
-	public String getTextureFile() {
-		return DefaultProps.TEXTURE_BLOCKS;
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister r) {
+		texSide = r.registerIcon(DefaultProps.ICON_PREFIX + "architect-side");
+		texFront = r.registerIcon(DefaultProps.ICON_PREFIX + "architect-front");
+		texTop = r.registerIcon(DefaultProps.ICON_PREFIX + "architect-top");
 	}
 
 	@Override
@@ -118,7 +117,7 @@ public class BlockArchitect extends BlockContainer {
 	}
 
 	@SuppressWarnings({ "all" })
-	public int getBlockTexture(IBlockAccess iblockaccess, int i, int j, int k, int l) {
+	public Icon getBlockTexture(IBlockAccess iblockaccess, int i, int j, int k, int l) {
 		int m = iblockaccess.getBlockMetadata(i, j, k);
 
 		if (l == 1) {
@@ -137,27 +136,27 @@ public class BlockArchitect extends BlockContainer {
 			// return blockTextureTopNeg;
 			// }
 
-			return blockTextureTopArchitect;
+			return texTop;
 		}
 
-		return getBlockTextureFromSideAndMetadata(l, m);
+		return getIcon(l, m);
 	}
 
 	@Override
-	public int getBlockTextureFromSideAndMetadata(int i, int j) {
+	public Icon getIcon(int i, int j) {
 		if (j == 0 && i == 3) {
-			return blockTextureFront;
+			return texFront;
 		}
 
 		if (i == 1) {
-			return blockTextureTopArchitect;
+			return texTop;
 		}
 
 		if (i == j) {
-			return blockTextureFront;
+			return texFront;
 		}
 
-		return blockTextureSides;
+		return texSide;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })

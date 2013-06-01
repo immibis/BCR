@@ -11,11 +11,12 @@ package buildcraft.core;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 
 public class EntityBlock extends Entity {
 
-	public int texture = -1;
+	public Icon texture = null;
 	public float shadowSize = 0;
 
 	public float rotationX = 0;
@@ -47,7 +48,7 @@ public class EntityBlock extends Entity {
 		this.motionZ = 0.0;
 	}
 
-	public EntityBlock(World world, double i, double j, double k, double iSize, double jSize, double kSize, int textureID) {
+	public EntityBlock(World world, double i, double j, double k, double iSize, double jSize, double kSize, Icon textureID) {
 		this(world, i, j, k, iSize, jSize, kSize);
 		texture = textureID;
 	}

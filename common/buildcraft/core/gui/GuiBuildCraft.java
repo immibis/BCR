@@ -3,8 +3,10 @@ package buildcraft.core.gui;
 import java.util.ArrayList;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 
 import org.lwjgl.opengl.GL11;
 
@@ -268,5 +270,15 @@ public abstract class GuiBuildCraft extends GuiContainer {
 		mouseX = i;
 		mouseY = j;
 	}
-
+	
+	public void drawTexturedModalRectFromIconWithoutScaling(int par1, int par2, Icon par3Icon, int par4, int par5)
+    {
+        Tessellator tessellator = Tessellator.instance;
+        tessellator.startDrawingQuads();
+        tessellator.addVertexWithUV((double)(par1 + 0), (double)(par2 + par5), (double)this.zLevel, (double)par3Icon.getMinU(), (double)par3Icon.getInterpolatedV(par5));
+        tessellator.addVertexWithUV((double)(par1 + par4), (double)(par2 + par5), (double)this.zLevel, (double)par3Icon.getInterpolatedU(par4), (double)par3Icon.getInterpolatedV(par5));
+        tessellator.addVertexWithUV((double)(par1 + par4), (double)(par2 + 0), (double)this.zLevel, (double)par3Icon.getInterpolatedU(par4), (double)par3Icon.getMinV());
+        tessellator.addVertexWithUV((double)(par1 + 0), (double)(par2 + 0), (double)this.zLevel, (double)par3Icon.getMinU(), (double)par3Icon.getMinV());
+        tessellator.draw();
+    }
 }

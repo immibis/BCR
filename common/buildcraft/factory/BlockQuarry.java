@@ -11,12 +11,17 @@ package buildcraft.factory;
 
 import java.util.ArrayList;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import buildcraft.BuildCraftFactory;
 import buildcraft.api.core.Orientations;
@@ -30,9 +35,7 @@ import buildcraft.core.utils.Utils;
 
 public class BlockQuarry extends BlockMachineRoot {
 
-	int textureTop;
-	int textureFront;
-	int textureSide;
+	private Icon textureTop, textureFront, textureSide;
 
 	public BlockQuarry(int i) {
 		super(i, Material.iron);
@@ -40,11 +43,6 @@ public class BlockQuarry extends BlockMachineRoot {
 		setHardness(1.5F);
 		setResistance(10F);
 		setStepSound(soundStoneFootstep);
-
-		textureSide = 2 * 16 + 9;
-		textureFront = 2 * 16 + 7;
-		textureTop = 2 * 16 + 8;
-
 	}
 
 	@Override
@@ -56,9 +54,17 @@ public class BlockQuarry extends BlockMachineRoot {
 
 		world.setBlockMetadataWithNotify(i, j, k, orientation.reverse().ordinal(), 3);
 	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister r) {
+		textureTop = r.registerIcon(DefaultProps.ICON_PREFIX + "quarry-top");
+		textureFront = r.registerIcon(DefaultProps.ICON_PREFIX + "quarry-front");
+		textureSide = r.registerIcon(DefaultProps.ICON_PREFIX + "quarry-side");
+	}
 
 	@Override
-	public int getBlockTextureFromSideAndMetadata(int i, int j) {
+	public Icon getIcon(int i, int j) {
 		// If no metadata is set, then this is an icon.
 		if (j == 0 && i == 3) {
 			return textureFront;
@@ -215,11 +221,6 @@ public class BlockQuarry extends BlockMachineRoot {
 		}
 
 		return false;
-	}
-
-	@Override
-	public String getTextureFile() {
-		return DefaultProps.TEXTURE_BLOCKS;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })

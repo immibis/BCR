@@ -5,11 +5,10 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.client.ForgeHooksClient;
+import buildcraft.BuildCraftTransport;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.transport.IPipe;
 import buildcraft.api.transport.IPipe.WireColor;
-import buildcraft.core.DefaultProps;
 import buildcraft.core.utils.Utils;
 import buildcraft.transport.IPipeRenderState;
 import buildcraft.transport.PipeRenderState;
@@ -75,8 +74,6 @@ public class PipeWorldRenderer implements ISimpleBlockRenderingHandler {
 		float minSize = Utils.pipeMinPos;
 		float maxSize = Utils.pipeMaxPos;
 
-		ForgeHooksClient.bindTexture(state.getTextureFile(), 0);
-
 		state.currentTextureIndex = state.textureMatrix.getTextureIndex(Orientations.Unknown);
 		block.setBlockBounds(minSize, minSize, minSize, maxSize, maxSize, maxSize);
 		renderblocks.renderStandardBlock(block, x, y, z);
@@ -118,8 +115,6 @@ public class PipeWorldRenderer implements ISimpleBlockRenderingHandler {
 		}
 
 		block.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-
-		ForgeHooksClient.bindTexture(DefaultProps.TEXTURE_BLOCKS, 0);
 
 		if (state.wireMatrix.hasWire(WireColor.Red)) {
 			state.currentTextureIndex = state.wireMatrix.getTextureIndex(WireColor.Red);
@@ -170,7 +165,6 @@ public class PipeWorldRenderer implements ISimpleBlockRenderingHandler {
 
 		for (Orientations direction : Orientations.dirs()){
 			if (state.facadeMatrix.isConnected(direction)){
-				ForgeHooksClient.bindTexture(state.facadeMatrix.getTextureFile(direction), 0);
 				state.currentTextureIndex = state.facadeMatrix.getTextureIndex(direction);
 
 				//Hollow facade
@@ -224,8 +218,7 @@ public class PipeWorldRenderer implements ISimpleBlockRenderingHandler {
 		zeroState[2][0] = Utils.pipeMinPos;
 		zeroState[2][1] = Utils.pipeMaxPos;
 
-		ForgeHooksClient.bindTexture(DefaultProps.TEXTURE_BLOCKS, 0);
-		state.currentTextureIndex = 7 * 16 + 13; // Structure Pipe
+		state.currentTextureIndex = BuildCraftTransport.pipeStructureCobblestone.getIconFromDamage(0); // Structure Pipe
 
 		for (Orientations direction : Orientations.dirs()){
 			if (state.facadeMatrix.isConnected(direction) && !state.pipeConnectionMatrix.isConnected(direction)){

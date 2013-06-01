@@ -28,7 +28,6 @@ import buildcraft.api.liquids.LiquidStack;
 import buildcraft.api.recipes.RefineryRecipe;
 import buildcraft.core.BlockIndex;
 import buildcraft.core.DefaultProps;
-import buildcraft.core.ItemBuildCraft;
 import buildcraft.core.Version;
 import buildcraft.core.network.PacketHandler;
 import buildcraft.core.proxy.CoreProxy;
@@ -121,16 +120,16 @@ public class BuildCraftEnergy {
 			throw new RuntimeException("Oil Still id must be Oil Moving id + 1");
 		}
 
-		fuel = new ItemBuildCraft(itemFuelId.getInt(DefaultProps.FUEL_ID)).setUnlocalizedName("fuel");
+		fuel = new Item(itemFuelId.getInt(DefaultProps.FUEL_ID)).setUnlocalizedName(DefaultProps.ICON_PREFIX + "fuel");
 		LanguageRegistry.addName(fuel, "Fuel");
 
 		MinecraftForge.EVENT_BUS.register(new OilBucketHandler());
 
-		bucketOil = (new ItemBucketOil(bucketOilId.getInt(DefaultProps.BUCKET_OIL_ID))).setUnlocalizedName("bucketOil").setContainerItem(Item.bucketEmpty);
+		bucketOil = (new ItemBucketOil(bucketOilId.getInt(DefaultProps.BUCKET_OIL_ID))).setUnlocalizedName(DefaultProps.ICON_PREFIX + "bucket-oil").setContainerItem(Item.bucketEmpty);
 		LanguageRegistry.addName(bucketOil, "Oil Bucket");
 
-		bucketFuel = new ItemBuildCraft(bucketFuelId.getInt() - 256).setUnlocalizedName("bucketFuel").setContainerItem(Item.bucketEmpty);
-		bucketFuel.setIconIndex(0 * 16 + 3).setMaxStackSize(1).setCreativeTab(CreativeTabs.tabMisc);
+		bucketFuel = new Item(bucketFuelId.getInt() - 256).setUnlocalizedName(DefaultProps.ICON_PREFIX + "bucket-oil").setContainerItem(Item.bucketEmpty);
+		bucketFuel.setMaxStackSize(1).setCreativeTab(CreativeTabs.tabMisc);
 		LanguageRegistry.addName(bucketFuel, "Fuel Bucket");
 
 		RefineryRecipe.registerRefineryRecipe(new RefineryRecipe(new LiquidStack(oilStill.blockID, 1, 0), null, new LiquidStack(fuel.itemID, 1, 0), 10, 1));

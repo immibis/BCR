@@ -17,6 +17,7 @@ import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import buildcraft.BuildCraftCore;
+import buildcraft.BuildCraftFactory;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.core.Position;
 import buildcraft.api.liquids.ITankContainer;
@@ -141,7 +142,7 @@ public class TilePump extends TileMachine implements IMachine, IPowerReceptor {
 	@Override
 	public void initialize() {
 		tube = new EntityBlock(worldObj);
-		tube.texture = 6 * 16 + 6;
+		tube.texture = BuildCraftFactory.pumpShaftTexture;
 
 		if (!Double.isNaN(tubeY)) {
 			tube.posY = tubeY;

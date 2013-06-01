@@ -3,6 +3,7 @@ package buildcraft.core.render;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import buildcraft.BuildCraftCore;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
@@ -107,15 +108,13 @@ public class RenderingMarkers implements ISimpleBlockRenderingHandler {
 		int yCoord = (int) y;
 		int zCoord = (int) z;
 
-		int i = block.getBlockTexture(iblockaccess, xCoord, yCoord, zCoord, 1);
+		Icon i = block.getBlockTexture(iblockaccess, xCoord, yCoord, zCoord, 1);
 
 		int m = meta;
-		int j = (i & 0xf) << 4;
-		int k = i & 0xf0;
-		float f = j / 256F;
-		float f1 = (j + 15.99F) / 256F;
-		float f2 = k / 256F;
-		float f3 = (k + 15.99F) / 256F;
+		float f = i.getMinU();
+		float f1 = i.getMaxU();
+		float f2 = i.getMinV();
+		float f3 = i.getMinV();
 		double d5 = f + 0.02734375D;
 		double d6 = f2 + 0.0234375D;
 		double d7 = f + 0.02734375D;
@@ -161,12 +160,10 @@ public class RenderingMarkers implements ISimpleBlockRenderingHandler {
 
 		i = block.getBlockTexture(iblockaccess, xCoord, yCoord, zCoord, 0);
 
-		j = (i & 0xf) << 4;
-		k = i & 0xf0;
-		f = j / 256F;
-		f1 = (j + 15.99F) / 256F;
-		f2 = k / 256F;
-		f3 = (k + 15.99F) / 256F;
+		f = i.getMinU();
+		f1 = i.getMaxU();
+		f2 = i.getMinV();
+		f3 = i.getMinV();
 		d5 = f + 0.02734375D;
 		d6 = f2 + 0.0234375D;
 		d7 = f + 0.02734375D;

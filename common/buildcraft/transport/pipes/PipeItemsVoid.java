@@ -10,8 +10,6 @@
 package buildcraft.transport.pipes;
 
 import net.minecraft.tileentity.TileEntity;
-import buildcraft.api.core.Orientations;
-import buildcraft.core.DefaultProps;
 import buildcraft.transport.EntityData;
 import buildcraft.transport.IItemTravelingHook;
 import buildcraft.transport.Pipe;
@@ -22,16 +20,6 @@ public class PipeItemsVoid extends Pipe implements IItemTravelingHook{
 	public PipeItemsVoid(int itemID) {
 		super(new PipeTransportItems(), new PipeLogicVoid(), itemID);
 		((PipeTransportItems) transport).travelHook = this;
-	}
-	
-	@Override
-	public String getTextureFile() {
-		return DefaultProps.TEXTURE_BLOCKS;
-	}
-	
-	@Override
-	public int getTextureIndex(Orientations direction) {
-		return 8 * 16 + 14;
 	}
 
 

@@ -4,6 +4,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import net.minecraft.util.Icon;
+
 import buildcraft.api.core.Orientations;
 import buildcraft.api.transport.IPipe;
 
@@ -12,7 +14,7 @@ public class WireMatrix {
 	
 	private final boolean[] _hasWire = new boolean[IPipe.WireColor.values().length];
 	private final ConnectionMatrix _wires[] = new ConnectionMatrix[IPipe.WireColor.values().length];
-	private int _wireTextureIndex[] = new int[IPipe.WireColor.values().length];
+	private Icon _wireTextureIndex[] = new Icon[IPipe.WireColor.values().length];
 	private boolean dirty = false;
 	
 	public WireMatrix(){
@@ -40,11 +42,11 @@ public class WireMatrix {
 		_wires[color.ordinal()].setConnected(direction, value);
 	}
 	
-	public int getTextureIndex(IPipe.WireColor color){
+	public Icon getTextureIndex(IPipe.WireColor color){
 		return _wireTextureIndex[color.ordinal()];
 	}
 	
-	public void setTextureIndex(IPipe.WireColor color, int value){
+	public void setTextureIndex(IPipe.WireColor color, Icon value){
 		if (_wireTextureIndex[color.ordinal()] != value){
 			_wireTextureIndex[color.ordinal()] = value;
 			dirty = true;
@@ -72,7 +74,7 @@ public class WireMatrix {
 		for (int i = 0; i < IPipe.WireColor.values().length; i++){
 			data.writeBoolean(_hasWire[i]);
 			_wires[i].writeData(data);
-			data.writeInt(_wireTextureIndex[i]);
+			//data.writeInt(_wireTextureIndex[i]);
 		}
 	}
 
@@ -80,7 +82,7 @@ public class WireMatrix {
 		for (int i = 0; i < IPipe.WireColor.values().length; i++){
 			_hasWire[i] = data.readBoolean();
 			_wires[i].readData(data);
-			_wireTextureIndex[i] = data.readInt();
+			//_wireTextureIndex[i] = data.readInt();
 		}
 	}
 }

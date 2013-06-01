@@ -83,7 +83,7 @@ public class EntityMechanicalArm extends Entity {
 		zArm.texture = BuildCraftFactory.drillTexture;
 
 		head = new EntityBlock(world, 0, 0, 0, 0.2, 1, 0.2);
-		head.texture = 2 * 16 + 10;
+		head.texture = BuildCraftFactory.quarryHeadTexture;
 		head.shadowSize = 1.0F;
 
 		world.spawnEntityInWorld(xArm);

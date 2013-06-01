@@ -8,7 +8,9 @@
 
 package buildcraft.transport.pipes;
 
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.core.Position;
@@ -19,7 +21,6 @@ import buildcraft.api.power.IPowerProvider;
 import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerFramework;
 import buildcraft.api.transport.PipeManager;
-import buildcraft.core.DefaultProps;
 import buildcraft.core.network.TileNetworkData;
 import buildcraft.transport.Pipe;
 import buildcraft.transport.PipeTransportLiquids;
@@ -113,23 +114,29 @@ public class PipeLiquidsWood extends Pipe implements IPowerReceptor {
 		}
 	}
 
+	private Icon texActive;
+	
 	@Override
-	public String getTextureFile() {
-		return DefaultProps.TEXTURE_BLOCKS;
+	public void registerIcons(IconRegister r) {
+		super.registerIcons(r);
+		texActive = r.registerIcon(getDefaultIconPath() + "-active");
 	}
+	
+	
 
 	@Override
-	public int getTextureIndex(Orientations direction) {
+	public Icon getTexture(Orientations direction) {
 		if (direction == Orientations.Unknown)
-			return baseTexture;
+			return super.getTexture(direction);
 		else {
 			int metadata = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
 
 			if (metadata == direction.ordinal())
-				return plainTexture;
+				return texActive;
 			else
-				return baseTexture;
-		}	}
+				return super.getTexture(direction);
+		}
+	}
 
 
 	@Override

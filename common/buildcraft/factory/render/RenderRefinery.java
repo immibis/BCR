@@ -20,8 +20,6 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.client.ForgeHooksClient;
-
 import org.lwjgl.opengl.GL11;
 
 import buildcraft.core.DefaultProps;
@@ -77,7 +75,7 @@ public class RenderRefinery extends TileEntitySpecialRenderer implements IInvent
 
 		// Retrieve the texture depending on type of item.
 		if (liquidId < Block.blocksList.length && Block.blocksList[liquidId] != null)
-			block.texture = Block.blocksList[liquidId].blockIndexInTexture;
+			block.texture = Block.blocksList[liquidId].getBlockTextureFromSide(0);
 
 		else if (Item.itemsList[liquidId] != null)
 			block.texture = Item.itemsList[liquidId].getIconFromDamage(0);
@@ -250,11 +248,11 @@ public class RenderRefinery extends TileEntitySpecialRenderer implements IInvent
 	}
 
 	public void setTextureFor(int liquidId) {
-		if (liquidId < Block.blocksList.length && Block.blocksList[liquidId] != null) {
+		/*if (liquidId < Block.blocksList.length && Block.blocksList[liquidId] != null) {
 			ForgeHooksClient.bindTexture(Block.blocksList[liquidId].getTextureFile(), 0);
 		} else {
 			ForgeHooksClient.bindTexture(Item.itemsList[liquidId].getTextureFile(), 0);
 		}
-		
+		*/
 	}
 }

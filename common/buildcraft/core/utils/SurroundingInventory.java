@@ -172,4 +172,24 @@ public class SurroundingInventory implements IInventory, IBuilderInventory {
 
 		return false;
 	}
+
+	@Override
+	public boolean isInvNameLocalized() {
+		return false;
+	}
+
+	@Override
+	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
+		int lastSize = 0, size = 0;
+
+		for (IInventory inv : invs) {
+			size += inv.getSizeInventory();
+
+			if (size > i)
+				return inv.isStackValidForSlot(i - lastSize, itemstack);
+			lastSize = size;
+		}
+
+		return false;
+	}
 }

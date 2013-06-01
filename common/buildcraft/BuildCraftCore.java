@@ -16,8 +16,12 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.EntityList;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Icon;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Property;
+import net.minecraftforge.event.ForgeSubscribe;
 import buildcraft.api.core.BuildCraftAPI;
 import buildcraft.api.gates.Action;
 import buildcraft.api.gates.ActionManager;
@@ -36,8 +40,6 @@ import buildcraft.core.triggers.*;
 import buildcraft.core.triggers.ActionMachineControl.Mode;
 import buildcraft.core.utils.Localization;
 import buildcraft.transport.triggers.TriggerRedstoneInput;
-
-import com.sun.corba.se.impl.activation.CommandHandler;
 
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
@@ -85,9 +87,9 @@ public class BuildCraftCore {
 	public static Item diamondGearItem;
 	public static Item wrenchItem;
 
-	public static int redLaserTexture;
-	public static int blueLaserTexture;
-	public static int stripesLaserTexture;
+	public static Icon redLaserTexture;
+	public static Icon blueLaserTexture;
+	public static Icon stripesLaserTexture;
 	public static int transparentTexture;
 
 	public static int blockByEntityModel;
@@ -124,6 +126,15 @@ public class BuildCraftCore {
 	@Instance("BuildCraft|Core")
 	public static BuildCraftCore instance;
 
+	@ForgeSubscribe
+	public void registerTextures(TextureStitchEvent evt) {
+		if(evt.map.textureType == 0) {
+			redLaserTexture = evt.map.registerIcon(DefaultProps.ICON_PREFIX + "laser-red");
+			blueLaserTexture = evt.map.registerIcon(DefaultProps.ICON_PREFIX + "laser-blue");
+			stripesLaserTexture = evt.map.registerIcon(DefaultProps.ICON_PREFIX + "laser-stripes");
+		}
+	}
+	
 	@PreInit
 	public void loadConfiguration(FMLPreInitializationEvent evt) {
 		
@@ -139,9 +150,6 @@ public class BuildCraftCore {
 		{
 			mainConfiguration.load();
 
-			redLaserTexture = 0 * 16 + 2;
-			blueLaserTexture = 0 * 16 + 1;
-			stripesLaserTexture = 0 * 16 + 3;
 			transparentTexture = 0 * 16 + 0;
 
 			Property continuousCurrent = BuildCraftCore.mainConfiguration.get("current.continuous", Configuration.CATEGORY_GENERAL, DefaultProps.CURRENT_CONTINUOUS);
@@ -175,7 +183,7 @@ public class BuildCraftCore {
 
 			Property wrenchId = BuildCraftCore.mainConfiguration.get("wrench.id", Configuration.CATEGORY_ITEM, DefaultProps.WRENCH_ID);
 
-			wrenchItem = (new ItemWrench(wrenchId.getInt(DefaultProps.WRENCH_ID))).setIconIndex(0 * 16 + 2).setItemName("wrenchItem");
+			wrenchItem = (new ItemWrench(wrenchId.getInt(DefaultProps.WRENCH_ID))).setUnlocalizedName(DefaultProps.ICON_PREFIX + "wrench");
 			LanguageRegistry.addName(wrenchItem, "Wrench");
 
 			Property woodenGearId = BuildCraftCore.mainConfiguration.get("woodenGearItem.id", Configuration.CATEGORY_ITEM, DefaultProps.WOODEN_GEAR_ID);
@@ -188,20 +196,11 @@ public class BuildCraftCore {
 
 			BuildCraftCore.modifyWorld = modifyWorld.getBoolean(true);
 
-			woodenGearItem = (new ItemBuildCraft(woodenGearId.getInt() - 256)).setIconIndex(1 * 16 + 0).setItemName("woodenGearItem");
-			LanguageRegistry.addName(woodenGearItem, "Wooden Gear");
-
-			stoneGearItem = (new ItemBuildCraft(stoneGearId.getInt() - 256)).setIconIndex(1 * 16 + 1).setItemName("stoneGearItem");
-			LanguageRegistry.addName(stoneGearItem, "Stone Gear");
-
-			ironGearItem = (new ItemBuildCraft(ironGearId.getInt() - 256)).setIconIndex(1 * 16 + 2).setItemName("ironGearItem");
-			LanguageRegistry.addName(ironGearItem, "Iron Gear");
-
-			goldGearItem = (new ItemBuildCraft(goldenGearId.getInt() - 256)).setIconIndex(1 * 16 + 3).setItemName("goldGearItem");
-			LanguageRegistry.addName(goldGearItem, "Gold Gear");
-
-			diamondGearItem = (new ItemBuildCraft(diamondGearId.getInt() - 256)).setIconIndex(1 * 16 + 4).setItemName("diamondGearItem");
-			LanguageRegistry.addName(diamondGearItem, "Diamond Gear");
+			woodenGearItem = (new Item(woodenGearId.getInt() - 256)).setUnlocalizedName(DefaultProps.ICON_PREFIX + "gear-wood");
+			stoneGearItem = (new Item(stoneGearId.getInt() - 256)).setUnlocalizedName(DefaultProps.ICON_PREFIX + "gear-stone");
+			ironGearItem = (new Item(ironGearId.getInt() - 256)).setUnlocalizedName(DefaultProps.ICON_PREFIX + "gear-iron");
+			goldGearItem = (new Item(goldenGearId.getInt() - 256)).setUnlocalizedName(DefaultProps.ICON_PREFIX + "gear-gold");
+			diamondGearItem = (new Item(diamondGearId.getInt() - 256)).setUnlocalizedName(DefaultProps.ICON_PREFIX + "gear-diamond");
 		}
 		finally
 		{
@@ -211,6 +210,9 @@ public class BuildCraftCore {
 
 	@Init
 	public void initialize(FMLInitializationEvent evt) {
+		
+		MinecraftForge.EVENT_BUS.register(this);
+		
 		//MinecraftForge.registerConnectionHandler(new ConnectionHandler());
 		LiquidManager.liquids.add(new LiquidData(new LiquidStack(Block.waterStill, LiquidManager.BUCKET_VOLUME), new LiquidStack(Block.waterMoving, LiquidManager.BUCKET_VOLUME), new ItemStack(Item.bucketWater), new ItemStack(Item.bucketEmpty)));
 		LiquidManager.liquids.add(new LiquidData(new LiquidStack(Block.waterStill, LiquidManager.BUCKET_VOLUME), new LiquidStack(Block.waterMoving, LiquidManager.BUCKET_VOLUME), new ItemStack(Item.potion), new ItemStack(Item.glassBottle)));

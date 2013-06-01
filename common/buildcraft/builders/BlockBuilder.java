@@ -11,14 +11,19 @@ package buildcraft.builders;
 
 import java.util.ArrayList;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import buildcraft.BuildCraftBuilders;
 import buildcraft.api.core.Orientations;
@@ -31,18 +36,21 @@ import buildcraft.core.utils.Utils;
 
 
 public class BlockBuilder extends BlockContainer {
-
-	int blockTextureTop;
-	int blockTextureSide;
-	int blockTextureFront;
+	
+	private Icon texSide, texTop, texFront;
 
 	public BlockBuilder(int i) {
 		super(i, Material.iron);
-		blockTextureSide = 3 * 16 + 5;
-		blockTextureTop = 3 * 16 + 6;
-		blockTextureFront = 3 * 16 + 7;
 		setHardness(0.7F);
 		setCreativeTab(CreativeTabs.tabRedstone);
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister r) {
+		texSide = r.registerIcon(DefaultProps.ICON_PREFIX + "builder-side");
+		texTop = r.registerIcon(DefaultProps.ICON_PREFIX + "builder-top");
+		texFront = r.registerIcon(DefaultProps.ICON_PREFIX + "builder-front");
 	}
 
 	@Override
@@ -50,26 +58,22 @@ public class BlockBuilder extends BlockContainer {
 		return new TileBuilder();
 	}
 
-	@Override
-	public String getTextureFile() {
-		return DefaultProps.TEXTURE_BLOCKS;
-	}
 
 	@Override
-	public int getBlockTextureFromSideAndMetadata(int i, int j) {
+	public Icon getIcon(int i, int j) {
 		if (j == 0 && i == 3) {
-			return blockTextureFront;
+			return texFront;
 		}
 
 		if (i == j) {
-			return blockTextureFront;
+			return texFront;
 		}
 
 		switch (i) {
 		case 1:
-			return blockTextureTop;
+			return texTop;
 		default:
-			return blockTextureSide;
+			return texSide;
 		}
 	}
 

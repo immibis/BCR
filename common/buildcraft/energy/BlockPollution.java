@@ -12,21 +12,14 @@ package buildcraft.energy;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import buildcraft.core.DefaultProps;
 
 
 public class BlockPollution extends BlockContainer {
 
 	public BlockPollution(int i) {
 		super(i, Material.air);
-		blockIndexInTexture = 5 * 16 + 0;
-	}
-
-	@Override
-	public String getTextureFile() {
-		return DefaultProps.TEXTURE_BLOCKS;
+		//blockIndexInTexture = 5 * 16 + 0;
 	}
 
 	@Override
@@ -44,8 +37,8 @@ public class BlockPollution extends BlockContainer {
 		return new TilePollution();
 	}
 	
-	@SuppressWarnings({ "all" })
+	/*@SuppressWarnings({ "all" })
 	public int getBlockTexture(IBlockAccess iblockaccess, int i, int j, int k, int l) {
 		return 5 * 16 + iblockaccess.getBlockMetadata(i, j, k);
-	}
+	}*/
 }

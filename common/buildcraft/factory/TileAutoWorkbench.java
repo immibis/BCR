@@ -138,7 +138,7 @@ public class TileAutoWorkbench extends TileEntity implements ISpecialInventory {
 			craftMatrix.setInventorySlotContents(i, stack);
 		}
 
-		ItemStack recipe = CraftingManager.getInstance().findMatchingRecipe(craftMatrix);
+		ItemStack recipe = CraftingManager.getInstance().findMatchingRecipe(craftMatrix, worldObj);
 
 		return recipe;
 	}
@@ -178,7 +178,7 @@ public class TileAutoWorkbench extends TileEntity implements ISpecialInventory {
 			craftMatrix.setInventorySlotContents(i, stack);
 		}
 
-		ItemStack resultStack = CraftingManager.getInstance().findMatchingRecipe(craftMatrix);
+		ItemStack resultStack = CraftingManager.getInstance().findMatchingRecipe(craftMatrix, worldObj);
 
 		if (resultStack == null || !doRemove) {
 			resetPointers(pointerList);
@@ -281,6 +281,18 @@ public class TileAutoWorkbench extends TileEntity implements ISpecialInventory {
 	@Override
 	public ItemStack[] extractItem(boolean doRemove, Orientations from, int maxItemCount) {
 		return new ItemStack[] { extractItem(doRemove, false) };
+	}
+
+	@Override
+	public boolean isInvNameLocalized() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

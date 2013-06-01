@@ -130,4 +130,14 @@ public class SimpleInventory implements IInventory, INBTTagable {
 		this._contents[i] = null;
 		return stackToTake;
 	}
+
+	@Override
+	public boolean isInvNameLocalized() {
+		return false;
+	}
+
+	@Override
+	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
+		return true;
+	}
 }

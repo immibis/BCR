@@ -737,4 +737,14 @@ public class TileQuarry extends TileMachine implements IMachine, IPowerReceptor,
 		this.targetZ = z;
 	}
 
+	@Override
+	public boolean isInvNameLocalized() {
+		return false;
+	}
+
+	@Override
+	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
+		return false;
+	}
+
 }

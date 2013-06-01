@@ -10,13 +10,13 @@ package buildcraft.transport.pipes;
 
 import java.util.LinkedList;
 
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import buildcraft.BuildCraftTransport;
+import net.minecraft.util.Icon;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.core.Position;
 import buildcraft.api.transport.IPipedItem;
-import buildcraft.core.DefaultProps;
 import buildcraft.transport.IPipeTransportItemsHook;
 import buildcraft.transport.Pipe;
 import buildcraft.transport.PipeTransportItems;
@@ -26,18 +26,20 @@ public class PipeItemsDiamond extends Pipe implements IPipeTransportItemsHook {
 	public PipeItemsDiamond(int itemID) {
 		super(new PipeTransportItems(), new PipeLogicDiamond(), itemID);
 	}
-
+	
+	private Icon iconSide[] = new Icon[7];
+	
 	@Override
-	public String getTextureFile() {
-		return DefaultProps.TEXTURE_BLOCKS;
+	public void registerIcons(IconRegister r) {
+		super.registerIcons(r);
+		for(int k = 0; k < 6; k++)
+			iconSide[k] = r.registerIcon(getDefaultIconPath() + "-" + k);
+		iconSide[6] = getTextureForItem();
 	}
 	
 	@Override
-	public int getTextureIndex(Orientations direction) {
-		if (direction == Orientations.Unknown){
-			return 1 * 16 + 5;
-		}
-		return BuildCraftTransport.diamondTextures[direction.ordinal()];
+	public Icon getTexture(Orientations direction) {
+		return iconSide[direction.ordinal()];
 	}
 
 	@Override

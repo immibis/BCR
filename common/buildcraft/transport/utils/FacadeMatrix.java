@@ -4,12 +4,14 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import net.minecraft.util.Icon;
+
 import buildcraft.api.core.Orientations;
 
 
 public class FacadeMatrix extends ConnectionMatrix {
 	private String[] _textureFiles = new String[Orientations.dirs().length];
-	private int[] _textureIndex = new int[Orientations.dirs().length];
+	private Icon[] _textureIndex = new Icon[Orientations.dirs().length];
 	
 	private boolean dirty = false;
 	
@@ -30,11 +32,11 @@ public class FacadeMatrix extends ConnectionMatrix {
 		}
 	}
 	
-	public int getTextureIndex(Orientations direction){
+	public Icon getTextureIndex(Orientations direction){
 		return _textureIndex[direction.ordinal()];
 	}
 	
-	public void setTextureIndex(Orientations direction, int value){
+	public void setTextureIndex(Orientations direction, Icon value){
 		if (_textureIndex[direction.ordinal()] != value){
 			_textureIndex[direction.ordinal()] = value;
 			dirty = true;
@@ -57,7 +59,7 @@ public class FacadeMatrix extends ConnectionMatrix {
 		super.readData(data);
 		for (int i = 0; i < Orientations.dirs().length; i++){
 			_textureFiles[i] = data.readUTF();
-			_textureIndex[i] = data.readInt();
+			//_textureIndex[i] = data.readInt();
 		}
 	}
 	
@@ -66,7 +68,7 @@ public class FacadeMatrix extends ConnectionMatrix {
 		super.writeData(data);
 		for (int i = 0; i < Orientations.dirs().length; i++){
 			data.writeUTF(_textureFiles[i]);
-			data.writeInt(_textureIndex[i]);
+			//data.writeInt(_textureIndex[i]);
 		}
 	}
 }

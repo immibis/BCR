@@ -11,12 +11,17 @@ package buildcraft.builders;
 
 import java.util.ArrayList;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import buildcraft.BuildCraftBuilders;
@@ -29,20 +34,21 @@ import buildcraft.core.utils.Utils;
 
 public class BlockFiller extends BlockContainer {
 
-	int textureSides;
-	int textureTopOn;
-	int textureTopOff;
-	public IFillerPattern currentPattern;
+	private Icon texTopOn, texTopOff, texSide;
 
 	public BlockFiller(int i) {
 		super(i, Material.iron);
 
 		setHardness(0.5F);
 		setCreativeTab(CreativeTabs.tabRedstone);
-
-		textureSides = 4 * 16 + 2;
-		textureTopOn = 4 * 16 + 0;
-		textureTopOff = 4 * 16 + 1;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister r) {
+		texTopOn = r.registerIcon(DefaultProps.ICON_PREFIX + "filler-top-on");
+		texTopOff = r.registerIcon(DefaultProps.ICON_PREFIX + "filler-top-off");
+		texSide = r.registerIcon(DefaultProps.ICON_PREFIX + "filler-side");
 	}
 
 	@Override
@@ -59,12 +65,8 @@ public class BlockFiller extends BlockContainer {
 	}
 
 	@SuppressWarnings({ "all" })
-	public int getBlockTexture(IBlockAccess iblockaccess, int i, int j, int k, int l) {
+	public Icon getBlockTexture(IBlockAccess iblockaccess, int i, int j, int k, int l) {
 		int m = iblockaccess.getBlockMetadata(i, j, k);
-
-		if (iblockaccess == null) {
-			return getBlockTextureFromSideAndMetadata(i, m);
-		}
 
 		TileEntity tile = iblockaccess.getBlockTileEntity(i, j, k);
 
@@ -72,26 +74,26 @@ public class BlockFiller extends BlockContainer {
 			TileFiller filler = (TileFiller) tile;
 			if (l == 1 || l == 0) {
 				if (!filler.isActive()) {
-					return textureTopOff;
+					return texTopOff;
 				} else {
-					return textureTopOn;
+					return texTopOn;
 				}
 			} else if (filler.currentPattern != null) {
-				return filler.currentPattern.getTextureIndex();
+				return filler.currentPattern.getTexture();
 			} else {
-				return textureSides;
+				return texSide;
 			}
 		}
 
-		return getBlockTextureFromSideAndMetadata(l, m);
+		return getIcon(l, m);
 	}
 
 	@Override
-	public int getBlockTextureFromSide(int i) {
+	public Icon getIcon(int i, int meta) {
 		if (i == 0 || i == 1) {
-			return textureTopOn;
+			return texTopOn;
 		} else {
-			return textureSides;
+			return texSide;
 		}
 	}
 
@@ -104,11 +106,6 @@ public class BlockFiller extends BlockContainer {
 	public void breakBlock(World world, int x, int y, int z, int par5, int par6) {
 		Utils.preDestroyBlock(world, x, y, z);
 		super.breakBlock(world, x, y, z, par5, par6);
-	}
-
-	@Override
-	public String getTextureFile() {
-		return DefaultProps.TEXTURE_BLOCKS;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })

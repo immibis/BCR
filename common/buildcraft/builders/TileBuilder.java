@@ -643,4 +643,14 @@ public class TileBuilder extends TileBuildCraft implements IBuilderInventory, IP
 	public boolean allowActions() {
 		return false;
 	}
+
+	@Override
+	public boolean isInvNameLocalized() {
+		return false;
+	}
+
+	@Override
+	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
+		return true;
+	}
 }

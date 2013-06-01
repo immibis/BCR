@@ -452,4 +452,14 @@ public class TileAssemblyTable extends TileEntity implements IMachine, IInventor
 		return false;
 	}
 
+	@Override
+	public boolean isInvNameLocalized() {
+		return false;
+	}
+
+	@Override
+	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
+		return true;
+	}
+
 }

@@ -21,6 +21,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import buildcraft.BuildCraftCore;
@@ -300,7 +301,7 @@ public class Utils {
 			jSize = 0.10;
 		}
 
-		int texture = BuildCraftCore.redLaserTexture;
+		Icon texture = BuildCraftCore.redLaserTexture;
 
 		switch (kind) {
 		case Blue:

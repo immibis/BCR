@@ -11,11 +11,16 @@ package buildcraft.silicon;
 
 import java.util.ArrayList;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import buildcraft.api.core.Orientations;
 import buildcraft.core.DefaultProps;
@@ -52,20 +57,25 @@ public class BlockLaser extends BlockContainer {
 	public TileEntity createNewTileEntity(World var1) {
 		return new TileLaser();
 	}
-
+	
+	private Icon texFront, texBack, texSide;
+	
 	@Override
-	public String getTextureFile() {
-		return DefaultProps.TEXTURE_BLOCKS;
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister r) {
+		texFront = r.registerIcon(DefaultProps.ICON_PREFIX + "laser-front");
+		texBack = r.registerIcon(DefaultProps.ICON_PREFIX + "laser-back");
+		texSide = r.registerIcon(DefaultProps.ICON_PREFIX + "laser-side");
 	}
 
 	@Override
-	public int getBlockTextureFromSideAndMetadata(int i, int j) {
+	public Icon getIcon(int i, int j) {
 		if (i == Orientations.values()[j].reverse().ordinal()) {
-			return 16 * 2 + 15;
+			return texBack;
 		} else if (i == j) {
-			return 16 * 2 + 14;
+			return texFront;
 		} else {
-			return 16 * 2 + 13;
+			return texSide;
 		}
 
 	}

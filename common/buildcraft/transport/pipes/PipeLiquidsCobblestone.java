@@ -8,8 +8,6 @@
 
 package buildcraft.transport.pipes;
 
-import buildcraft.api.core.Orientations;
-import buildcraft.core.DefaultProps;
 import buildcraft.transport.Pipe;
 import buildcraft.transport.PipeTransportLiquids;
 
@@ -17,15 +15,5 @@ public class PipeLiquidsCobblestone extends Pipe {
 
 	public PipeLiquidsCobblestone(int itemID) {
 		super(new PipeTransportLiquids(), new PipeLogicCobblestone(), itemID);
-	}
-
-	@Override
-	public String getTextureFile() {
-		return DefaultProps.TEXTURE_BLOCKS;
-	}
-	
-	@Override
-	public int getTextureIndex(Orientations direction) {
-		return 7 * 16 + 1;
 	}
 }

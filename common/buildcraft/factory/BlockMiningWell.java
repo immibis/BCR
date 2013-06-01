@@ -11,10 +11,15 @@ package buildcraft.factory;
 
 import java.util.ArrayList;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.core.Position;
@@ -24,7 +29,7 @@ import buildcraft.core.utils.Utils;
 
 public class BlockMiningWell extends BlockMachineRoot {
 
-	int textureFront, textureSides, textureBack, textureTop;
+	private Icon textureFront, textureSides, textureBack, textureTop;
 
 	public BlockMiningWell(int i) {
 		super(i, Material.ground);
@@ -32,16 +37,19 @@ public class BlockMiningWell extends BlockMachineRoot {
 		setHardness(1.5F);
 		setResistance(10F);
 		setStepSound(soundStoneFootstep);
-
-		textureFront = 16 * 2 + 3;
-		textureSides = 16 * 2 + 5;
-		textureBack = 16 * 2 + 6;
-		textureTop = 16 * 2 + 4;
-
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister r) {
+		textureFront = r.registerIcon(DefaultProps.ICON_PREFIX + "well-front");
+		textureBack = r.registerIcon(DefaultProps.ICON_PREFIX + "well-back");
+		textureTop = r.registerIcon(DefaultProps.ICON_PREFIX + "well-top");
+		textureSides = r.registerIcon(DefaultProps.ICON_PREFIX + "well-side");
 	}
 
 	@Override
-	public int getBlockTextureFromSideAndMetadata(int i, int j) {
+	public Icon getIcon(int i, int j) {
 		if (j == 0 && i == 3) {
 			return textureFront;
 		}
@@ -72,11 +80,6 @@ public class BlockMiningWell extends BlockMachineRoot {
 	@Override
 	public TileEntity createNewTileEntity(World var1) {
 		return new TileMiningWell();
-	}
-	
-	@Override
-	public String getTextureFile() {
-		return DefaultProps.TEXTURE_BLOCKS;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })

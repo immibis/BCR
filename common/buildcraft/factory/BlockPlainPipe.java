@@ -16,7 +16,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.IBlockAccess;
-import buildcraft.core.DefaultProps;
 import buildcraft.core.IFramePipeConnection;
 import buildcraft.core.utils.Utils;
 
@@ -25,8 +24,6 @@ public class BlockPlainPipe extends Block implements IFramePipeConnection {
 
 	public BlockPlainPipe(int i) {
 		super(i, Material.glass);
-
-		blockIndexInTexture = 16 * 2 + 0;
 
 		minX = Utils.pipeMinPos;
 		minY = 0.0;
@@ -59,11 +56,6 @@ public class BlockPlainPipe extends Block implements IFramePipeConnection {
 	public boolean isPipeConnected(IBlockAccess blockAccess, int x1, int y1, int z1, int x2, int y2, int z2) {
 
 		return false;
-	}
-
-	@Override
-	public String getTextureFile() {
-		return DefaultProps.TEXTURE_BLOCKS;
 	}
 
 	public float getHeightInPipe() {

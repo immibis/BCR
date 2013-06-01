@@ -11,6 +11,7 @@ package buildcraft.core;
 
 import java.io.File;
 
+import net.minecraftforge.common.ConfigCategory;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;
 
@@ -23,6 +24,8 @@ public class BuildCraftConfiguration extends Configuration {
 	@Override
 	public void save() {
 		Property versionProp = null;
+		
+		ConfigCategory generalProperties = getCategory(CATEGORY_GENERAL);
 
 		if (!generalProperties.containsKey("version")) {
 			versionProp = new Property();
@@ -31,9 +34,10 @@ public class BuildCraftConfiguration extends Configuration {
 		} else
 			versionProp = generalProperties.get("version");
 
-		versionProp.value = Version.VERSION;
+		versionProp.set(Version.VERSION);
 
-		super.save();
+		if(super.hasChanged())
+			super.save();
 	}
 
 }

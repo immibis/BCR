@@ -280,4 +280,14 @@ public class TileBlueprintLibrary extends TileBuildCraft implements IInventory {
 			setInventorySlotContents(2, null);
 		}
 	}
+
+	@Override
+	public boolean isInvNameLocalized() {
+		return false;
+	}
+
+	@Override
+	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
+		return true;
+	}
 }

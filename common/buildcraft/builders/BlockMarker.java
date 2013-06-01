@@ -24,7 +24,6 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import buildcraft.BuildCraftBuilders;
 import buildcraft.BuildCraftCore;
-import buildcraft.core.DefaultProps;
 import buildcraft.core.utils.Utils;
 
 
@@ -32,8 +31,6 @@ public class BlockMarker extends BlockContainer {
 
 	public BlockMarker(int i) {
 		super(i, Material.circuits);
-
-		blockIndexInTexture = 3 * 16 + 9;
 
 		setLightValue(0.5F);
 		setCreativeTab(CreativeTabs.tabRedstone);
@@ -216,11 +213,6 @@ public class BlockMarker extends BlockContainer {
 		} else {
 			return true;
 		}
-	}
-
-	@Override
-	public String getTextureFile() {
-		return DefaultProps.TEXTURE_BLOCKS;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })

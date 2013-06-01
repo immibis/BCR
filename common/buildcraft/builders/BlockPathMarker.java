@@ -11,18 +11,31 @@ package buildcraft.builders;
 
 import java.util.ArrayList;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import buildcraft.core.DefaultProps;
 import buildcraft.core.utils.Utils;
 
 public class BlockPathMarker extends BlockMarker {
-
+	
+	private Icon texOff, texOn;
+	
 	public BlockPathMarker(int i) {
 		super(i);
+	}
 
-		blockIndexInTexture = 3 * 16 + 10;
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister r) {
+		texOff = r.registerIcon(DefaultProps.ICON_PREFIX + "pathmark-off");
+		texOn = r.registerIcon(DefaultProps.ICON_PREFIX + "pathmark-on");
 	}
 
 	@Override
@@ -38,13 +51,13 @@ public class BlockPathMarker extends BlockMarker {
 	
 	@SuppressWarnings({ "all" })
 	// @Override (client only)
-	public int getBlockTexture(IBlockAccess iblockaccess, int i, int j, int k, int l) {
+	public Icon getBlockTexture(IBlockAccess iblockaccess, int i, int j, int k, int l) {
 		TilePathMarker marker = (TilePathMarker) iblockaccess.getBlockTileEntity(i, j, k);
 
 		if (l == 1 || (marker != null && marker.tryingToConnect)) {
-			return 3 * 16 + 11;
+			return texOn;
 		} else {
-			return 3 * 16 + 10;
+			return texOff;
 		}
 	}
 

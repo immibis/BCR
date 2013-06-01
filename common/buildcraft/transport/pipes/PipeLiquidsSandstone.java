@@ -11,7 +11,6 @@ package buildcraft.transport.pipes;
 
 import buildcraft.api.core.Orientations;
 import buildcraft.api.liquids.LiquidStack;
-import buildcraft.core.DefaultProps;
 import buildcraft.transport.IPipeTransportLiquidsHook;
 import buildcraft.transport.Pipe;
 import buildcraft.transport.PipeTransportLiquids;
@@ -20,16 +19,6 @@ import buildcraft.transport.TileGenericPipe;
 public class PipeLiquidsSandstone extends Pipe implements IPipeTransportLiquidsHook{
 	 public PipeLiquidsSandstone(int itemID) {
 			super(new PipeTransportLiquids(), new PipeLogicSandstone(), itemID);
-	}
-	 
-	@Override
-	public String getTextureFile() {
-		return DefaultProps.TEXTURE_BLOCKS;
-	}
-	
-	@Override
-	public int getTextureIndex(Orientations direction) {
-		 return 9 * 16 + 15;
 	}
 
 

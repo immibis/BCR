@@ -415,4 +415,14 @@ public class TileFiller extends TileBuildCraft implements ISpecialInventory, IPo
 		return null;
 	}
 
+	@Override
+	public boolean isInvNameLocalized() {
+		return false;
+	}
+
+	@Override
+	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
+		return true;
+	}
+
 }

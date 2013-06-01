@@ -8,8 +8,9 @@
 
 package buildcraft.transport.pipes;
 
+import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.util.Icon;
 import buildcraft.api.core.Orientations;
-import buildcraft.core.DefaultProps;
 import buildcraft.transport.Pipe;
 import buildcraft.transport.PipeTransportItems;
 
@@ -24,22 +25,25 @@ public class PipeItemsIron extends Pipe {
 		((PipeTransportItems) transport).allowBouncing = true;
 	}
 	
+	private Icon texBlocked;
+	
 	@Override
-	public String getTextureFile() {
-		return DefaultProps.TEXTURE_BLOCKS;
+	public void registerIcons(IconRegister r) {
+		super.registerIcons(r);
+		texBlocked = r.registerIcon(getDefaultIconPath() + "-blocked");
 	}
 	
 	@Override
-	public int getTextureIndex(Orientations direction) {
+	public Icon getTexture(Orientations direction) {
 		if (direction == Orientations.Unknown)
-			return baseTexture;
+			return super.getTexture(direction);
 		else {
 			int metadata = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
 
 			if (metadata == direction.ordinal())
-				return baseTexture;
+				return super.getTexture(direction);
 			else
-				return plainTexture;
+				return texBlocked;
 		}
 	}
 

@@ -11,33 +11,44 @@ package buildcraft.factory;
 
 import java.util.ArrayList;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import buildcraft.BuildCraftFactory;
 import buildcraft.core.BlockBuildCraft;
+import buildcraft.core.DefaultProps;
 import buildcraft.core.GuiIds;
 import buildcraft.core.IItemPipe;
 import buildcraft.core.proxy.CoreProxy;
 
 public class BlockAutoWorkbench extends BlockBuildCraft {
 
-	int topTexture;
-	int sideTexture;
+	private Icon topTexture;
+	private Icon sideTexture;
 
 	public BlockAutoWorkbench(int i) {
 		super(i, Material.wood);
-		topTexture = 2 * 16 + 11;
-		sideTexture = 2 * 16 + 12;
 		setHardness(1.0F);
 		setCreativeTab(CreativeTabs.tabDecorations);
 	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister r) {
+		topTexture = r.registerIcon(DefaultProps.ICON_PREFIX + "workbench-top");
+		sideTexture = r.registerIcon(DefaultProps.ICON_PREFIX + "workbench-side");
+	}
 
 	@Override
-	public int getBlockTextureFromSide(int i) {
+	public Icon getIcon(int i, int meta) {
 		if (i == 1 || i == 0) {
 			return topTexture;
 		} else {

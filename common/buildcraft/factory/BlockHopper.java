@@ -2,7 +2,11 @@ package buildcraft.factory;
 
 import java.util.ArrayList;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -42,10 +46,10 @@ public class BlockHopper extends BlockBuildCraft {
 	public int getRenderType() {
 		return BuildCraftCore.blockByEntityModel;
 	}
-
+	
 	@Override
-	public int getBlockTextureFromSide(int par1) {
-		return 1;
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister r) {
 	}
 
 	@Override

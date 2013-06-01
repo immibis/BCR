@@ -13,7 +13,6 @@ import java.util.LinkedList;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.core.Position;
 import buildcraft.api.transport.IPipedItem;
-import buildcraft.core.DefaultProps;
 import buildcraft.core.utils.Utils;
 import buildcraft.transport.IPipeTransportItemsHook;
 import buildcraft.transport.Pipe;
@@ -25,16 +24,6 @@ public class PipeItemsStone extends Pipe implements IPipeTransportItemsHook {
 	public PipeItemsStone(int itemID) {
 		super(new PipeTransportItems(), new PipeLogicStone(), itemID);
 
-	}
-
-	@Override
-	public String getTextureFile() {
-		return DefaultProps.TEXTURE_BLOCKS;
-	}
-	
-	@Override
-	public int getTextureIndex(Orientations direction) {
-		return 1 * 16 + 13;
 	}
 
 	@Override

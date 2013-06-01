@@ -16,11 +16,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.client.ForgeHooksClient;
-
 import org.lwjgl.opengl.GL11;
 
-import buildcraft.core.DefaultProps;
 import buildcraft.core.EntityBlock;
 
 public class RenderEntityBlock extends Render {
@@ -88,8 +85,6 @@ public class RenderEntityBlock extends Render {
 					GL11.glRotatef(entity.rotationY, 0, 1, 0);
 					GL11.glRotatef(entity.rotationZ, 0, 0, 1);
 					GL11.glTranslatef(iBase, jBase, kBase);
-
-					ForgeHooksClient.bindTexture(DefaultProps.TEXTURE_BLOCKS, 0);
 
 					int lightX, lightY, lightZ;
 
@@ -178,23 +173,13 @@ public class RenderEntityBlock extends Render {
 			tessellator.draw();
 	}
 
-	public static void renderBottomFace(BlockInterface block, double d, double d1, double d2, int i) {
+	public static void renderBottomFace(BlockInterface block, double d, double d1, double d2, Icon i) {
 		Tessellator tessellator = Tessellator.instance;
 
-		int j = (i & 0xf) << 4;
-		int k = i & 0xf0;
-		double d3 = (j + block.minX * 16D) / 256D;
-		double d4 = ((j + block.maxX * 16D) - 0.01D) / 256D;
-		double d5 = (k + block.minZ * 16D) / 256D;
-		double d6 = ((k + block.maxZ * 16D) - 0.01D) / 256D;
-		if (block.minX < 0.0D || block.maxX > 1.0D) {
-			d3 = (j + 0.0F) / 256F;
-			d4 = (j + 15.99F) / 256F;
-		}
-		if (block.minZ < 0.0D || block.maxZ > 1.0D) {
-			d5 = (k + 0.0F) / 256F;
-			d6 = (k + 15.99F) / 256F;
-		}
+		double d3 = i.getInterpolatedU(block.minX < 0 || block.maxX > 1 ? 0 : block.minX * 16);
+		double d4 = i.getInterpolatedU(block.minX < 0 || block.maxX > 1 ? 15.99 : block.maxX * 16 - 0.01);
+		double d5 = i.getInterpolatedV(block.minY < 0 || block.maxY > 1 ? 0 : block.minY * 16);
+		double d6 = i.getInterpolatedV(block.minY < 0 || block.maxY > 1 ? 15.99 : block.maxY * 16 - 0.01);
 		double d7 = d + block.minX;
 		double d8 = d + block.maxX;
 		double d9 = d1 + block.minY;
@@ -207,23 +192,13 @@ public class RenderEntityBlock extends Render {
 		tessellator.addVertexWithUV(d8, d9, d11, d4, d6);
 	}
 
-	public static void renderTopFace(BlockInterface block, double d, double d1, double d2, int i) {
+	public static void renderTopFace(BlockInterface block, double d, double d1, double d2, Icon i) {
 		Tessellator tessellator = Tessellator.instance;
 
-		int j = (i & 0xf) << 4;
-		int k = i & 0xf0;
-		double d3 = (j + block.minX * 16D) / 256D;
-		double d4 = ((j + block.maxX * 16D) - 0.01D) / 256D;
-		double d5 = (k + block.minZ * 16D) / 256D;
-		double d6 = ((k + block.maxZ * 16D) - 0.01D) / 256D;
-		if (block.minX < 0.0D || block.maxX > 1.0D) {
-			d3 = (j + 0.0F) / 256F;
-			d4 = (j + 15.99F) / 256F;
-		}
-		if (block.minZ < 0.0D || block.maxZ > 1.0D) {
-			d5 = (k + 0.0F) / 256F;
-			d6 = (k + 15.99F) / 256F;
-		}
+		double d3 = i.getInterpolatedU(block.minX < 0 || block.maxX > 1 ? 0 : block.minX * 16);
+		double d4 = i.getInterpolatedU(block.minX < 0 || block.maxX > 1 ? 15.99 : block.maxX * 16 - 0.01);
+		double d5 = i.getInterpolatedV(block.minY < 0 || block.maxY > 1 ? 0 : block.minY * 16);
+		double d6 = i.getInterpolatedV(block.minY < 0 || block.maxY > 1 ? 15.99 : block.maxY * 16 - 0.01);
 		double d7 = d + block.minX;
 		double d8 = d + block.maxX;
 		double d9 = d1 + block.maxY;
@@ -236,24 +211,13 @@ public class RenderEntityBlock extends Render {
 		tessellator.addVertexWithUV(d7, d9, d11, d3, d6);
 	}
 
-	public static void renderEastFace(BlockInterface block, double d, double d1, double d2, int i) {
+	public static void renderEastFace(BlockInterface block, double d, double d1, double d2, Icon i) {
 		Tessellator tessellator = Tessellator.instance;
 
-		int j = (i & 0xf) << 4;
-		int k = i & 0xf0;
-		double d3 = (j + block.minX * 16D) / 256D;
-		double d4 = ((j + block.maxX * 16D) - 0.01D) / 256D;
-		double d5 = (k + block.minY * 16D) / 256D;
-		double d6 = ((k + block.maxY * 16D) - 0.01D) / 256D;
-
-		if (block.minX < 0.0D || block.maxX > 1.0D) {
-			d3 = (j + 0.0F) / 256F;
-			d4 = (j + 15.99F) / 256F;
-		}
-		if (block.minY < 0.0D || block.maxY > 1.0D) {
-			d5 = (k + 0.0F) / 256F;
-			d6 = (k + 15.99F) / 256F;
-		}
+		double d3 = i.getInterpolatedU(block.minX < 0 || block.maxX > 1 ? 0 : block.minX * 16);
+		double d4 = i.getInterpolatedU(block.minX < 0 || block.maxX > 1 ? 15.99 : block.maxX * 16 - 0.01);
+		double d5 = i.getInterpolatedV(block.minY < 0 || block.maxY > 1 ? 0 : block.minY * 16);
+		double d6 = i.getInterpolatedV(block.minY < 0 || block.maxY > 1 ? 15.99 : block.maxY * 16 - 0.01);
 		double d8 = d + block.minX;
 		double d9 = d + block.maxX;
 		double d10 = d1 + block.minY;
@@ -266,24 +230,13 @@ public class RenderEntityBlock extends Render {
 		tessellator.addVertexWithUV(d8, d10, d12, d4, d6);
 	}
 
-	public static void renderWestFace(BlockInterface block, double d, double d1, double d2, int i) {
+	public static void renderWestFace(BlockInterface block, double d, double d1, double d2, Icon i) {
 		Tessellator tessellator = Tessellator.instance;
 
-		int j = (i & 0xf) << 4;
-		int k = i & 0xf0;
-		double d3 = (j + block.minX * 16D) / 256D;
-		double d4 = ((j + block.maxX * 16D) - 0.01D) / 256D;
-		double d5 = (k + block.minY * 16D) / 256D;
-		double d6 = ((k + block.maxY * 16D) - 0.01D) / 256D;
-
-		if (block.minX < 0.0D || block.maxX > 1.0D) {
-			d3 = (j + 0.0F) / 256F;
-			d4 = (j + 15.99F) / 256F;
-		}
-		if (block.minY < 0.0D || block.maxY > 1.0D) {
-			d5 = (k + 0.0F) / 256F;
-			d6 = (k + 15.99F) / 256F;
-		}
+		double d3 = i.getInterpolatedU(block.minX < 0 || block.maxX > 1 ? 0 : block.minX * 16);
+		double d4 = i.getInterpolatedU(block.minX < 0 || block.maxX > 1 ? 15.99 : block.maxX * 16 - 0.01);
+		double d5 = i.getInterpolatedV(block.minY < 0 || block.maxY > 1 ? 0 : block.minY * 16);
+		double d6 = i.getInterpolatedV(block.minY < 0 || block.maxY > 1 ? 15.99 : block.maxY * 16 - 0.01);
 		double d8 = d + block.minX;
 		double d9 = d + block.maxX;
 		double d10 = d1 + block.minY;
@@ -296,24 +249,13 @@ public class RenderEntityBlock extends Render {
 		tessellator.addVertexWithUV(d9, d11, d12, d4, d5);
 	}
 
-	public static void renderNorthFace(BlockInterface block, double d, double d1, double d2, int i) {
+	public static void renderNorthFace(BlockInterface block, double d, double d1, double d2, Icon i) {
 		Tessellator tessellator = Tessellator.instance;
 
-		int j = (i & 0xf) << 4;
-		int k = i & 0xf0;
-		double d3 = (j + block.minZ * 16D) / 256D;
-		double d4 = ((j + block.maxZ * 16D) - 0.01D) / 256D;
-		double d5 = (k + block.minY * 16D) / 256D;
-		double d6 = ((k + block.maxY * 16D) - 0.01D) / 256D;
-
-		if (block.minZ < 0.0D || block.maxZ > 1.0D) {
-			d3 = (j + 0.0F) / 256F;
-			d4 = (j + 15.99F) / 256F;
-		}
-		if (block.minY < 0.0D || block.maxY > 1.0D) {
-			d5 = (k + 0.0F) / 256F;
-			d6 = (k + 15.99F) / 256F;
-		}
+		double d3 = i.getInterpolatedU(block.minX < 0 || block.maxX > 1 ? 0 : block.minX * 16);
+		double d4 = i.getInterpolatedU(block.minX < 0 || block.maxX > 1 ? 15.99 : block.maxX * 16 - 0.01);
+		double d5 = i.getInterpolatedV(block.minY < 0 || block.maxY > 1 ? 0 : block.minY * 16);
+		double d6 = i.getInterpolatedV(block.minY < 0 || block.maxY > 1 ? 15.99 : block.maxY * 16 - 0.01);
 		double d8 = d + block.minX;
 		double d9 = d1 + block.minY;
 		double d10 = d1 + block.maxY;
@@ -326,24 +268,13 @@ public class RenderEntityBlock extends Render {
 		tessellator.addVertexWithUV(d8, d9, d12, d4, d6);
 	}
 
-	public static void renderSouthFace(BlockInterface block, double d, double d1, double d2, int i) {
+	public static void renderSouthFace(BlockInterface block, double d, double d1, double d2, Icon i) {
 		Tessellator tessellator = Tessellator.instance;
 
-		int j = (i & 0xf) << 4;
-		int k = i & 0xf0;
-		double d3 = (j + block.minZ * 16D) / 256D;
-		double d4 = ((j + block.maxZ * 16D) - 0.01D) / 256D;
-		double d5 = (k + block.minY * 16D) / 256D;
-		double d6 = ((k + block.maxY * 16D) - 0.01D) / 256D;
-
-		if (block.minZ < 0.0D || block.maxZ > 1.0D) {
-			d3 = (j + 0.0F) / 256F;
-			d4 = (j + 15.99F) / 256F;
-		}
-		if (block.minY < 0.0D || block.maxY > 1.0D) {
-			d5 = (k + 0.0F) / 256F;
-			d6 = (k + 15.99F) / 256F;
-		}
+		double d3 = i.getInterpolatedU(block.minX < 0 || block.maxX > 1 ? 0 : block.minX * 16);
+		double d4 = i.getInterpolatedU(block.minX < 0 || block.maxX > 1 ? 15.99 : block.maxX * 16 - 0.01);
+		double d5 = i.getInterpolatedV(block.minY < 0 || block.maxY > 1 ? 0 : block.minY * 16);
+		double d6 = i.getInterpolatedV(block.minY < 0 || block.maxY > 1 ? 15.99 : block.maxY * 16 - 0.01);
 		double d8 = d + block.maxX;
 		double d9 = d1 + block.minY;
 		double d10 = d1 + block.maxY;

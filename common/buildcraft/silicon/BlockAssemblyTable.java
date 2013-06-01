@@ -2,12 +2,17 @@ package buildcraft.silicon;
 
 import java.util.ArrayList;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import buildcraft.BuildCraftSilicon;
 import buildcraft.core.DefaultProps;
@@ -59,26 +64,31 @@ public class BlockAssemblyTable extends BlockContainer {
 		Utils.preDestroyBlock(world, x, y, z);
 		super.breakBlock(world, x, y, z, par5, par6);
 	}
+	
+	private Icon texTop, texBottom, texSide;
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister r) {
+		texTop = r.registerIcon(DefaultProps.ICON_PREFIX + "assembly-table-top");
+		texBottom = r.registerIcon(DefaultProps.ICON_PREFIX + "assembly-table-bottom");
+		texSide = r.registerIcon(DefaultProps.ICON_PREFIX + "assembly-table-side");
+	}
 
 	@Override
-	public int getBlockTextureFromSideAndMetadata(int i, int j) {
+	public Icon getIcon(int i, int j) {
 		if (i == 1) {
-			return 16 * 6 + 12;
+			return texTop;
 		} else if (i == 0) {
-			return 16 * 2 + 15;
+			return texBottom;
 		} else {
-			return 16 * 6 + 11;
+			return texSide;
 		}
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World var1) {
 		return new TileAssemblyTable();
-	}
-
-	@Override
-	public String getTextureFile() {
-		return DefaultProps.TEXTURE_BLOCKS;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })

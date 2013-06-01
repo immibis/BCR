@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
@@ -52,7 +53,7 @@ public class PacketHandlerSilicon implements IPacketHandler {
 
 	private void onSelectionUpdate(EntityPlayer player, PacketUpdate packet) {
 
-		Container container = player.craftingInventory;
+		Container container = player.openContainer;
 
 		if (container instanceof ContainerAssemblyTable) {
 			SelectionMessage message = new SelectionMessage();

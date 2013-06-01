@@ -197,7 +197,7 @@ public class BuildCraftBuilders {
 		LanguageRegistry.addName(blueprintItem, "Blueprint");
 
 		markerBlock = new BlockMarker(markerId.getInt());
-		CoreProxy.proxy.registerBlock(markerBlock.setUnlocalizedName("markerBlock"));
+		CoreProxy.proxy.registerBlock(markerBlock.setUnlocalizedName(DefaultProps.ICON_PREFIX + "landmark"));
 		CoreProxy.proxy.addName(markerBlock, "Land Mark");
 
 		pathMarkerBlock = new BlockPathMarker(pathMarkerId.getInt());

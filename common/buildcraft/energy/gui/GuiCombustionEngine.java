@@ -12,8 +12,7 @@ package buildcraft.energy.gui;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Item;
-import net.minecraftforge.client.ForgeHooksClient;
-
+import net.minecraft.util.Icon;
 import org.lwjgl.opengl.GL11;
 
 import buildcraft.core.DefaultProps;
@@ -54,20 +53,15 @@ public class GuiCombustionEngine extends GuiEngine {
 	}
 
 	private void displayGauge(int j, int k, int line, int col, int squaled, int liquidId) {
-		int liquidImgIndex = 0;
+		Icon liquidImgIndex = null;
 
 		if (liquidId < Block.blocksList.length && Block.blocksList[liquidId] != null) {
-			ForgeHooksClient.bindTexture(Block.blocksList[liquidId].getTextureFile(), 0);
-			liquidImgIndex = Block.blocksList[liquidId].blockIndexInTexture;
+			liquidImgIndex = Block.blocksList[liquidId].getBlockTextureFromSide(0);
 		} else if (Item.itemsList[liquidId] != null) {
-			ForgeHooksClient.bindTexture(Item.itemsList[liquidId].getTextureFile(), 0);
 			liquidImgIndex = Item.itemsList[liquidId].getIconFromDamage(0);
 		} else {
 			return;			
 		}
-
-		int imgLine = liquidImgIndex / 16;
-		int imgColumn = liquidImgIndex - imgLine * 16;
 
 		int start = 0;
 
@@ -81,8 +75,9 @@ public class GuiCombustionEngine extends GuiEngine {
 				x = squaled;
 				squaled = 0;
 			}
-
-			drawTexturedModalRect(j + col, k + line + 58 - x - start, imgColumn * 16, imgLine * 16 + (16 - x), 16, 16 - (16 - x));
+			
+			super.drawTexturedModalRectFromIconWithoutScaling(j + col, k + line + 58 - x - start, liquidImgIndex, 16, 16 - (16 - x));
+			
 			start = start + 16;
 
 			if (x == 0 || squaled == 0)

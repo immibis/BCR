@@ -9,23 +9,11 @@
 
 package buildcraft.transport.pipes;
 
-import buildcraft.api.core.Orientations;
-import buildcraft.core.DefaultProps;
 import buildcraft.transport.Pipe;
 import buildcraft.transport.PipeTransportItems;
 
 public class PipeItemsSandstone extends Pipe{
 	public PipeItemsSandstone(int itemID) {
 		super(new PipeTransportItems(), new PipeLogicSandstone(), itemID);
-	}
-	 
-	@Override
-	public String getTextureFile() {
-		return DefaultProps.TEXTURE_BLOCKS;
-	}
-	
-	@Override
-	public int getTextureIndex(Orientations direction) {
-		return 8 * 16 + 15;
 	}
 }
