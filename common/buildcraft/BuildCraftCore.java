@@ -144,27 +144,27 @@ public class BuildCraftCore {
 			stripesLaserTexture = 0 * 16 + 3;
 			transparentTexture = 0 * 16 + 0;
 
-			Property continuousCurrent = BuildCraftCore.mainConfiguration.getOrCreateBooleanProperty("current.continuous", Configuration.CATEGORY_GENERAL, DefaultProps.CURRENT_CONTINUOUS);
+			Property continuousCurrent = BuildCraftCore.mainConfiguration.get("current.continuous", Configuration.CATEGORY_GENERAL, DefaultProps.CURRENT_CONTINUOUS);
 			continuousCurrent.comment = "set to true for allowing machines to be driven by continuous current";
 			continuousCurrentModel = continuousCurrent.getBoolean(DefaultProps.CURRENT_CONTINUOUS);
 
-			Property trackNetwork = BuildCraftCore.mainConfiguration.getOrCreateBooleanProperty("trackNetworkUsage", Configuration.CATEGORY_GENERAL, false);
+			Property trackNetwork = BuildCraftCore.mainConfiguration.get("trackNetworkUsage", Configuration.CATEGORY_GENERAL, false);
 			trackNetworkUsage = trackNetwork.getBoolean(false);
 
-			Property dropBlock = BuildCraftCore.mainConfiguration.getOrCreateBooleanProperty("dropBrokenBlocks", Configuration.CATEGORY_GENERAL, true);
+			Property dropBlock = BuildCraftCore.mainConfiguration.get("dropBrokenBlocks", Configuration.CATEGORY_GENERAL, true);
 			dropBlock.comment = "set to false to prevent fillers from dropping blocks.";
 			dropBrokenBlocks = dropBlock.getBoolean(true);
 
-			Property powerFrameworkClass = BuildCraftCore.mainConfiguration.getOrCreateProperty("power.framework", Configuration.CATEGORY_GENERAL, "buildcraft.energy.PneumaticPowerFramework");
+			Property powerFrameworkClass = BuildCraftCore.mainConfiguration.get("power.framework", Configuration.CATEGORY_GENERAL, "buildcraft.energy.PneumaticPowerFramework");
 
-			Property factor = BuildCraftCore.mainConfiguration.getOrCreateIntProperty("network.updateFactor", Configuration.CATEGORY_GENERAL, 10);
+			Property factor = BuildCraftCore.mainConfiguration.get("network.updateFactor", Configuration.CATEGORY_GENERAL, 10);
 			factor.comment = "increasing this number will decrease network update frequency, useful for overloaded servers";
 			updateFactor = factor.getInt(10);
 
 			String powerFrameworkClassName = "buildcraft.energy.PneumaticPowerFramework";
 			if (!forcePneumaticPower)
 			{
-				powerFrameworkClassName = powerFrameworkClass.value;
+				powerFrameworkClassName = powerFrameworkClass.getString();
 			}
 			try {
 				PowerFramework.currentFramework = (PowerFramework) Class.forName(powerFrameworkClassName).getConstructor().newInstance();
@@ -173,34 +173,34 @@ public class BuildCraftCore {
 				PowerFramework.currentFramework = new RedstonePowerFramework();
 			}
 
-			Property wrenchId = BuildCraftCore.mainConfiguration.getOrCreateIntProperty("wrench.id", Configuration.CATEGORY_ITEM, DefaultProps.WRENCH_ID);
+			Property wrenchId = BuildCraftCore.mainConfiguration.get("wrench.id", Configuration.CATEGORY_ITEM, DefaultProps.WRENCH_ID);
 
 			wrenchItem = (new ItemWrench(wrenchId.getInt(DefaultProps.WRENCH_ID))).setIconIndex(0 * 16 + 2).setItemName("wrenchItem");
 			LanguageRegistry.addName(wrenchItem, "Wrench");
 
-			Property woodenGearId = BuildCraftCore.mainConfiguration.getOrCreateIntProperty("woodenGearItem.id", Configuration.CATEGORY_ITEM, DefaultProps.WOODEN_GEAR_ID);
-			Property stoneGearId = BuildCraftCore.mainConfiguration.getOrCreateIntProperty("stoneGearItem.id", Configuration.CATEGORY_ITEM, DefaultProps.STONE_GEAR_ID);
-			Property ironGearId = BuildCraftCore.mainConfiguration.getOrCreateIntProperty("ironGearItem.id", Configuration.CATEGORY_ITEM, DefaultProps.IRON_GEAR_ID);
-			Property goldenGearId = BuildCraftCore.mainConfiguration.getOrCreateIntProperty("goldenGearItem.id", Configuration.CATEGORY_ITEM, DefaultProps.GOLDEN_GEAR_ID);
-			Property diamondGearId = BuildCraftCore.mainConfiguration.getOrCreateIntProperty("diamondGearItem.id", Configuration.CATEGORY_ITEM, DefaultProps.DIAMOND_GEAR_ID);
-			Property modifyWorld = BuildCraftCore.mainConfiguration.getOrCreateBooleanProperty("modifyWorld", Configuration.CATEGORY_GENERAL, true);
+			Property woodenGearId = BuildCraftCore.mainConfiguration.get("woodenGearItem.id", Configuration.CATEGORY_ITEM, DefaultProps.WOODEN_GEAR_ID);
+			Property stoneGearId = BuildCraftCore.mainConfiguration.get("stoneGearItem.id", Configuration.CATEGORY_ITEM, DefaultProps.STONE_GEAR_ID);
+			Property ironGearId = BuildCraftCore.mainConfiguration.get("ironGearItem.id", Configuration.CATEGORY_ITEM, DefaultProps.IRON_GEAR_ID);
+			Property goldenGearId = BuildCraftCore.mainConfiguration.get("goldenGearItem.id", Configuration.CATEGORY_ITEM, DefaultProps.GOLDEN_GEAR_ID);
+			Property diamondGearId = BuildCraftCore.mainConfiguration.get("diamondGearItem.id", Configuration.CATEGORY_ITEM, DefaultProps.DIAMOND_GEAR_ID);
+			Property modifyWorld = BuildCraftCore.mainConfiguration.get("modifyWorld", Configuration.CATEGORY_GENERAL, true);
 			modifyWorld.comment = "set to false if BuildCraft should not generate custom blocks (e.g. oil)";
 
 			BuildCraftCore.modifyWorld = modifyWorld.getBoolean(true);
 
-			woodenGearItem = (new ItemBuildCraft(Integer.parseInt(woodenGearId.value))).setIconIndex(1 * 16 + 0).setItemName("woodenGearItem");
+			woodenGearItem = (new ItemBuildCraft(woodenGearId.getInt() - 256)).setIconIndex(1 * 16 + 0).setItemName("woodenGearItem");
 			LanguageRegistry.addName(woodenGearItem, "Wooden Gear");
 
-			stoneGearItem = (new ItemBuildCraft(Integer.parseInt(stoneGearId.value))).setIconIndex(1 * 16 + 1).setItemName("stoneGearItem");
+			stoneGearItem = (new ItemBuildCraft(stoneGearId.getInt() - 256)).setIconIndex(1 * 16 + 1).setItemName("stoneGearItem");
 			LanguageRegistry.addName(stoneGearItem, "Stone Gear");
 
-			ironGearItem = (new ItemBuildCraft(Integer.parseInt(ironGearId.value))).setIconIndex(1 * 16 + 2).setItemName("ironGearItem");
+			ironGearItem = (new ItemBuildCraft(ironGearId.getInt() - 256)).setIconIndex(1 * 16 + 2).setItemName("ironGearItem");
 			LanguageRegistry.addName(ironGearItem, "Iron Gear");
 
-			goldGearItem = (new ItemBuildCraft(Integer.parseInt(goldenGearId.value))).setIconIndex(1 * 16 + 3).setItemName("goldGearItem");
+			goldGearItem = (new ItemBuildCraft(goldenGearId.getInt() - 256)).setIconIndex(1 * 16 + 3).setItemName("goldGearItem");
 			LanguageRegistry.addName(goldGearItem, "Gold Gear");
 
-			diamondGearItem = (new ItemBuildCraft(Integer.parseInt(diamondGearId.value))).setIconIndex(1 * 16 + 4).setItemName("diamondGearItem");
+			diamondGearItem = (new ItemBuildCraft(diamondGearId.getInt() - 256)).setIconIndex(1 * 16 + 4).setItemName("diamondGearItem");
 			LanguageRegistry.addName(diamondGearItem, "Diamond Gear");
 		}
 		finally

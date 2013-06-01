@@ -154,7 +154,7 @@ public class BuildCraftTransport {
 	         int meta = world.getBlockMetadata(i, j, k);
 
 	         for (String excluded : excludedBlocks) {
-	            if (excluded.equals(block.getBlockName()))
+	            if (excluded.equals(block.getUnlocalizedName()))
 	               return false;
 
 	            String[] tokens = excluded.split(":");
@@ -172,25 +172,25 @@ public class BuildCraftTransport {
 	{
 		try
 		{
-			Property alwaysConnect = BuildCraftCore.mainConfiguration.getOrCreateBooleanProperty("pipes.alwaysConnect", Configuration.CATEGORY_GENERAL, DefaultProps.PIPES_ALWAYS_CONNECT);
+			Property alwaysConnect = BuildCraftCore.mainConfiguration.get("pipes.alwaysConnect", Configuration.CATEGORY_GENERAL, DefaultProps.PIPES_ALWAYS_CONNECT);
 			alwaysConnect.comment = "set to false to deactivate pipe connection rules, true by default";
 			alwaysConnectPipes = alwaysConnect.getBoolean(DefaultProps.PIPES_ALWAYS_CONNECT);
 
-			Property pipeLoss = BuildCraftCore.mainConfiguration.getOrCreateBooleanProperty("power.usePipeLoss", Configuration.CATEGORY_GENERAL, DefaultProps.USE_PIPELOSS);
+			Property pipeLoss = BuildCraftCore.mainConfiguration.get("power.usePipeLoss", Configuration.CATEGORY_GENERAL, DefaultProps.USE_PIPELOSS);
 			pipeLoss.comment = "Set to false to turn off energy loss over distance on all power pipes";
 			usePipeLoss = pipeLoss.getBoolean(DefaultProps.USE_PIPELOSS);
 
-			Property exclusionItemList = BuildCraftCore.mainConfiguration.getOrCreateProperty("woodenPipe.item.exclusion", Configuration.CATEGORY_BLOCK, "");
+			Property exclusionItemList = BuildCraftCore.mainConfiguration.get("woodenPipe.item.exclusion", Configuration.CATEGORY_BLOCK, "");
 
-			String[] excludedItemBlocks = exclusionItemList.value.split(",");
+			String[] excludedItemBlocks = exclusionItemList.getString().split(",");
 			for (int j = 0; j < excludedItemBlocks.length; ++j)
 			{
 				excludedItemBlocks[j] = excludedItemBlocks[j].trim();
 			}
 
-			Property exclusionLiquidList = BuildCraftCore.mainConfiguration.getOrCreateProperty("woodenPipe.liquid.exclusion", Configuration.CATEGORY_BLOCK, "");
+			Property exclusionLiquidList = BuildCraftCore.mainConfiguration.get("woodenPipe.liquid.exclusion", Configuration.CATEGORY_BLOCK, "");
 
-			String[] excludedLiquidBlocks = exclusionLiquidList.value.split(",");
+			String[] excludedLiquidBlocks = exclusionLiquidList.getString().split(",");
 			for (int j = 0; j < excludedLiquidBlocks.length; ++j)
 			{
 				excludedLiquidBlocks[j] = excludedLiquidBlocks[j].trim();
@@ -198,25 +198,25 @@ public class BuildCraftTransport {
 
 			PipeManager.registerExtractionHandler(new ExtractionHandler(excludedItemBlocks, excludedLiquidBlocks));
 
-			Property maxItemInPipesProp = BuildCraftCore.mainConfiguration.getOrCreateIntProperty("pipes.maxItems", Configuration.CATEGORY_GENERAL, 100);
+			Property maxItemInPipesProp = BuildCraftCore.mainConfiguration.get("pipes.maxItems", Configuration.CATEGORY_GENERAL, 100);
 			maxItemInPipesProp.comment = "pipes containing more than this amount of items will explode, not dropping any item";
 
-			maxItemsInPipes = Integer.parseInt(maxItemInPipesProp.value);
+			maxItemsInPipes = maxItemInPipesProp.getInt();
 
-			Property groupItemsTriggerProp = BuildCraftCore.mainConfiguration.getOrCreateIntProperty("pipes.groupItemsTrigger", Configuration.CATEGORY_GENERAL, 32);
+			Property groupItemsTriggerProp = BuildCraftCore.mainConfiguration.get("pipes.groupItemsTrigger", Configuration.CATEGORY_GENERAL, 32);
 			groupItemsTriggerProp.comment = "when reaching this amount of objects in a pipes, items will be automatically grouped";
 
-			groupItemsTrigger = Integer.parseInt(groupItemsTriggerProp.value);
+			groupItemsTrigger = groupItemsTriggerProp.getInt();
 
-			Property genericPipeId = BuildCraftCore.mainConfiguration.getOrCreateBlockIdProperty("pipe.id", DefaultProps.GENERIC_PIPE_ID);
+			Property genericPipeId = BuildCraftCore.mainConfiguration.getBlock("pipe.id", DefaultProps.GENERIC_PIPE_ID);
 
-			Property pipeWaterproofId = BuildCraftCore.mainConfiguration.getOrCreateIntProperty("pipeWaterproof.id", Configuration.CATEGORY_ITEM, DefaultProps.PIPE_WATERPROOF_ID);
+			Property pipeWaterproofId = BuildCraftCore.mainConfiguration.get("pipeWaterproof.id", Configuration.CATEGORY_ITEM, DefaultProps.PIPE_WATERPROOF_ID);
 
-			pipeWaterproof = new ItemBuildCraft(Integer.parseInt(pipeWaterproofId.value)).setIconIndex(2 * 16 + 1);
+			pipeWaterproof = new ItemBuildCraft(pipeWaterproofId.getInt() - 256).setIconIndex(2 * 16 + 1);
 			pipeWaterproof.setUnlocalizedName("pipeWaterproof");
 			pipeWaterproof.setCreativeTab(CreativeTabs.tabMaterials);
 			LanguageRegistry.addName(pipeWaterproof, "Pipe Waterproof");
-			genericPipeBlock = new BlockGenericPipe(Integer.parseInt(genericPipeId.value));
+			genericPipeBlock = new BlockGenericPipe(genericPipeId.getInt());
 			GameRegistry.registerBlock(genericPipeBlock);
 
 			// Fixing retro-compatiblity
@@ -287,44 +287,44 @@ public class BuildCraftTransport {
 			diamondTextures[j] = 1 * 16 + 6 + j;
 		}
 
-		Property redPipeWireId = BuildCraftCore.mainConfiguration.getOrCreateIntProperty("redPipeWire.id", Configuration.CATEGORY_ITEM, DefaultProps.RED_PIPE_WIRE);
-		redPipeWire = new ItemBuildCraft(Integer.parseInt(redPipeWireId.value)).setIconIndex(4 * 16 + 0).setCreativeTab(CreativeTabs.tabRedstone);
+		Property redPipeWireId = BuildCraftCore.mainConfiguration.get("redPipeWire.id", Configuration.CATEGORY_ITEM, DefaultProps.RED_PIPE_WIRE);
+		redPipeWire = new ItemBuildCraft(redPipeWireId.getInt() - 256).setIconIndex(4 * 16 + 0).setCreativeTab(CreativeTabs.tabRedstone);
 		redPipeWire.setUnlocalizedName("redPipeWire");
 		LanguageRegistry.addName(redPipeWire, "Red Pipe Wire");
 		AssemblyRecipe.assemblyRecipes.add(new AssemblyRecipe(new ItemStack[] { new ItemStack(Item.dyePowder, 1, 1),
 				new ItemStack(Item.redstone, 1), new ItemStack(Item.ingotIron, 1) }, 500, new ItemStack(redPipeWire, 8)));
 
-		Property bluePipeWireId = BuildCraftCore.mainConfiguration.getOrCreateIntProperty("bluePipeWire.id", Configuration.CATEGORY_ITEM, DefaultProps.BLUE_PIPE_WIRE);
-		bluePipeWire = new ItemBuildCraft(Integer.parseInt(bluePipeWireId.value)).setIconIndex(4 * 16 + 1).setCreativeTab(CreativeTabs.tabRedstone);
+		Property bluePipeWireId = BuildCraftCore.mainConfiguration.get("bluePipeWire.id", Configuration.CATEGORY_ITEM, DefaultProps.BLUE_PIPE_WIRE);
+		bluePipeWire = new ItemBuildCraft(bluePipeWireId.getInt() - 256).setIconIndex(4 * 16 + 1).setCreativeTab(CreativeTabs.tabRedstone);
 		bluePipeWire.setUnlocalizedName("bluePipeWire");
 		LanguageRegistry.addName(bluePipeWire, "Blue Pipe Wire");
 		AssemblyRecipe.assemblyRecipes.add(new AssemblyRecipe(new ItemStack[] { new ItemStack(Item.dyePowder, 1, 4),
 				new ItemStack(Item.redstone, 1), new ItemStack(Item.ingotIron, 1) }, 500, new ItemStack(bluePipeWire, 8)));
 
-		Property greenPipeWireId = BuildCraftCore.mainConfiguration.getOrCreateIntProperty("greenPipeWire.id", Configuration.CATEGORY_ITEM, DefaultProps.GREEN_PIPE_WIRE);
-		greenPipeWire = new ItemBuildCraft(Integer.parseInt(greenPipeWireId.value)).setIconIndex(4 * 16 + 2).setCreativeTab(CreativeTabs.tabRedstone);
+		Property greenPipeWireId = BuildCraftCore.mainConfiguration.get("greenPipeWire.id", Configuration.CATEGORY_ITEM, DefaultProps.GREEN_PIPE_WIRE);
+		greenPipeWire = new ItemBuildCraft(greenPipeWireId.getInt() - 256).setIconIndex(4 * 16 + 2).setCreativeTab(CreativeTabs.tabRedstone);
 		greenPipeWire.setUnlocalizedName("greenPipeWire");
 		LanguageRegistry.addName(greenPipeWire, "Green Pipe Wire");
 		AssemblyRecipe.assemblyRecipes.add(new AssemblyRecipe(new ItemStack[] { new ItemStack(Item.dyePowder, 1, 2),
 				new ItemStack(Item.redstone, 1), new ItemStack(Item.ingotIron, 1) }, 500, new ItemStack(greenPipeWire, 8)));
 
-		Property yellowPipeWireId = BuildCraftCore.mainConfiguration.getOrCreateIntProperty("yellowPipeWire.id", Configuration.CATEGORY_ITEM, DefaultProps.YELLOW_PIPE_WIRE);
-		yellowPipeWire = new ItemBuildCraft(Integer.parseInt(yellowPipeWireId.value)).setIconIndex(4 * 16 + 3).setCreativeTab(CreativeTabs.tabRedstone);
+		Property yellowPipeWireId = BuildCraftCore.mainConfiguration.get("yellowPipeWire.id", Configuration.CATEGORY_ITEM, DefaultProps.YELLOW_PIPE_WIRE);
+		yellowPipeWire = new ItemBuildCraft(yellowPipeWireId.getInt() - 256).setIconIndex(4 * 16 + 3).setCreativeTab(CreativeTabs.tabRedstone);
 		yellowPipeWire.setUnlocalizedName("yellowPipeWire");
 		LanguageRegistry.addName(yellowPipeWire, "Yellow Pipe Wire");
 		AssemblyRecipe.assemblyRecipes.add(new AssemblyRecipe(new ItemStack[] { new ItemStack(Item.dyePowder, 1, 11),
 				new ItemStack(Item.redstone, 1), new ItemStack(Item.ingotIron, 1) }, 500, new ItemStack(yellowPipeWire, 8)));
 
-		Property pipeGateId = BuildCraftCore.mainConfiguration.getOrCreateIntProperty("pipeGate.id", Configuration.CATEGORY_ITEM, DefaultProps.GATE_ID);
-		pipeGate = new ItemGate(Integer.parseInt(pipeGateId.value), 0).setIconIndex(2 * 16 + 3);
+		Property pipeGateId = BuildCraftCore.mainConfiguration.get("pipeGate.id", Configuration.CATEGORY_ITEM, DefaultProps.GATE_ID);
+		pipeGate = new ItemGate(pipeGateId.getInt() - 256, 0).setIconIndex(2 * 16 + 3);
 		pipeGate.setUnlocalizedName("pipeGate");
 
-		Property pipeGateAutarchicId = BuildCraftCore.mainConfiguration.getOrCreateIntProperty("pipeGateAutarchic.id", Configuration.CATEGORY_ITEM, DefaultProps.GATE_AUTARCHIC_ID);
-		pipeGateAutarchic = new ItemGate(Integer.parseInt(pipeGateAutarchicId.value), 1).setIconIndex(2 * 16 + 3);
+		Property pipeGateAutarchicId = BuildCraftCore.mainConfiguration.get("pipeGateAutarchic.id", Configuration.CATEGORY_ITEM, DefaultProps.GATE_AUTARCHIC_ID);
+		pipeGateAutarchic = new ItemGate(pipeGateAutarchicId.getInt() - 256, 1).setIconIndex(2 * 16 + 3);
 		pipeGateAutarchic.setUnlocalizedName("pipeGateAutarchic");
 
-		Property pipeFacadeId = BuildCraftCore.mainConfiguration.getOrCreateIntProperty("pipeFacade.id", Configuration.CATEGORY_ITEM, DefaultProps.PIPE_FACADE_ID);
-		facadeItem = new ItemFacade(Integer.parseInt(pipeFacadeId.value));
+		Property pipeFacadeId = BuildCraftCore.mainConfiguration.get("pipeFacade.id", Configuration.CATEGORY_ITEM, DefaultProps.PIPE_FACADE_ID);
+		facadeItem = new ItemFacade(pipeFacadeId.getInt() - 256);
 		facadeItem.setUnlocalizedName("pipeFacade");
 		ItemFacade.initialize();
 
@@ -371,10 +371,10 @@ public class BuildCraftTransport {
 	private static Item createPipe(int defaultID, Class<? extends Pipe> clas, String descr, Object ingredient1, Object ingredient2, Object ingredient3) {
 		String name = Character.toLowerCase(clas.getSimpleName().charAt(0)) + clas.getSimpleName().substring(1);
 
-		Property prop = BuildCraftCore.mainConfiguration.getOrCreateIntProperty(name + ".id", Configuration.CATEGORY_ITEM, defaultID);
+		Property prop = BuildCraftCore.mainConfiguration.get(name + ".id", Configuration.CATEGORY_ITEM, defaultID);
 
 		int id = prop.getInt(defaultID);
-		ItemPipe res = BlockGenericPipe.registerPipe(id, clas);
+		ItemPipe res = BlockGenericPipe.registerPipe(id - 256, clas);
 		res.setUnlocalizedName(clas.getSimpleName());
 		LanguageRegistry.addName(res, descr);
 

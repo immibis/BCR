@@ -90,56 +90,56 @@ public class BuildCraftFactory {
 
 	@PreInit
 	public void initialize(FMLPreInitializationEvent evt) {
-		allowMining = Boolean.parseBoolean(BuildCraftCore.mainConfiguration.getOrCreateBooleanProperty("mining.enabled", Configuration.CATEGORY_GENERAL, true).value);
+		allowMining = BuildCraftCore.mainConfiguration.get("mining.enabled", Configuration.CATEGORY_GENERAL, true).getBoolean(true);
 
-		Property minigWellId = BuildCraftCore.mainConfiguration.getOrCreateBlockIdProperty("miningWell.id", DefaultProps.MINING_WELL_ID);
-		Property plainPipeId = BuildCraftCore.mainConfiguration.getOrCreateBlockIdProperty("drill.id", DefaultProps.DRILL_ID);
-		Property autoWorkbenchId = BuildCraftCore.mainConfiguration.getOrCreateBlockIdProperty("autoWorkbench.id", DefaultProps.AUTO_WORKBENCH_ID);
-		Property frameId = BuildCraftCore.mainConfiguration.getOrCreateBlockIdProperty("frame.id", DefaultProps.FRAME_ID);
-		Property quarryId = BuildCraftCore.mainConfiguration.getOrCreateBlockIdProperty("quarry.id", DefaultProps.QUARRY_ID);
-		Property pumpId = BuildCraftCore.mainConfiguration.getOrCreateBlockIdProperty("pump.id", DefaultProps.PUMP_ID);
-		Property tankId = BuildCraftCore.mainConfiguration.getOrCreateBlockIdProperty("tank.id", DefaultProps.TANK_ID);
-		Property refineryId = BuildCraftCore.mainConfiguration.getOrCreateBlockIdProperty("refinery.id", DefaultProps.REFINERY_ID);
-		Property hopperId = BuildCraftCore.mainConfiguration.getOrCreateBlockIdProperty("hopper.id", DefaultProps.HOPPER_ID);
-		Property hopperDisable = BuildCraftCore.mainConfiguration.getOrCreateBooleanProperty("hopper.disabled", "Block Savers", false);
+		Property minigWellId = BuildCraftCore.mainConfiguration.getBlock("miningWell.id", DefaultProps.MINING_WELL_ID);
+		Property plainPipeId = BuildCraftCore.mainConfiguration.getBlock("drill.id", DefaultProps.DRILL_ID);
+		Property autoWorkbenchId = BuildCraftCore.mainConfiguration.getBlock("autoWorkbench.id", DefaultProps.AUTO_WORKBENCH_ID);
+		Property frameId = BuildCraftCore.mainConfiguration.getBlock("frame.id", DefaultProps.FRAME_ID);
+		Property quarryId = BuildCraftCore.mainConfiguration.getBlock("quarry.id", DefaultProps.QUARRY_ID);
+		Property pumpId = BuildCraftCore.mainConfiguration.getBlock("pump.id", DefaultProps.PUMP_ID);
+		Property tankId = BuildCraftCore.mainConfiguration.getBlock("tank.id", DefaultProps.TANK_ID);
+		Property refineryId = BuildCraftCore.mainConfiguration.getBlock("refinery.id", DefaultProps.REFINERY_ID);
+		Property hopperId = BuildCraftCore.mainConfiguration.getBlock("hopper.id", DefaultProps.HOPPER_ID);
+		Property hopperDisable = BuildCraftCore.mainConfiguration.get("hopper.disabled", "Block Savers", false);
 
 		BuildCraftCore.mainConfiguration.save();
 
-		miningWellBlock = new BlockMiningWell(Integer.parseInt(minigWellId.value));
+		miningWellBlock = new BlockMiningWell(minigWellId.getInt());
 		CoreProxy.proxy.registerBlock(miningWellBlock.setUnlocalizedName("miningWellBlock"));
 		CoreProxy.proxy.addName(miningWellBlock, "Mining Well");
 
-		plainPipeBlock = new BlockPlainPipe(Integer.parseInt(plainPipeId.value));
+		plainPipeBlock = new BlockPlainPipe(plainPipeId.getInt());
 		CoreProxy.proxy.registerBlock(plainPipeBlock.setUnlocalizedName("plainPipeBlock"));
 		CoreProxy.proxy.addName(plainPipeBlock, "Mining Pipe");
 
-		autoWorkbenchBlock = new BlockAutoWorkbench(Integer.parseInt(autoWorkbenchId.value));
+		autoWorkbenchBlock = new BlockAutoWorkbench(autoWorkbenchId.getInt());
 		CoreProxy.proxy.registerBlock(autoWorkbenchBlock.setUnlocalizedName("autoWorkbenchBlock"));
 		CoreProxy.proxy.addName(autoWorkbenchBlock, "Automatic Crafting Table");
 
-		frameBlock = new BlockFrame(Integer.parseInt(frameId.value));
+		frameBlock = new BlockFrame(frameId.getInt());
 		CoreProxy.proxy.registerBlock(frameBlock.setUnlocalizedName("frameBlock"));
 		CoreProxy.proxy.addName(frameBlock, "Frame");
 
-		quarryBlock = new BlockQuarry(Integer.parseInt(quarryId.value));
+		quarryBlock = new BlockQuarry(quarryId.getInt());
 		CoreProxy.proxy.registerBlock(quarryBlock.setUnlocalizedName("machineBlock"));
 		CoreProxy.proxy.addName(quarryBlock, "Quarry");
 
-		tankBlock = new BlockTank(Integer.parseInt(tankId.value));
+		tankBlock = new BlockTank(tankId.getInt());
 		CoreProxy.proxy.registerBlock(tankBlock.setUnlocalizedName("tankBlock"));
 		CoreProxy.proxy.addName(tankBlock, "Tank");
 
-		pumpBlock = new BlockPump(Integer.parseInt(pumpId.value));
+		pumpBlock = new BlockPump(pumpId.getInt());
 		CoreProxy.proxy.registerBlock(pumpBlock.setUnlocalizedName("pumpBlock"));
 		CoreProxy.proxy.addName(pumpBlock, "Pump");
 
-		refineryBlock = new BlockRefinery(Integer.parseInt(refineryId.value));
+		refineryBlock = new BlockRefinery(refineryId.getInt());
 		CoreProxy.proxy.registerBlock(refineryBlock.setUnlocalizedName("refineryBlock"));
 		CoreProxy.proxy.addName(refineryBlock, "Refinery");
 
-		hopperDisabled = Boolean.parseBoolean(hopperDisable.value);
+		hopperDisabled = hopperDisable.getBoolean(false);
 		if (!hopperDisabled) {
-			hopperBlock = new BlockHopper(Integer.parseInt(hopperId.value));
+			hopperBlock = new BlockHopper(hopperId.getInt());
 			CoreProxy.proxy.registerBlock(hopperBlock.setUnlocalizedName("blockHopper"));
 			CoreProxy.proxy.addName(hopperBlock, "Hopper");
 		}

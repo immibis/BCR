@@ -59,23 +59,23 @@ public class BuildCraftSilicon {
 
 	@PreInit
 	public void initialize(FMLPreInitializationEvent evt) {
-		Property laserId = BuildCraftCore.mainConfiguration.getOrCreateBlockIdProperty("laser.id", DefaultProps.LASER_ID);
+		Property laserId = BuildCraftCore.mainConfiguration.getBlock("laser.id", DefaultProps.LASER_ID);
 
-		Property assemblyTableId = BuildCraftCore.mainConfiguration.getOrCreateBlockIdProperty("assemblyTable.id", DefaultProps.ASSEMBLY_TABLE_ID);
+		Property assemblyTableId = BuildCraftCore.mainConfiguration.getBlock("assemblyTable.id", DefaultProps.ASSEMBLY_TABLE_ID);
 		
-		Property redstoneChipsetId = BuildCraftCore.mainConfiguration.getOrCreateIntProperty("redstoneChipset.id", Configuration.CATEGORY_ITEM, DefaultProps.REDSTONE_CHIPSET);
+		Property redstoneChipsetId = BuildCraftCore.mainConfiguration.get("redstoneChipset.id", Configuration.CATEGORY_ITEM, DefaultProps.REDSTONE_CHIPSET);
 
 		BuildCraftCore.mainConfiguration.save();
 
-		laserBlock = new BlockLaser(Integer.parseInt(laserId.value));
+		laserBlock = new BlockLaser(laserId.getInt());
 		CoreProxy.proxy.addName(laserBlock.setUnlocalizedName("laserBlock"), "Laser");
 		CoreProxy.proxy.registerBlock(laserBlock);
 
-		assemblyTableBlock = new BlockAssemblyTable(Integer.parseInt(assemblyTableId.value));
+		assemblyTableBlock = new BlockAssemblyTable(assemblyTableId.getInt());
 		CoreProxy.proxy.addName(assemblyTableBlock.setUnlocalizedName("assemblyTableBlock"), "Assembly Table");
 		CoreProxy.proxy.registerBlock(assemblyTableBlock);
 
-		redstoneChipset = new ItemRedstoneChipset(Integer.parseInt(redstoneChipsetId.value));
+		redstoneChipset = new ItemRedstoneChipset(redstoneChipsetId.getInt() - 256);
 		redstoneChipset.setUnlocalizedName("redstoneChipset");
 
 	}

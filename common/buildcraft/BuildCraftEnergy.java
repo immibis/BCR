@@ -91,12 +91,12 @@ public class BuildCraftEnergy {
 
 	@PreInit
 	public void initialize(FMLPreInitializationEvent evt) {
-		Property engineId = BuildCraftCore.mainConfiguration.getOrCreateBlockIdProperty("engine.id", DefaultProps.ENGINE_ID);
-		Property oilStillId = BuildCraftCore.mainConfiguration.getOrCreateBlockIdProperty("oilStill.id", DefaultProps.OIL_STILL_ID);
-		Property oilMovingId = BuildCraftCore.mainConfiguration.getOrCreateBlockIdProperty("oilMoving.id", DefaultProps.OIL_MOVING_ID);
-		Property bucketOilId = BuildCraftCore.mainConfiguration.getOrCreateIntProperty("bucketOil.id", Configuration.CATEGORY_ITEM, DefaultProps.BUCKET_OIL_ID);
-		Property bucketFuelId = BuildCraftCore.mainConfiguration.getOrCreateIntProperty("bucketFuel.id", Configuration.CATEGORY_ITEM, DefaultProps.BUCKET_FUEL_ID);
-		Property itemFuelId = BuildCraftCore.mainConfiguration.getOrCreateIntProperty("fuel.id", Configuration.CATEGORY_ITEM, DefaultProps.FUEL_ID);
+		Property engineId = BuildCraftCore.mainConfiguration.getBlock("engine.id", DefaultProps.ENGINE_ID);
+		Property oilStillId = BuildCraftCore.mainConfiguration.getBlock("oilStill.id", DefaultProps.OIL_STILL_ID);
+		Property oilMovingId = BuildCraftCore.mainConfiguration.getBlock("oilMoving.id", DefaultProps.OIL_MOVING_ID);
+		Property bucketOilId = BuildCraftCore.mainConfiguration.get("bucketOil.id", Configuration.CATEGORY_ITEM, DefaultProps.BUCKET_OIL_ID);
+		Property bucketFuelId = BuildCraftCore.mainConfiguration.get("bucketFuel.id", Configuration.CATEGORY_ITEM, DefaultProps.BUCKET_FUEL_ID);
+		Property itemFuelId = BuildCraftCore.mainConfiguration.get("fuel.id", Configuration.CATEGORY_ITEM, DefaultProps.FUEL_ID);
 
 		BuildCraftCore.mainConfiguration.save();
 
@@ -129,7 +129,7 @@ public class BuildCraftEnergy {
 		bucketOil = (new ItemBucketOil(bucketOilId.getInt(DefaultProps.BUCKET_OIL_ID))).setUnlocalizedName("bucketOil").setContainerItem(Item.bucketEmpty);
 		LanguageRegistry.addName(bucketOil, "Oil Bucket");
 
-		bucketFuel = new ItemBuildCraft(Integer.parseInt(bucketFuelId.value)).setUnlocalizedName("bucketFuel").setContainerItem(Item.bucketEmpty);
+		bucketFuel = new ItemBuildCraft(bucketFuelId.getInt() - 256).setUnlocalizedName("bucketFuel").setContainerItem(Item.bucketEmpty);
 		bucketFuel.setIconIndex(0 * 16 + 3).setMaxStackSize(1).setCreativeTab(CreativeTabs.tabMisc);
 		LanguageRegistry.addName(bucketFuel, "Fuel Bucket");
 

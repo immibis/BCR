@@ -175,48 +175,48 @@ public class BuildCraftBuilders {
 
 	@PreInit
 	public void initialize(FMLPreInitializationEvent evt) {
-		Property templateItemId = BuildCraftCore.mainConfiguration.getOrCreateIntProperty("templateItem.id", Configuration.CATEGORY_ITEM, DefaultProps.TEMPLATE_ITEM_ID);
-		Property blueprintItemId = BuildCraftCore.mainConfiguration.getOrCreateIntProperty("blueprintItem.id", Configuration.CATEGORY_ITEM, DefaultProps.BLUEPRINT_ITEM_ID);
-		Property markerId = BuildCraftCore.mainConfiguration.getOrCreateBlockIdProperty("marker.id", DefaultProps.MARKER_ID);
-		Property pathMarkerId = BuildCraftCore.mainConfiguration.getOrCreateBlockIdProperty("pathMarker.id", DefaultProps.PATH_MARKER_ID);
-		Property fillerId = BuildCraftCore.mainConfiguration.getOrCreateBlockIdProperty("filler.id", DefaultProps.FILLER_ID);
-		Property builderId = BuildCraftCore.mainConfiguration.getOrCreateBlockIdProperty("builder.id", DefaultProps.BUILDER_ID);
-		Property architectId = BuildCraftCore.mainConfiguration.getOrCreateBlockIdProperty("architect.id", DefaultProps.ARCHITECT_ID);
-		Property libraryId = BuildCraftCore.mainConfiguration.getOrCreateBlockIdProperty("blueprintLibrary.id", DefaultProps.BLUEPRINT_LIBRARY_ID);
+		Property templateItemId = BuildCraftCore.mainConfiguration.get("templateItem.id", Configuration.CATEGORY_ITEM, DefaultProps.TEMPLATE_ITEM_ID);
+		Property blueprintItemId = BuildCraftCore.mainConfiguration.get("blueprintItem.id", Configuration.CATEGORY_ITEM, DefaultProps.BLUEPRINT_ITEM_ID);
+		Property markerId = BuildCraftCore.mainConfiguration.getBlock("marker.id", DefaultProps.MARKER_ID);
+		Property pathMarkerId = BuildCraftCore.mainConfiguration.getBlock("pathMarker.id", DefaultProps.PATH_MARKER_ID);
+		Property fillerId = BuildCraftCore.mainConfiguration.getBlock("filler.id", DefaultProps.FILLER_ID);
+		Property builderId = BuildCraftCore.mainConfiguration.getBlock("builder.id", DefaultProps.BUILDER_ID);
+		Property architectId = BuildCraftCore.mainConfiguration.getBlock("architect.id", DefaultProps.ARCHITECT_ID);
+		Property libraryId = BuildCraftCore.mainConfiguration.getBlock("blueprintLibrary.id", DefaultProps.BLUEPRINT_LIBRARY_ID);
 
-		Property fillerDestroyProp = BuildCraftCore.mainConfiguration.getOrCreateBooleanProperty("filler.destroy", Configuration.CATEGORY_GENERAL, DefaultProps.FILLER_DESTROY);
+		Property fillerDestroyProp = BuildCraftCore.mainConfiguration.get("filler.destroy", Configuration.CATEGORY_GENERAL, DefaultProps.FILLER_DESTROY);
 		fillerDestroyProp.comment = "If true, Filler will destroy blocks instead of breaking them.";
 		fillerDestroy = fillerDestroyProp.getBoolean(DefaultProps.FILLER_DESTROY);
 
-		templateItem = new ItemBptTemplate(Integer.parseInt(templateItemId.value));
+		templateItem = new ItemBptTemplate(templateItemId.getInt() - 256);
 		templateItem.setUnlocalizedName("templateItem");
 		LanguageRegistry.addName(templateItem, "Template");
 
-		blueprintItem = new ItemBptBluePrint(Integer.parseInt(blueprintItemId.value));
+		blueprintItem = new ItemBptBluePrint(blueprintItemId.getInt() - 256);
 		blueprintItem.setUnlocalizedName("blueprintItem");
 		LanguageRegistry.addName(blueprintItem, "Blueprint");
 
-		markerBlock = new BlockMarker(Integer.parseInt(markerId.value));
+		markerBlock = new BlockMarker(markerId.getInt());
 		CoreProxy.proxy.registerBlock(markerBlock.setUnlocalizedName("markerBlock"));
 		CoreProxy.proxy.addName(markerBlock, "Land Mark");
 
-		pathMarkerBlock = new BlockPathMarker(Integer.parseInt(pathMarkerId.value));
+		pathMarkerBlock = new BlockPathMarker(pathMarkerId.getInt());
 		CoreProxy.proxy.registerBlock(pathMarkerBlock.setUnlocalizedName("pathMarkerBlock"));
 		CoreProxy.proxy.addName(pathMarkerBlock, "Path Mark");
 
-		fillerBlock = new BlockFiller(Integer.parseInt(fillerId.value));
+		fillerBlock = new BlockFiller(fillerId.getInt());
 		CoreProxy.proxy.registerBlock(fillerBlock.setUnlocalizedName("fillerBlock"));
 		CoreProxy.proxy.addName(fillerBlock, "Filler");
 
-		builderBlock = new BlockBuilder(Integer.parseInt(builderId.value));
+		builderBlock = new BlockBuilder(builderId.getInt());
 		CoreProxy.proxy.registerBlock(builderBlock.setUnlocalizedName("builderBlock"));
 		CoreProxy.proxy.addName(builderBlock, "Builder");
 
-		architectBlock = new BlockArchitect(Integer.parseInt(architectId.value));
+		architectBlock = new BlockArchitect(architectId.getInt());
 		CoreProxy.proxy.registerBlock(architectBlock.setUnlocalizedName("architectBlock"));
 		CoreProxy.proxy.addName(architectBlock, "Architect Table");
 
-		libraryBlock = new BlockBlueprintLibrary(Integer.parseInt(libraryId.value));
+		libraryBlock = new BlockBlueprintLibrary(libraryId.getInt());
 		CoreProxy.proxy.registerBlock(libraryBlock.setUnlocalizedName("libraryBlock"));
 		CoreProxy.proxy.addName(libraryBlock, "Blueprint Library");
 
