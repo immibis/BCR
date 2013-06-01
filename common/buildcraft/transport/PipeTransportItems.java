@@ -15,8 +15,13 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.Vector;
 
-import cpw.mods.fml.common.network.PacketDispatcher;
-
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.tileentity.TileEntity;
 import buildcraft.BuildCraftCore;
 import buildcraft.BuildCraftTransport;
 import buildcraft.api.core.Orientations;
@@ -33,14 +38,7 @@ import buildcraft.core.network.PacketIds;
 import buildcraft.core.network.PacketPipeTransportContent;
 import buildcraft.core.proxy.CoreProxy;
 import buildcraft.core.utils.Utils;
-
-import net.minecraft.src.EntityItem;
-import net.minecraft.src.IInventory;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.NBTTagList;
-import net.minecraft.src.Packet;
-import net.minecraft.src.TileEntity;
+import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class PipeTransportItems extends PipeTransport {
 
@@ -108,7 +106,7 @@ public class PipeTransportItems extends PipeTransport {
 			groupEntities();
 
 			if (travelingEntities.size() > BuildCraftTransport.maxItemsInPipes)
-				worldObj.createExplosion(null, xCoord, yCoord, zCoord, 1);
+				worldObj.createExplosion(null, xCoord, yCoord, zCoord, 1, true);
 		}
 	}
 

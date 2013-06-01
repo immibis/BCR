@@ -9,14 +9,14 @@
 
 package buildcraft.transport;
 
+import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import buildcraft.BuildCraftTransport;
 import buildcraft.core.IItemPipe;
 import buildcraft.core.ItemBuildCraft;
-import net.minecraft.src.Block;
-import net.minecraft.src.CreativeTabs;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.World;
 
 public class ItemPipe extends ItemBuildCraft implements IItemPipe {
 
@@ -52,13 +52,13 @@ public class ItemPipe extends ItemBuildCraft implements IItemPipe {
 
 		if (itemstack.stackSize == 0)
 			return false;
-		if (entityplayer.canPlayerEdit(i, j, k)
+		if (entityplayer.canPlayerEdit(itemstack, i, j, k)
 				&& world.canPlaceEntityOnSide(blockID, i, j, k, false, side, entityplayer)) {
 
-			Pipe pipe = BlockGenericPipe.createPipe(shiftedIndex);
+			Pipe pipe = BlockGenericPipe.createPipe(itemID);
 			if (BlockGenericPipe.placePipe(pipe, world, i, j, k, blockID, 0)) {
 
-				Block.blocksList[blockID].onBlockPlacedBy(world, i, j, k, entityplayer);
+				Block.blocksList[blockID].onBlockPlacedBy(world, i, j, k, entityplayer, itemstack);
 				// To move to a proxt
 				// world.playSoundEffect((float)i + 0.5F, (float)j + 0.5F,
 				// (float)k + 0.5F, block.stepSound.func_1145_d(),

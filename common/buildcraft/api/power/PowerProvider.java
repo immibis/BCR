@@ -9,10 +9,10 @@
 
 package buildcraft.api.power;
 
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.core.SafeTimeTracker;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.TileEntity;
 
 public abstract class PowerProvider implements IPowerProvider {
 

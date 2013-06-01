@@ -11,16 +11,14 @@ package buildcraft.energy;
 
 import java.util.Random;
 
-import cpw.mods.fml.common.IWorldGenerator;
-
+import net.minecraft.block.Block;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.chunk.IChunkProvider;
 import buildcraft.BuildCraftCore;
 import buildcraft.BuildCraftEnergy;
 import buildcraft.core.proxy.CoreProxy;
-
-import net.minecraft.src.BiomeGenBase;
-import net.minecraft.src.Block;
-import net.minecraft.src.IChunkProvider;
-import net.minecraft.src.World;
+import cpw.mods.fml.common.IWorldGenerator;
 
 public class OilPopulate implements IWorldGenerator {
 
@@ -189,7 +187,7 @@ public class OilPopulate implements IWorldGenerator {
 
 					world.setBlockWithNotify(x, y, z, BuildCraftEnergy.oilStill.blockID);
 				} else {
-					world.setBlockWithNotify(x, y, z, 0);
+					world.setBlockToAir(x, y, z);
 				}
 
 				world.setBlockWithNotify(x, y - 1, z, BuildCraftEnergy.oilStill.blockID);

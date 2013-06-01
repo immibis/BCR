@@ -12,6 +12,12 @@ package buildcraft.factory;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.block.Block;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import buildcraft.BuildCraftFactory;
 import buildcraft.api.core.BuildCraftAPI;
 import buildcraft.api.core.IAreaProvider;
@@ -34,13 +40,6 @@ import buildcraft.core.network.TileNetworkData;
 import buildcraft.core.proxy.CoreProxy;
 import buildcraft.core.utils.BlockUtil;
 import buildcraft.core.utils.Utils;
-
-import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.Block;
-import net.minecraft.src.EntityItem;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.NBTTagCompound;
 
 public class TileQuarry extends TileMachine implements IMachine, IPowerReceptor, IPipeConnection, IBuilderInventory {
 	public @TileNetworkData
@@ -365,7 +364,7 @@ public class TileQuarry extends TileMachine implements IMachine, IPowerReceptor,
 			}
 
             worldObj.playAuxSFXAtEntity(null, 2001, i, j, k, blockId + (worldObj.getBlockMetadata(i, j, k) << 12));
-			worldObj.setBlockWithNotify(i, j, k, 0);
+			worldObj.setBlockToAir(i, j, k);
 		}
 
 		// Collect any lost items laying around
@@ -377,10 +376,10 @@ public class TileQuarry extends TileMachine implements IMachine, IPowerReceptor,
 				EntityItem entity = (EntityItem) result.get(ii);
 				if (entity.isDead)
 					continue;
-				if (entity.item.stackSize <= 0)
+				if (entity.getEntityItem().stackSize <= 0)
 					continue;
 				CoreProxy.proxy.removeEntity(entity);
-				mineStack(entity.item);
+				mineStack(entity.getEntityItem());
 			}
 		}
 	}

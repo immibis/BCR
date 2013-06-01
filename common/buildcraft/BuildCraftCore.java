@@ -12,6 +12,33 @@ import java.io.File;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 
+import net.minecraft.block.Block;
+import net.minecraft.entity.EntityList;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.Property;
+import buildcraft.api.core.BuildCraftAPI;
+import buildcraft.api.gates.Action;
+import buildcraft.api.gates.ActionManager;
+import buildcraft.api.gates.Trigger;
+import buildcraft.api.liquids.LiquidData;
+import buildcraft.api.liquids.LiquidManager;
+import buildcraft.api.liquids.LiquidStack;
+import buildcraft.api.power.PowerFramework;
+import buildcraft.core.*;
+import buildcraft.core.blueprints.BptItem;
+import buildcraft.core.network.EntityIds;
+import buildcraft.core.network.PacketHandler;
+import buildcraft.core.network.PacketUpdate;
+import buildcraft.core.proxy.CoreProxy;
+import buildcraft.core.triggers.*;
+import buildcraft.core.triggers.ActionMachineControl.Mode;
+import buildcraft.core.utils.Localization;
+import buildcraft.transport.triggers.TriggerRedstoneInput;
+
+import com.sun.corba.se.impl.activation.CommandHandler;
+
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -25,49 +52,6 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
-
-import buildcraft.api.core.BuildCraftAPI;
-import buildcraft.api.gates.Action;
-import buildcraft.api.gates.ActionManager;
-import buildcraft.api.gates.Trigger;
-import buildcraft.api.liquids.LiquidData;
-import buildcraft.api.liquids.LiquidManager;
-import buildcraft.api.liquids.LiquidStack;
-import buildcraft.api.power.PowerFramework;
-import buildcraft.core.BlockIndex;
-import buildcraft.core.BuildCraftConfiguration;
-import buildcraft.core.CommandBuildCraft;
-import buildcraft.core.DefaultProps;
-import buildcraft.core.EntityEnergyLaser;
-import buildcraft.core.EntityPowerLaser;
-import buildcraft.core.EntityRobot;
-import buildcraft.core.ItemBuildCraft;
-import buildcraft.core.ItemWrench;
-import buildcraft.core.RedstonePowerFramework;
-import buildcraft.core.Version;
-import buildcraft.core.blueprints.BptItem;
-import buildcraft.core.network.EntityIds;
-import buildcraft.core.network.PacketHandler;
-import buildcraft.core.network.PacketUpdate;
-import buildcraft.core.proxy.CoreProxy;
-import buildcraft.core.triggers.ActionMachineControl;
-import buildcraft.core.triggers.ActionRedstoneOutput;
-import buildcraft.core.triggers.DefaultActionProvider;
-import buildcraft.core.triggers.DefaultTriggerProvider;
-import buildcraft.core.triggers.TriggerInventory;
-import buildcraft.core.triggers.TriggerLiquidContainer;
-import buildcraft.core.triggers.TriggerMachine;
-import buildcraft.core.triggers.ActionMachineControl.Mode;
-import buildcraft.core.utils.Localization;
-import buildcraft.transport.triggers.TriggerRedstoneInput;
-
-import net.minecraft.src.Block;
-import net.minecraft.src.CommandHandler;
-import net.minecraft.src.EntityList;
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemStack;
-import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.Property;
 
 @Mod(name="BuildCraft", version=Version.VERSION, useMetadata = false, modid = "BuildCraft|Core")
 @NetworkMod(channels = {DefaultProps.NET_CHANNEL_NAME}, packetHandler = PacketHandler.class, clientSideRequired = true, serverSideRequired = true)
@@ -263,8 +247,7 @@ public class BuildCraftCore {
 
 	@ServerStarting
 	public void serverStarting(FMLServerStartingEvent event) {
-		CommandHandler commandManager = (CommandHandler)event.getServer().getCommandManager();
-		commandManager.registerCommand(new CommandBuildCraft());
+		event.registerServerCommand(new CommandBuildCraft());
 	}
 	
 	public void loadRecipes() {

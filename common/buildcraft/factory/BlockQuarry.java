@@ -11,6 +11,13 @@ package buildcraft.factory;
 
 import java.util.ArrayList;
 
+import net.minecraft.block.material.Material;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import buildcraft.BuildCraftFactory;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.core.Position;
@@ -19,15 +26,6 @@ import buildcraft.core.Box;
 import buildcraft.core.DefaultProps;
 import buildcraft.core.proxy.CoreProxy;
 import buildcraft.core.utils.Utils;
-import buildcraft.factory.BlockMachineRoot;
-
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.Material;
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.World;
 
 
 public class BlockQuarry extends BlockMachineRoot {
@@ -50,13 +48,13 @@ public class BlockQuarry extends BlockMachineRoot {
 	}
 
 	@Override
-	public void onBlockPlacedBy(World world, int i, int j, int k, EntityLiving entityliving) {
-		super.onBlockPlacedBy(world, i, j, k, entityliving);
+	public void onBlockPlacedBy(World world, int i, int j, int k, EntityLiving entityliving, ItemStack stack) {
+		super.onBlockPlacedBy(world, i, j, k, entityliving, stack);
 
 		Orientations orientation = Utils.get2dOrientation(new Position(entityliving.posX, entityliving.posY, entityliving.posZ),
 				new Position(i, j, k));
 
-		world.setBlockMetadataWithNotify(i, j, k, orientation.reverse().ordinal());
+		world.setBlockMetadataWithNotify(i, j, k, orientation.reverse().ordinal(), 3);
 	}
 
 	@Override
@@ -96,7 +94,7 @@ public class BlockQuarry extends BlockMachineRoot {
 		int meta = world.getBlockMetadata(i, j, k);
 
 		if ((meta & 8) == 0) {
-			world.setBlockMetadata(i, j, k, meta | 8);
+			world.setBlockMetadataWithNotify(i, j, k, meta | 8, 2);
 
 			Orientations[] dirs = Orientations.dirs();
 
@@ -122,7 +120,7 @@ public class BlockQuarry extends BlockMachineRoot {
 
 	private void markFrameForDecay(World world, int x, int y, int z){
 		if (world.getBlockId(x, y, z) == BuildCraftFactory.frameBlock.blockID){
-			world.setBlockMetadata(x, y, z, 1);
+			world.setBlockMetadataWithNotify(x, y, z, 1, 2);
 		}
 	}
 	

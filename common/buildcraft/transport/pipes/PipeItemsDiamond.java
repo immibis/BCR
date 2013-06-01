@@ -10,6 +10,8 @@ package buildcraft.transport.pipes;
 
 import java.util.LinkedList;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import buildcraft.BuildCraftTransport;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.core.Position;
@@ -18,9 +20,6 @@ import buildcraft.core.DefaultProps;
 import buildcraft.transport.IPipeTransportItemsHook;
 import buildcraft.transport.Pipe;
 import buildcraft.transport.PipeTransportItems;
-
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemStack;
 
 public class PipeItemsDiamond extends Pipe implements IPipeTransportItemsHook {
 

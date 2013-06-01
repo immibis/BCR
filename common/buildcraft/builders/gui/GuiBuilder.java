@@ -11,8 +11,8 @@ package buildcraft.builders.gui;
 
 import java.util.Collection;
 
-import net.minecraft.src.IInventory;
-import net.minecraft.src.ItemStack;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
 
 import org.lwjgl.opengl.GL11;
 
@@ -41,8 +41,8 @@ public class GuiBuilder extends GuiAdvancedInterface {
 	}
 
 	@Override
-	protected void drawGuiContainerForegroundLayer() {
-		super.drawGuiContainerForegroundLayer();
+	protected void drawGuiContainerForegroundLayer(int par1, int par2) {
+		super.drawGuiContainerForegroundLayer(par1, par2);
 
 		String title = StringUtil.localize("tile.builderBlock");
 		fontRenderer.drawString(title, getCenteredOffset(title), 12, 0x404040);
@@ -57,16 +57,16 @@ public class GuiBuilder extends GuiAdvancedInterface {
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int x, int y) {
-		int i = 0;
+		String i;
 		int j = (width - xSize) / 2;
 		int k = (height - ySize) / 2;
 		int realXSize = 0;
 
 		if (builder.isBuildingBlueprint()) {
-			i = mc.renderEngine.getTexture(DefaultProps.TEXTURE_PATH_GUI + "/builder_blueprint.png");
+			i = DefaultProps.TEXTURE_PATH_GUI + "/builder_blueprint.png";
 			realXSize = 256;
 		} else {
-			i = mc.renderEngine.getTexture(DefaultProps.TEXTURE_PATH_GUI + "/builder.png");
+			i = DefaultProps.TEXTURE_PATH_GUI + "/builder.png";
 			realXSize = 176;
 		}
 

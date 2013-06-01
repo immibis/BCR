@@ -10,17 +10,14 @@ package buildcraft;
 
 import java.util.TreeMap;
 
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.Init;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.Mod.PreInit;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.NetworkMod;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
-
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.Property;
 import buildcraft.api.core.BuildCraftAPI;
 import buildcraft.api.fuels.IronEngineCoolant;
 import buildcraft.api.fuels.IronEngineFuel;
@@ -35,27 +32,18 @@ import buildcraft.core.ItemBuildCraft;
 import buildcraft.core.Version;
 import buildcraft.core.network.PacketHandler;
 import buildcraft.core.proxy.CoreProxy;
-import buildcraft.energy.BlockEngine;
-import buildcraft.energy.BlockOilFlowing;
-import buildcraft.energy.BlockOilStill;
-import buildcraft.energy.BptBlockEngine;
-import buildcraft.energy.EnergyProxy;
-import buildcraft.energy.GuiHandler;
-import buildcraft.energy.ItemBucketOil;
-import buildcraft.energy.ItemEngine;
-import buildcraft.energy.OilBucketHandler;
-import buildcraft.energy.OilPopulate;
-import buildcraft.energy.TriggerEngineHeat;
+import buildcraft.energy.*;
 import buildcraft.energy.Engine.EnergyStage;
-
-import net.minecraft.src.Block;
-import net.minecraft.src.CreativeTabs;
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.Material;
-import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.Property;
+import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.Init;
+import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.Mod.PreInit;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 
 @Mod(name="BuildCraft Energy", version=Version.VERSION, useMetadata = false, modid = "BuildCraft|Energy", dependencies = DefaultProps.DEPENDENCY_CORE)
 @NetworkMod(channels = {DefaultProps.NET_CHANNEL_NAME}, packetHandler = PacketHandler.class, clientSideRequired = true, serverSideRequired = true)
@@ -119,12 +107,12 @@ public class BuildCraftEnergy {
 		LanguageRegistry.addName(new ItemStack(engineBlock, 1, 1), "Steam Engine");
 		LanguageRegistry.addName(new ItemStack(engineBlock, 1, 2), "Combustion Engine");
 
-		oilStill = (new BlockOilStill(oilStillId.getInt(DefaultProps.OIL_STILL_ID), Material.water)).setBlockName("oil");
-		CoreProxy.proxy.addName(oilStill.setBlockName("oilStill"), "Oil");
+		oilStill = (new BlockOilStill(oilStillId.getInt(DefaultProps.OIL_STILL_ID), Material.water)).setUnlocalizedName("oil");
+		CoreProxy.proxy.addName(oilStill.setUnlocalizedName("oilStill"), "Oil");
 		CoreProxy.proxy.registerBlock(oilStill);
 
-		oilMoving = (new BlockOilFlowing(oilMovingId.getInt(DefaultProps.OIL_MOVING_ID), Material.water)).setBlockName("oil");
-		CoreProxy.proxy.addName(oilMoving.setBlockName("oilMoving"), "Oil");
+		oilMoving = (new BlockOilFlowing(oilMovingId.getInt(DefaultProps.OIL_MOVING_ID), Material.water)).setUnlocalizedName("oil");
+		CoreProxy.proxy.addName(oilMoving.setUnlocalizedName("oilMoving"), "Oil");
 		CoreProxy.proxy.registerBlock(oilMoving);
 
 		// Oil and fuel
@@ -133,24 +121,24 @@ public class BuildCraftEnergy {
 			throw new RuntimeException("Oil Still id must be Oil Moving id + 1");
 		}
 
-		fuel = new ItemBuildCraft(itemFuelId.getInt(DefaultProps.FUEL_ID)).setItemName("fuel");
+		fuel = new ItemBuildCraft(itemFuelId.getInt(DefaultProps.FUEL_ID)).setUnlocalizedName("fuel");
 		LanguageRegistry.addName(fuel, "Fuel");
 
 		MinecraftForge.EVENT_BUS.register(new OilBucketHandler());
 
-		bucketOil = (new ItemBucketOil(bucketOilId.getInt(DefaultProps.BUCKET_OIL_ID))).setItemName("bucketOil").setContainerItem(Item.bucketEmpty);
+		bucketOil = (new ItemBucketOil(bucketOilId.getInt(DefaultProps.BUCKET_OIL_ID))).setUnlocalizedName("bucketOil").setContainerItem(Item.bucketEmpty);
 		LanguageRegistry.addName(bucketOil, "Oil Bucket");
 
-		bucketFuel = new ItemBuildCraft(Integer.parseInt(bucketFuelId.value)).setItemName("bucketFuel").setContainerItem(Item.bucketEmpty);
+		bucketFuel = new ItemBuildCraft(Integer.parseInt(bucketFuelId.value)).setUnlocalizedName("bucketFuel").setContainerItem(Item.bucketEmpty);
 		bucketFuel.setIconIndex(0 * 16 + 3).setMaxStackSize(1).setCreativeTab(CreativeTabs.tabMisc);
 		LanguageRegistry.addName(bucketFuel, "Fuel Bucket");
 
-		RefineryRecipe.registerRefineryRecipe(new RefineryRecipe(new LiquidStack(oilStill.blockID, 1, 0), null, new LiquidStack(fuel.shiftedIndex, 1, 0), 10, 1));
+		RefineryRecipe.registerRefineryRecipe(new RefineryRecipe(new LiquidStack(oilStill.blockID, 1, 0), null, new LiquidStack(fuel.itemID, 1, 0), 10, 1));
 
 		// Iron Engine Fuels
 		IronEngineFuel.fuels.add(new IronEngineFuel(Block.lavaStill.blockID, 1, 20000));
 		IronEngineFuel.fuels.add(new IronEngineFuel(oilStill.blockID, 2, 10000));
-		IronEngineFuel.fuels.add(new IronEngineFuel(fuel.shiftedIndex, 5, 50000));
+		IronEngineFuel.fuels.add(new IronEngineFuel(fuel.itemID, 5, 50000));
 
 		// Iron Engine Coolants
 		IronEngineCoolant.coolants.add(new IronEngineCoolant(new LiquidStack(Block.waterStill, LiquidManager.BUCKET_VOLUME), 1.0f));

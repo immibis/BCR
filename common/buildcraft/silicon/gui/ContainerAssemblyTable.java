@@ -9,13 +9,13 @@
 
 package buildcraft.silicon.gui;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.ICrafting;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Slot;
 import buildcraft.core.gui.BuildCraftContainer;
 import buildcraft.factory.TileAssemblyTable;
 import buildcraft.factory.TileAssemblyTable.SelectionMessage;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.ICrafting;
-import net.minecraft.src.IInventory;
-import net.minecraft.src.Slot;
 
 public class ContainerAssemblyTable extends BuildCraftContainer {
 
@@ -65,8 +65,8 @@ public class ContainerAssemblyTable extends BuildCraftContainer {
 	}
 
 	@Override
-	public void updateCraftingResults() {
-		super.updateCraftingResults();
+	public void detectAndSendChanges() {
+		super.detectAndSendChanges();
 
 		for (int i = 0; i < crafters.size(); i++)
 			table.sendGUINetworkData(this, (ICrafting) crafters.get(i));

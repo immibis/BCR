@@ -11,6 +11,12 @@ package buildcraft.energy;
 
 import java.util.LinkedList;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.tileentity.TileEntity;
 import buildcraft.BuildCraftCore;
 import buildcraft.BuildCraftEnergy;
 import buildcraft.api.core.Orientations;
@@ -30,13 +36,6 @@ import buildcraft.core.TileBuildCraft;
 import buildcraft.core.network.PacketUpdate;
 import buildcraft.core.network.TileNetworkData;
 import buildcraft.core.proxy.CoreProxy;
-
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.IInventory;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.Packet;
-import net.minecraft.src.TileEntity;
 
 //TODO: All Engines need to take func_48081_b into account 
 
@@ -189,7 +188,7 @@ public class TileEngine extends TileBuildCraft implements IPowerReceptor, IInven
 					engine.orientation = o;
 				}
 				orientation = o.ordinal();
-				worldObj.markBlockAsNeedsUpdate(xCoord, yCoord, zCoord);
+				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 
 				break;
 			}

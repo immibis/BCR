@@ -10,6 +10,14 @@ package buildcraft.transport.pipes;
 
 import java.util.List;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.EntityMinecart;
+import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.core.Position;
 import buildcraft.api.power.IPowerProvider;
@@ -22,15 +30,6 @@ import buildcraft.core.proxy.CoreProxy;
 import buildcraft.core.utils.Utils;
 import buildcraft.transport.Pipe;
 import buildcraft.transport.PipeTransportItems;
-
-import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityArrow;
-import net.minecraft.src.EntityItem;
-import net.minecraft.src.EntityMinecart;
-import net.minecraft.src.IInventory;
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemStack;
 
 public class PipeItemsObsidian extends Pipe implements IPowerReceptor {
 
@@ -61,7 +60,6 @@ public class PipeItemsObsidian extends Pipe implements IPowerReceptor {
 	public int getTextureIndex(Orientations direction) {
 		return 1 * 16 + 12;
 	}
-
 
 	@Override
 	public void onEntityCollidedWithBlock(Entity entity) {
@@ -155,7 +153,7 @@ public class PipeItemsObsidian extends Pipe implements IPowerReceptor {
 			return false;
 
 		@SuppressWarnings("rawtypes")
-		List list = worldObj.getEntitiesWithinAABB(net.minecraft.src.Entity.class, box);
+		List list = worldObj.getEntitiesWithinAABB(net.minecraft.entity.Entity.class, box);
 
 		for (int g = 0; g < list.size(); g++)
 			if (list.get(g) instanceof Entity) {
@@ -168,7 +166,7 @@ public class PipeItemsObsidian extends Pipe implements IPowerReceptor {
 
 				if (distance == 1 && list.get(g) instanceof EntityMinecart) {
 					EntityMinecart cart = (EntityMinecart) list.get(g);
-					if (!cart.isDead && cart.minecartType == 1) {
+					if (!cart.isDead && cart.getMinecartType() == 1) {
 						ItemStack stack = checkExtractGeneric(cart, true, getOpenOrientation());
 						if (stack != null && powerProvider.useEnergy(1, 1, true) == 1) {
 							EntityItem entityitem = new EntityItem(worldObj, cart.posX, cart.posY + 0.3F, cart.posZ, stack);
@@ -218,13 +216,13 @@ public class PipeItemsObsidian extends Pipe implements IPowerReceptor {
 				EntityItem item = (EntityItem) entity;
 				CoreProxy.proxy.obsidianPipePickup(worldObj, item, this.container);
 
-				float energyUsed = powerProvider.useEnergy(distance, item.item.stackSize * distance, true);
+				float energyUsed = powerProvider.useEnergy(distance, item.getEntityItem().stackSize * distance, true);
 
-				if (distance == 0 || energyUsed / distance == item.item.stackSize) {
-					stack = item.item;
+				if (distance == 0 || energyUsed / distance == item.getEntityItem().stackSize) {
+					stack = item.getEntityItem();
 					CoreProxy.proxy.removeEntity(entity);
 				} else
-					stack = item.item.splitStack((int) (energyUsed / distance));
+					stack = item.getEntityItem().splitStack((int) (energyUsed / distance));
 
 				speed = Math.sqrt(item.motionX * item.motionX + item.motionY * item.motionY + item.motionZ * item.motionZ);
 				speed = speed / 2F - 0.05;
@@ -262,7 +260,7 @@ public class PipeItemsObsidian extends Pipe implements IPowerReceptor {
 		if (entity instanceof EntityItem) {
 			EntityItem item = (EntityItem) entity;
 
-			if (item.item.stackSize <= 0)
+			if (item.getEntityItem().stackSize <= 0)
 				return false;
 
 			for (int i = 0; i < entitiesDropped.length; ++i)

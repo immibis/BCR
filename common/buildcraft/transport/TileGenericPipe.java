@@ -14,6 +14,11 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.LinkedList;
 
+import net.minecraft.block.Block;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.tileentity.TileEntity;
 import buildcraft.BuildCraftCore;
 import buildcraft.BuildCraftTransport;
 import buildcraft.api.core.Orientations;
@@ -27,11 +32,11 @@ import buildcraft.api.liquids.LiquidStack;
 import buildcraft.api.power.IPowerProvider;
 import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.transport.IPipe;
+import buildcraft.api.transport.IPipe.WireColor;
 import buildcraft.api.transport.IPipeConnection;
 import buildcraft.api.transport.IPipeEntry;
 import buildcraft.api.transport.IPipeTile;
 import buildcraft.api.transport.IPipedItem;
-import buildcraft.api.transport.IPipe.WireColor;
 import buildcraft.core.EntityPassiveItem;
 import buildcraft.core.IDropControlInventory;
 import buildcraft.core.ITileBufferHolder;
@@ -42,12 +47,6 @@ import buildcraft.core.network.PacketTileState;
 import buildcraft.core.utils.Utils;
 import buildcraft.transport.Gate.GateKind;
 import buildcraft.transport.network.PipeRenderStatePacket;
-
-import net.minecraft.src.Block;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.Packet;
-import net.minecraft.src.TileEntity;
 
 public class TileGenericPipe extends TileEntity implements IPowerReceptor, ITankContainer, IPipeEntry,
 		IPipeTile, IOverrideDefaultTriggers, ITileBufferHolder, IPipeConnection, IDropControlInventory, IPipeRenderState,
@@ -243,7 +242,7 @@ public class TileGenericPipe extends TileEntity implements IPowerReceptor, ITank
 			if (Block.blocksList[blockId] != null){
 				Block block = Block.blocksList[blockId];
 				renderState.facadeMatrix.setTextureFile(direction, block.getTextureFile());
-				renderState.facadeMatrix.setTextureIndex(direction, block.getBlockTextureFromSideAndMetadata(direction.ordinal(), this.facadeMeta[direction.ordinal()]));
+				renderState.facadeMatrix.setTextureIndex(direction, block.getIcon(direction.ordinal(), this.facadeMeta[direction.ordinal()]));
 			}
 		}
 
@@ -371,7 +370,7 @@ public class TileGenericPipe extends TileEntity implements IPowerReceptor, ITank
 				initialize(BlockGenericPipe.createPipe(packet.getPipeId()));
 			}
 			renderState = packet.getRenderState();
-			worldObj.markBlockAsNeedsUpdate(xCoord, yCoord, zCoord);
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
 		return;
 	}
@@ -613,7 +612,7 @@ public class TileGenericPipe extends TileEntity implements IPowerReceptor, ITank
 				}
 				break;
 		}
-		worldObj.markBlockAsNeedsUpdate(xCoord, yCoord, zCoord);
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 
 	@Override

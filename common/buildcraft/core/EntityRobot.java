@@ -15,11 +15,9 @@ import java.util.List;
 
 import javax.management.RuntimeErrorException;
 
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteArrayDataOutput;
-
-import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
-
+import net.minecraft.entity.Entity;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 import buildcraft.BuildCraftCore;
 import buildcraft.api.blueprints.BptSlotInfo;
 import buildcraft.api.core.BuildCraftAPI;
@@ -30,9 +28,10 @@ import buildcraft.core.blueprints.BptSlot;
 import buildcraft.core.blueprints.BptSlot.Mode;
 import buildcraft.core.proxy.CoreProxy;
 
-import net.minecraft.src.Entity;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.World;
+import com.google.common.io.ByteArrayDataInput;
+import com.google.common.io.ByteArrayDataOutput;
+
+import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
 public class EntityRobot extends Entity implements IEntityAdditionalSpawnData {
 
@@ -211,11 +210,11 @@ public class EntityRobot extends Entity implements IEntityAdditionalSpawnData {
 						if (target.mode == Mode.ClearIfInvalid) {
 
 							if (!target.isValid(a.context))
-								worldObj.setBlockAndMetadataWithNotify(target.x, target.y, target.z, 0, 0);
+								worldObj.setBlockToAir(target.x, target.y, target.z);
 
 						} else if (target.stackToUse != null) {
 
-							worldObj.setBlockWithNotify(target.x, target.y, target.z, 0);
+							worldObj.setBlockToAir(target.x, target.y, target.z);
 							throw new RuntimeErrorException(null, "NOT IMPLEMENTED");
 //							target.stackToUse.getItem().onItemUse(target.stackToUse,
 //									CoreProxy.getBuildCraftPlayer(worldObj), worldObj, target.x, target.y - 1,

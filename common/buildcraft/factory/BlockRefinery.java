@@ -11,15 +11,15 @@ package buildcraft.factory;
 
 import java.util.ArrayList;
 
-import net.minecraft.src.BlockContainer;
-import net.minecraft.src.CreativeTabs;
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.Material;
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.World;
+import net.minecraft.block.BlockContainer;
+import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import buildcraft.BuildCraftCore;
 import buildcraft.BuildCraftFactory;
 import buildcraft.api.core.Orientations;
@@ -65,13 +65,13 @@ public class BlockRefinery extends BlockContainer {
 	}
 
 	@Override
-	public void onBlockPlacedBy(World world, int i, int j, int k, EntityLiving entityliving) {
-		super.onBlockPlacedBy(world, i, j, k, entityliving);
+	public void onBlockPlacedBy(World world, int i, int j, int k, EntityLiving entityliving, ItemStack stack) {
+		super.onBlockPlacedBy(world, i, j, k, entityliving, stack);
 
 		Orientations orientation = Utils.get2dOrientation(new Position(entityliving.posX, entityliving.posY, entityliving.posZ),
 				new Position(i, j, k));
 
-		world.setBlockMetadataWithNotify(i, j, k, orientation.reverse().ordinal());
+		world.setBlockMetadataWithNotify(i, j, k, orientation.reverse().ordinal(), 3);
 	}
 
 	@Override
@@ -87,21 +87,21 @@ public class BlockRefinery extends BlockContainer {
 
 			switch (Orientations.values()[meta]) {
 			case XNeg:
-				world.setBlockMetadata(i, j, k, Orientations.ZPos.ordinal());
+				world.setBlockMetadataWithNotify(i, j, k, Orientations.ZPos.ordinal(), 3);
 				break;
 			case XPos:
-				world.setBlockMetadata(i, j, k, Orientations.ZNeg.ordinal());
+				world.setBlockMetadataWithNotify(i, j, k, Orientations.ZNeg.ordinal(), 3);
 				break;
 			case ZNeg:
-				world.setBlockMetadata(i, j, k, Orientations.XNeg.ordinal());
+				world.setBlockMetadataWithNotify(i, j, k, Orientations.XNeg.ordinal(), 3);
 				break;
 			case ZPos:
 			default:
-				world.setBlockMetadata(i, j, k, Orientations.XPos.ordinal());
+				world.setBlockMetadataWithNotify(i, j, k, Orientations.XPos.ordinal(), 3);
 				break;
 			}
 			((IToolWrench) equipped).wrenchUsed(entityplayer, i, j, k);
-			world.markBlockNeedsUpdate(i, j, k);
+			world.markBlockForUpdate(i, j, k);
 			return true;
 		} else {
 

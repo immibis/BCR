@@ -12,13 +12,12 @@ package buildcraft.api.blueprints;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import buildcraft.api.core.BuildCraftAPI;
-
-import net.minecraft.src.Block;
-import net.minecraft.src.BlockContainer;
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.TileEntity;
 
 /**
  * This class allow to specify specific behavior for blocks stored in
@@ -120,7 +119,7 @@ public class BptBlock {
 		if (stack.stackSize == 0 && stack.getItem().getContainerItem() != null) {
 			Item container = stack.getItem().getContainerItem();
 
-			stack.itemID = container.shiftedIndex;
+			stack.itemID = container.itemID;
 			stack.stackSize = 1;
 			stack.setItemDamage(0);
 		}
@@ -150,9 +149,7 @@ public class BptBlock {
 	 * Places the block in the world, at the location specified in the slot.
 	 */
 	public void buildBlock(BptSlotInfo slot, IBptContext context) {
-		// Meta needs to be specified twice, depending on the block behavior
-		context.world().setBlockAndMetadataWithNotify(slot.x, slot.y, slot.z, slot.blockId, slot.meta);
-		context.world().setBlockMetadataWithNotify(slot.x, slot.y, slot.z, slot.meta);
+		context.world().setBlock(slot.x, slot.y, slot.z, slot.blockId, slot.meta, 3);
 
 		if (Block.blocksList[slot.blockId] instanceof BlockContainer) {
 			TileEntity tile = context.world().getBlockTileEntity(slot.x, slot.y, slot.z);
@@ -234,7 +231,7 @@ public class BptBlock {
 			}
 		}
 
-		sig.blockName = block.getBlockName();
+		sig.blockName = block.getUnlocalizedName();
 		sig.replaceNullWithStar();
 
 		return sig;

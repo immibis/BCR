@@ -11,17 +11,15 @@ package buildcraft.factory;
 
 import java.util.ArrayList;
 
+import net.minecraft.block.material.Material;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.core.Position;
 import buildcraft.core.DefaultProps;
 import buildcraft.core.utils.Utils;
-import buildcraft.factory.BlockMachineRoot;
-
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.Material;
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.World;
 
 
 public class BlockMiningWell extends BlockMachineRoot {
@@ -62,11 +60,11 @@ public class BlockMiningWell extends BlockMachineRoot {
 	}
 
 	@Override
-	public void onBlockPlacedBy(World world, int i, int j, int k, EntityLiving entityliving) {
+	public void onBlockPlacedBy(World world, int i, int j, int k, EntityLiving entityliving, ItemStack stack) {
 		Orientations orientation = Utils.get2dOrientation(new Position(entityliving.posX, entityliving.posY, entityliving.posZ),
 				new Position(i, j, k));
 
-		world.setBlockMetadataWithNotify(i, j, k, orientation.reverse().ordinal());
+		world.setBlockMetadataWithNotify(i, j, k, orientation.reverse().ordinal(), 3);
 	}
 
 	

@@ -1,8 +1,8 @@
 package buildcraft.core.inventory;
 
-import buildcraft.api.core.Orientations;
-import net.minecraft.src.ItemStack;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.ISidedInventory;
+import buildcraft.api.core.Orientations;
 
 /**
  * Manages input on ISidedInventory

@@ -1,7 +1,7 @@
 package buildcraft.api.inventory;
 
+import net.minecraft.item.ItemStack;
 import buildcraft.api.core.Orientations;
-import net.minecraft.src.ItemStack;
 
 public interface ISelectiveInventory extends ISpecialInventory {
 	/**

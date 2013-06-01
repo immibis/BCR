@@ -1,6 +1,6 @@
 package buildcraft.core.inventory;
 
-import net.minecraft.src.ItemStack;
+import net.minecraft.item.ItemStack;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.inventory.ISpecialInventory;
 

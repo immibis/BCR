@@ -9,19 +9,16 @@
 
 package buildcraft.silicon;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.IBlockAccess;
-import net.minecraft.src.RenderBlocks;
-import net.minecraft.src.Tessellator;
-
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.world.IBlockAccess;
 
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-
 import buildcraft.api.core.Orientations;
 import buildcraft.core.utils.Utils;
-import buildcraft.silicon.SiliconProxyClient;
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
 public class SiliconRenderBlock implements ISimpleBlockRenderingHandler {
 	@Override
@@ -129,32 +126,32 @@ public class SiliconRenderBlock implements ISimpleBlockRenderingHandler {
 		Tessellator tessellator = Tessellator.instance;
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(0.0F, -1F, 0.0F);
-		renderblocks.renderBottomFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSideAndMetadata(0, i));
+		renderblocks.renderBottomFace(block, 0.0D, 0.0D, 0.0D, block.getIcon(0, i));
 		tessellator.draw();
 
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(0.0F, 1.0F, 0.0F);
-		renderblocks.renderTopFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSideAndMetadata(1, i));
+		renderblocks.renderTopFace(block, 0.0D, 0.0D, 0.0D, block.getIcon(1, i));
 		tessellator.draw();
 
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(0.0F, 0.0F, -1F);
-		renderblocks.renderEastFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSideAndMetadata(2, i));
+		renderblocks.renderEastFace(block, 0.0D, 0.0D, 0.0D, block.getIcon(2, i));
 		tessellator.draw();
 
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(0.0F, 0.0F, 1.0F);
-		renderblocks.renderWestFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSideAndMetadata(3, i));
+		renderblocks.renderWestFace(block, 0.0D, 0.0D, 0.0D, block.getIcon(3, i));
 		tessellator.draw();
 
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(-1F, 0.0F, 0.0F);
-		renderblocks.renderNorthFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSideAndMetadata(4, i));
+		renderblocks.renderNorthFace(block, 0.0D, 0.0D, 0.0D, block.getIcon(4, i));
 		tessellator.draw();
 
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(1.0F, 0.0F, 0.0F);
-		renderblocks.renderSouthFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSideAndMetadata(5, i));
+		renderblocks.renderSouthFace(block, 0.0D, 0.0D, 0.0D, block.getIcon(5, i));
 		tessellator.draw();
 	}
 

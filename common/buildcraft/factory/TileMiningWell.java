@@ -11,6 +11,10 @@ package buildcraft.factory;
 
 import java.util.ArrayList;
 
+import net.minecraft.block.Block;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import buildcraft.BuildCraftFactory;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.power.IPowerProvider;
@@ -20,11 +24,6 @@ import buildcraft.api.transport.IPipeConnection;
 import buildcraft.core.IMachine;
 import buildcraft.core.utils.BlockUtil;
 import buildcraft.core.utils.Utils;
-
-import net.minecraft.src.Block;
-import net.minecraft.src.EntityItem;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.World;
 
 public class TileMiningWell extends TileMachine implements IMachine, IPowerReceptor, IPipeConnection {
 
@@ -69,7 +68,7 @@ public class TileMiningWell extends TileMachine implements IMachine, IPowerRecep
 
 		ArrayList<ItemStack> stacks = BlockUtil.getItemStackFromBlock(worldObj, xCoord, depth, zCoord);
 
-		world.setBlockWithNotify(xCoord, depth, zCoord, BuildCraftFactory.plainPipeBlock.blockID);
+		world.setBlock(xCoord, depth, zCoord, BuildCraftFactory.plainPipeBlock.blockID, 0, 3);
 
 		if (blockId == 0) {
 			return;

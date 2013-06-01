@@ -13,6 +13,9 @@ import java.util.LinkedList;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import net.minecraft.block.Block;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import buildcraft.BuildCraftCore;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.core.Position;
@@ -29,10 +32,6 @@ import buildcraft.core.network.PacketUpdate;
 import buildcraft.core.network.TileNetworkData;
 import buildcraft.core.proxy.CoreProxy;
 import buildcraft.core.utils.Utils;
-
-import net.minecraft.src.Block;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.TileEntity;
 
 public class TilePump extends TileMachine implements IMachine, IPowerReceptor {
 
@@ -92,7 +91,7 @@ public class TilePump extends TileMachine implements IMachine, IPowerReceptor {
 							index = getNextIndexToPump(true);
 
 							if (liquidId != Block.waterStill.blockID || BuildCraftCore.consumeWaterSources) {
-								worldObj.setBlockWithNotify(index.i, index.j, index.k, 0);
+								worldObj.setBlockToAir(index.i, index.j, index.k);
 							}
 
 							internalLiquid = internalLiquid += LiquidManager.BUCKET_VOLUME;

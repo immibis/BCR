@@ -9,8 +9,8 @@
 
 package buildcraft.transport;
 
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.TileEntity;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import buildcraft.BuildCraftCore;
 import buildcraft.BuildCraftTransport;
 import buildcraft.api.core.Orientations;
@@ -179,7 +179,7 @@ public class PipeTransportPower extends PipeTransport {
 				internalNextPower[from.ordinal()] += val;
 
 			if (internalNextPower[from.ordinal()] >= 1000)
-				worldObj.createExplosion(null, xCoord, yCoord, zCoord, 2);
+				worldObj.createExplosion(null, xCoord, yCoord, zCoord, 2, true);
 		}
 	}
 

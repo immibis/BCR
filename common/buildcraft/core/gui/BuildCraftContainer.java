@@ -9,9 +9,10 @@
 
 package buildcraft.core.gui;
 
-import net.minecraft.src.Container;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.Slot;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 
 public abstract class BuildCraftContainer extends Container {
 
@@ -22,7 +23,7 @@ public abstract class BuildCraftContainer extends Container {
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(int i) {
+	public ItemStack transferStackInSlot(EntityPlayer ply, int i) {
 		ItemStack itemstack = null;
 		Slot slot = (Slot) inventorySlots.get(i);
 		if (slot != null && slot.getHasStack()) {

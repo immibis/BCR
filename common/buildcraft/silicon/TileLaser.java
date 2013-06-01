@@ -11,6 +11,8 @@ package buildcraft.silicon;
 
 import java.util.LinkedList;
 
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.core.Position;
 import buildcraft.api.core.SafeTimeTracker;
@@ -22,9 +24,6 @@ import buildcraft.core.EntityEnergyLaser;
 import buildcraft.core.TileBuildCraft;
 import buildcraft.core.proxy.CoreProxy;
 import buildcraft.factory.TileAssemblyTable;
-
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.TileEntity;
 
 public class TileLaser extends TileBuildCraft implements IPowerReceptor {
 

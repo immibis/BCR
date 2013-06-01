@@ -8,6 +8,17 @@
 
 package buildcraft;
 
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.Property;
+import buildcraft.core.DefaultProps;
+import buildcraft.core.Version;
+import buildcraft.core.proxy.CoreProxy;
+import buildcraft.factory.*;
+import buildcraft.factory.network.PacketHandlerFactory;
+import buildcraft.silicon.TileLaser;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -18,39 +29,6 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
-import buildcraft.core.DefaultProps;
-import buildcraft.core.Version;
-import buildcraft.core.proxy.CoreProxy;
-import buildcraft.factory.BlockAutoWorkbench;
-import buildcraft.factory.BlockFrame;
-import buildcraft.factory.BlockHopper;
-import buildcraft.factory.BlockMiningWell;
-import buildcraft.factory.BlockPlainPipe;
-import buildcraft.factory.BlockPump;
-import buildcraft.factory.BlockQuarry;
-import buildcraft.factory.BlockRefinery;
-import buildcraft.factory.BlockTank;
-import buildcraft.factory.BptBlockAutoWorkbench;
-import buildcraft.factory.BptBlockFrame;
-import buildcraft.factory.BptBlockRefinery;
-import buildcraft.factory.BptBlockTank;
-import buildcraft.factory.FactoryProxy;
-import buildcraft.factory.GuiHandler;
-import buildcraft.factory.TileAssemblyTable;
-import buildcraft.factory.TileAutoWorkbench;
-import buildcraft.factory.TileHopper;
-import buildcraft.factory.TileMiningWell;
-import buildcraft.factory.TilePump;
-import buildcraft.factory.TileQuarry;
-import buildcraft.factory.TileRefinery;
-import buildcraft.factory.TileTank;
-import buildcraft.factory.network.PacketHandlerFactory;
-import buildcraft.silicon.TileLaser;
-import net.minecraft.src.Block;
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemStack;
-import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.Property;
 
 @Mod(name="BuildCraft Factory", version=Version.VERSION, useMetadata = false, modid = "BuildCraft|Factory", dependencies = DefaultProps.DEPENDENCY_CORE)
 @NetworkMod(channels = {DefaultProps.NET_CHANNEL_NAME}, packetHandler = PacketHandlerFactory.class, clientSideRequired = true, serverSideRequired = true)
@@ -128,41 +106,41 @@ public class BuildCraftFactory {
 		BuildCraftCore.mainConfiguration.save();
 
 		miningWellBlock = new BlockMiningWell(Integer.parseInt(minigWellId.value));
-		CoreProxy.proxy.registerBlock(miningWellBlock.setBlockName("miningWellBlock"));
+		CoreProxy.proxy.registerBlock(miningWellBlock.setUnlocalizedName("miningWellBlock"));
 		CoreProxy.proxy.addName(miningWellBlock, "Mining Well");
 
 		plainPipeBlock = new BlockPlainPipe(Integer.parseInt(plainPipeId.value));
-		CoreProxy.proxy.registerBlock(plainPipeBlock.setBlockName("plainPipeBlock"));
+		CoreProxy.proxy.registerBlock(plainPipeBlock.setUnlocalizedName("plainPipeBlock"));
 		CoreProxy.proxy.addName(plainPipeBlock, "Mining Pipe");
 
 		autoWorkbenchBlock = new BlockAutoWorkbench(Integer.parseInt(autoWorkbenchId.value));
-		CoreProxy.proxy.registerBlock(autoWorkbenchBlock.setBlockName("autoWorkbenchBlock"));
+		CoreProxy.proxy.registerBlock(autoWorkbenchBlock.setUnlocalizedName("autoWorkbenchBlock"));
 		CoreProxy.proxy.addName(autoWorkbenchBlock, "Automatic Crafting Table");
 
 		frameBlock = new BlockFrame(Integer.parseInt(frameId.value));
-		CoreProxy.proxy.registerBlock(frameBlock.setBlockName("frameBlock"));
+		CoreProxy.proxy.registerBlock(frameBlock.setUnlocalizedName("frameBlock"));
 		CoreProxy.proxy.addName(frameBlock, "Frame");
 
 		quarryBlock = new BlockQuarry(Integer.parseInt(quarryId.value));
-		CoreProxy.proxy.registerBlock(quarryBlock.setBlockName("machineBlock"));
+		CoreProxy.proxy.registerBlock(quarryBlock.setUnlocalizedName("machineBlock"));
 		CoreProxy.proxy.addName(quarryBlock, "Quarry");
 
 		tankBlock = new BlockTank(Integer.parseInt(tankId.value));
-		CoreProxy.proxy.registerBlock(tankBlock.setBlockName("tankBlock"));
+		CoreProxy.proxy.registerBlock(tankBlock.setUnlocalizedName("tankBlock"));
 		CoreProxy.proxy.addName(tankBlock, "Tank");
 
 		pumpBlock = new BlockPump(Integer.parseInt(pumpId.value));
-		CoreProxy.proxy.registerBlock(pumpBlock.setBlockName("pumpBlock"));
+		CoreProxy.proxy.registerBlock(pumpBlock.setUnlocalizedName("pumpBlock"));
 		CoreProxy.proxy.addName(pumpBlock, "Pump");
 
 		refineryBlock = new BlockRefinery(Integer.parseInt(refineryId.value));
-		CoreProxy.proxy.registerBlock(refineryBlock.setBlockName("refineryBlock"));
+		CoreProxy.proxy.registerBlock(refineryBlock.setUnlocalizedName("refineryBlock"));
 		CoreProxy.proxy.addName(refineryBlock, "Refinery");
 
 		hopperDisabled = Boolean.parseBoolean(hopperDisable.value);
 		if (!hopperDisabled) {
 			hopperBlock = new BlockHopper(Integer.parseInt(hopperId.value));
-			CoreProxy.proxy.registerBlock(hopperBlock.setBlockName("blockHopper"));
+			CoreProxy.proxy.registerBlock(hopperBlock.setUnlocalizedName("blockHopper"));
 			CoreProxy.proxy.addName(hopperBlock, "Hopper");
 		}
 
@@ -175,7 +153,7 @@ public class BuildCraftFactory {
 			CoreProxy.proxy.addCraftingRecipe(new ItemStack(miningWellBlock, 1),
 					new Object[] { "ipi", "igi", "iPi", Character.valueOf('p'), Item.redstone, Character.valueOf('i'),
 							Item.ingotIron, Character.valueOf('g'), BuildCraftCore.ironGearItem, Character.valueOf('P'),
-							Item.pickaxeSteel });
+							Item.pickaxeIron });
 
 			CoreProxy.proxy.addCraftingRecipe(new ItemStack(quarryBlock), new Object[] { "ipi", "gig", "dDd", Character.valueOf('i'),
 					BuildCraftCore.ironGearItem, Character.valueOf('p'), Item.redstone, Character.valueOf('g'),

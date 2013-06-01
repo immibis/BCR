@@ -9,6 +9,9 @@
 
 package buildcraft.energy;
 
+import net.minecraft.inventory.ICrafting;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.fuels.IronEngineCoolant;
 import buildcraft.api.fuels.IronEngineFuel;
@@ -18,9 +21,6 @@ import buildcraft.api.liquids.LiquidTank;
 import buildcraft.core.DefaultProps;
 import buildcraft.core.utils.Utils;
 import buildcraft.energy.gui.ContainerEngine;
-import net.minecraft.src.ICrafting;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.NBTTagCompound;
 
 public class EngineIron extends Engine {
 
@@ -254,13 +254,13 @@ public class EngineIron extends Engine {
 
 	@Override
 	public void sendGUINetworkData(ContainerEngine containerEngine, ICrafting iCrafting) {
-		iCrafting.updateCraftingInventoryInfo(containerEngine, 0, Math.round(energy * 10));
-		iCrafting.updateCraftingInventoryInfo(containerEngine, 1, Math.round(currentOutput * 10));
-		iCrafting.updateCraftingInventoryInfo(containerEngine, 2, heat);
-		iCrafting.updateCraftingInventoryInfo(containerEngine, 3, liquidQty);
-		iCrafting.updateCraftingInventoryInfo(containerEngine, 4, liquidId);
-		iCrafting.updateCraftingInventoryInfo(containerEngine, 5, coolantQty);
-		iCrafting.updateCraftingInventoryInfo(containerEngine, 6, coolantId);
+		iCrafting.sendProgressBarUpdate(containerEngine, 0, Math.round(energy * 10));
+		iCrafting.sendProgressBarUpdate(containerEngine, 1, Math.round(currentOutput * 10));
+		iCrafting.sendProgressBarUpdate(containerEngine, 2, heat);
+		iCrafting.sendProgressBarUpdate(containerEngine, 3, liquidQty);
+		iCrafting.sendProgressBarUpdate(containerEngine, 4, liquidId);
+		iCrafting.sendProgressBarUpdate(containerEngine, 5, coolantQty);
+		iCrafting.sendProgressBarUpdate(containerEngine, 6, coolantId);
 	}
 
 	@Override

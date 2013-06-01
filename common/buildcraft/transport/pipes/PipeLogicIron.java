@@ -9,15 +9,15 @@
 
 package buildcraft.transport.pipes;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
+import net.minecraft.tileentity.TileEntity;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.liquids.ITankContainer;
 import buildcraft.api.tools.IToolWrench;
 import buildcraft.api.transport.IPipeEntry;
 import buildcraft.transport.TileGenericPipe;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.IInventory;
-import net.minecraft.src.Item;
-import net.minecraft.src.TileEntity;
 
 public class PipeLogicIron extends PipeLogic {
 
@@ -53,7 +53,7 @@ public class PipeLogicIron extends PipeLogic {
 			if (tile instanceof IPipeEntry || tile instanceof IInventory || tile instanceof ITankContainer
 					|| tile instanceof TileGenericPipe) {
 
-				worldObj.setBlockMetadata(xCoord, yCoord, zCoord, nextMetadata);
+				worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, nextMetadata, 3);
 				container.scheduleRenderUpdate();
 				return;
 			}
@@ -71,7 +71,7 @@ public class PipeLogicIron extends PipeLogic {
 	public void onBlockPlaced() {
 		super.onBlockPlaced();
 
-		worldObj.setBlockMetadata(xCoord, yCoord, zCoord, 1);
+		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 1, 3);
 		switchPosition();
 	}
 
@@ -83,7 +83,7 @@ public class PipeLogicIron extends PipeLogic {
 		if (equipped instanceof IToolWrench
 				&& ((IToolWrench) equipped).canWrench(entityplayer, this.xCoord, this.yCoord, this.zCoord)) {
 			switchPosition();
-			worldObj.markBlockNeedsUpdate(xCoord, yCoord, zCoord);
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 			((IToolWrench) equipped).wrenchUsed(entityplayer, this.xCoord, this.yCoord, this.zCoord);
 
 			return true;

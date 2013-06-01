@@ -9,6 +9,8 @@
 
 package buildcraft.builders;
 
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 import buildcraft.BuildCraftBuilders;
 import buildcraft.api.core.IAreaProvider;
 import buildcraft.api.core.LaserKind;
@@ -19,8 +21,6 @@ import buildcraft.core.network.PacketUpdate;
 import buildcraft.core.network.TileNetworkData;
 import buildcraft.core.proxy.CoreProxy;
 import buildcraft.core.utils.Utils;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.World;
 
 public class TileMarker extends TileBuildCraft implements IAreaProvider {
 
@@ -410,14 +410,14 @@ public class TileMarker extends TileBuildCraft implements IAreaProvider {
 
 		for (TileWrapper m : o.vect.clone()) {
 			if (m.isSet()) {
-				worldObj.setBlockWithNotify(m.x, m.y, m.z, 0);
+				worldObj.setBlockToAir(m.x, m.y, m.z);
 
 				BuildCraftBuilders.markerBlock
 						.dropBlockAsItem(worldObj, m.x, m.y, m.z, BuildCraftBuilders.markerBlock.blockID, 0);
 			}
 		}
 
-		worldObj.setBlockWithNotify(o.vectO.x, o.vectO.y, o.vectO.z, 0);
+		worldObj.setBlockToAir(o.vectO.x, o.vectO.y, o.vectO.z);
 
 		BuildCraftBuilders.markerBlock.dropBlockAsItem(worldObj, o.vectO.x, o.vectO.y, o.vectO.z,
 				BuildCraftBuilders.markerBlock.blockID, 0);

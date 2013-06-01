@@ -9,14 +9,14 @@
 
 package buildcraft.transport.render;
 
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityFX;
-import net.minecraft.src.EntityItem;
-import net.minecraft.src.MathHelper;
-import net.minecraft.src.RenderManager;
-import net.minecraft.src.Tessellator;
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.World;
+import net.minecraft.client.particle.EntityFX;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
+import net.minecraft.world.World;
 
 import org.lwjgl.opengl.GL11;
 
@@ -34,7 +34,7 @@ public class TileEntityPickupFX extends EntityFX {
 		field_679_o = entity1;
 		field_677_q = 3;
 
-		yDestination = Utils.getPipeFloorOf(entity.item);
+		yDestination = Utils.getPipeFloorOf(entity.getEntityItem());
 	}
 
 	@Override

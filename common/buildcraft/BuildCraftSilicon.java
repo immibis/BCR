@@ -8,9 +8,9 @@
 
 package buildcraft;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemStack;
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;
 import buildcraft.api.bptblocks.BptBlockInventory;
@@ -68,15 +68,15 @@ public class BuildCraftSilicon {
 		BuildCraftCore.mainConfiguration.save();
 
 		laserBlock = new BlockLaser(Integer.parseInt(laserId.value));
-		CoreProxy.proxy.addName(laserBlock.setBlockName("laserBlock"), "Laser");
+		CoreProxy.proxy.addName(laserBlock.setUnlocalizedName("laserBlock"), "Laser");
 		CoreProxy.proxy.registerBlock(laserBlock);
 
 		assemblyTableBlock = new BlockAssemblyTable(Integer.parseInt(assemblyTableId.value));
-		CoreProxy.proxy.addName(assemblyTableBlock.setBlockName("assemblyTableBlock"), "Assembly Table");
+		CoreProxy.proxy.addName(assemblyTableBlock.setUnlocalizedName("assemblyTableBlock"), "Assembly Table");
 		CoreProxy.proxy.registerBlock(assemblyTableBlock);
 
 		redstoneChipset = new ItemRedstoneChipset(Integer.parseInt(redstoneChipsetId.value));
-		redstoneChipset.setItemName("redstoneChipset");
+		redstoneChipset.setUnlocalizedName("redstoneChipset");
 
 	}
 

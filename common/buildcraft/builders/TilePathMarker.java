@@ -5,6 +5,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.TreeSet;
 
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import buildcraft.api.core.Position;
 import buildcraft.core.BlockIndex;
 import buildcraft.core.DefaultProps;
@@ -13,10 +16,6 @@ import buildcraft.core.EntityPowerLaser;
 import buildcraft.core.network.PacketUpdate;
 import buildcraft.core.network.TileNetworkData;
 import buildcraft.core.proxy.CoreProxy;
-
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.World;
 
 public class TilePathMarker extends TileMarker {
 
@@ -76,7 +75,7 @@ public class TilePathMarker extends TileMarker {
 		double nearestDistance = 0, distance;	//The initialization of nearestDistance is only to make the compiler shut up
 
 		for (TilePathMarker t : availableMarkers) {
-			if (t == this || t == this.links[0] || t == this.links[1] || t.worldObj.provider.worldType != this.worldObj.provider.worldType)
+			if (t == this || t == this.links[0] || t == this.links[1] || t.worldObj.provider.dimensionId != this.worldObj.provider.dimensionId)
 				continue;
 
 			distance = Math.sqrt(Math.pow(this.xCoord - t.xCoord, 2) + Math.pow(this.yCoord - t.yCoord, 2) + Math.pow(this.zCoord - t.zCoord, 2));
@@ -257,7 +256,7 @@ public class TilePathMarker extends TileMarker {
 	public static void clearAvailableMarkersList(World w) {
 		for (Iterator<TilePathMarker> it = availableMarkers.iterator(); it.hasNext();) {
 			TilePathMarker t = it.next();
-			if (t.worldObj.provider.worldType != w.provider.worldType) {
+			if (t.worldObj.provider.dimensionId != w.provider.dimensionId) {
 				it.remove();
 			}
 		}
@@ -270,7 +269,7 @@ public class TilePathMarker extends TileMarker {
 		super.handleUpdatePacket(packet);
 
 		if (previousState != tryingToConnect) {
-			worldObj.markBlockNeedsUpdate(xCoord, yCoord, zCoord);
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
 	}
 }

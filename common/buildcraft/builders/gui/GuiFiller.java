@@ -9,7 +9,7 @@
 
 package buildcraft.builders.gui;
 
-import net.minecraft.src.IInventory;
+import net.minecraft.inventory.IInventory;
 
 import org.lwjgl.opengl.GL11;
 
@@ -32,7 +32,7 @@ public class GuiFiller extends GuiBuildCraft {
 	}
 
 	@Override
-	protected void drawGuiContainerForegroundLayer() {
+	protected void drawGuiContainerForegroundLayer(int par1, int par2) {
 		String title = StringUtil.localize("tile.fillerBlock");
 		fontRenderer.drawString(title, getCenteredOffset(title), 6, 0x404040);
 		fontRenderer.drawString(StringUtil.localize("gui.filling.resources"), 8, 74, 0x404040);
@@ -45,16 +45,14 @@ public class GuiFiller extends GuiBuildCraft {
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int x, int y) {
 
-		int i = mc.renderEngine.getTexture(DefaultProps.TEXTURE_PATH_GUI + "/filler.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.bindTexture(i);
+		mc.renderEngine.bindTexture(DefaultProps.TEXTURE_PATH_GUI + "/filler.png");
 
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
 		if (filler.currentPattern != null) {
-			i = mc.renderEngine.getTexture(filler.currentPattern.getTextureFile());
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			mc.renderEngine.bindTexture(i);
+			mc.renderEngine.bindTexture(filler.currentPattern.getTextureFile());
 
 			int textureI = filler.currentPattern.getTextureIndex() >> 4;
 			int textureJ = filler.currentPattern.getTextureIndex() - textureI * 16;

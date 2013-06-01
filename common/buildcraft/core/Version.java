@@ -6,7 +6,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import buildcraft.core.proxy.CoreProxy;
-
 import cpw.mods.fml.common.FMLLog;
 
 public class Version {

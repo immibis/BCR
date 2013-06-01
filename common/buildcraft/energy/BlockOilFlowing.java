@@ -11,15 +11,14 @@ package buildcraft.energy;
 
 import java.util.Random;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockFluid;
+import net.minecraft.block.material.Material;
+import net.minecraft.world.World;
 import buildcraft.BuildCraftCore;
 import buildcraft.BuildCraftEnergy;
 import buildcraft.api.liquids.ILiquid;
 import buildcraft.core.DefaultProps;
-
-import net.minecraft.src.Block;
-import net.minecraft.src.BlockFluid;
-import net.minecraft.src.Material;
-import net.minecraft.src.World;
 
 
 public class BlockOilFlowing extends BlockFluid implements ILiquid {
@@ -47,9 +46,8 @@ public class BlockOilFlowing extends BlockFluid implements ILiquid {
 
 	private void func_30003_j(World world, int i, int j, int k) {
 		int l = world.getBlockMetadata(i, j, k);
-		world.setBlockAndMetadata(i, j, k, blockID + 1, l);
-		world.markBlocksDirty(i, j, k, i, j, k);
-		world.markBlockNeedsUpdate(i, j, k);
+		world.setBlock(i, j, k, blockID + 1, l, 3);
+		world.markBlockForUpdate(i, j, k);
 	}
 
 	@Override
@@ -79,10 +77,10 @@ public class BlockOilFlowing extends BlockFluid implements ILiquid {
 			if (j1 != l) {
 				l = j1;
 				if (l < 0) {
-					world.setBlockWithNotify(i, j, k, 0);
+					world.setBlockToAir(i, j, k);
 				} else {
-					world.setBlockMetadataWithNotify(i, j, k, l);
-					world.scheduleBlockUpdate(i, j, k, blockID, tickRate());
+					world.setBlockMetadataWithNotify(i, j, k, l, 3);
+					world.scheduleBlockUpdate(i, j, k, blockID, tickRate(world));
 					world.notifyBlocksOfNeighborChange(i, j, k, blockID);
 				}
 			} else if (flag) {
@@ -93,9 +91,9 @@ public class BlockOilFlowing extends BlockFluid implements ILiquid {
 		}
 		if (liquidCanDisplaceBlock(world, i, j - 1, k)) {
 			if (l >= 8) {
-				world.setBlockAndMetadataWithNotify(i, j - 1, k, blockID, l);
+				world.setBlock(i, j - 1, k, blockID, l, 3);
 			} else {
-				world.setBlockAndMetadataWithNotify(i, j - 1, k, blockID, l + 8);
+				world.setBlock(i, j - 1, k, blockID, l + 8, 3);
 			}
 		} else if (l >= 0 && (l == 0 || blockBlocksFlow(world, i, j - 1, k))) {
 			boolean aflag[] = getOptimalFlowDirections(world, i, j, k);
@@ -127,7 +125,7 @@ public class BlockOilFlowing extends BlockFluid implements ILiquid {
 			if (i1 > 0) {
 				Block.blocksList[i1].dropBlockAsItem(world, i, j, k, world.getBlockMetadata(i, j, k), 0);
 			}
-			world.setBlockAndMetadataWithNotify(i, j, k, blockID, l);
+			world.setBlock(i, j, k, blockID, l, 3);
 		}
 	}
 
@@ -216,7 +214,7 @@ public class BlockOilFlowing extends BlockFluid implements ILiquid {
 
 	private boolean blockBlocksFlow(World world, int i, int j, int k) {
 		int l = world.getBlockId(i, j, k);
-		if (l == Block.doorWood.blockID || l == Block.doorSteel.blockID || l == Block.signPost.blockID
+		if (l == Block.doorWood.blockID || l == Block.doorIron.blockID || l == Block.signPost.blockID
 				|| l == Block.ladder.blockID || l == Block.reed.blockID) {
 			return true;
 		}
@@ -251,7 +249,7 @@ public class BlockOilFlowing extends BlockFluid implements ILiquid {
 	public void onBlockAdded(World world, int i, int j, int k) {
 		super.onBlockAdded(world, i, j, k);
 		if (world.getBlockId(i, j, k) == blockID) {
-			world.scheduleBlockUpdate(i, j, k, blockID, tickRate());
+			world.scheduleBlockUpdate(i, j, k, blockID, tickRate(world));
 		}
 	}
 

@@ -15,14 +15,14 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.TreeSet;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.BlockContainer;
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.NBTBase;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.NBTTagList;
-import net.minecraft.src.TileEntity;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.tileentity.TileEntity;
 import buildcraft.BuildCraftCore;
 import buildcraft.api.blueprints.BlockSignature;
 import buildcraft.api.blueprints.BlueprintManager;
@@ -333,7 +333,7 @@ public class BptBlueprint extends BptBase {
 		if (!"*".equals(sig.itemClassName) && !item.getClass().getSimpleName().equals(sig.itemClassName))
 			return false;
 
-		if (!"*".equals(sig.itemName) && !item.getItemNameIS(new ItemStack(item)).equals(sig.itemName))
+		if (!"*".equals(sig.itemName) && !item.getUnlocalizedName(new ItemStack(item)).equals(sig.itemName))
 			return false;
 
 		return true;

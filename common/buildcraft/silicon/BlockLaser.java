@@ -11,15 +11,14 @@ package buildcraft.silicon;
 
 import java.util.ArrayList;
 
+import net.minecraft.block.BlockContainer;
+import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import buildcraft.api.core.Orientations;
 import buildcraft.core.DefaultProps;
-
-import net.minecraft.src.BlockContainer;
-import net.minecraft.src.CreativeTabs;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.Material;
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.World;
 
 
 public class BlockLaser extends BlockContainer {
@@ -73,13 +72,13 @@ public class BlockLaser extends BlockContainer {
 
 
 	@Override
-	public void updateBlockMetadata(World world, int x, int y, int z, int par5,	float par6, float par7, float par8) {
-		super.updateBlockMetadata(world, x, y, z, par5, par6, par7, par8);
-		int i1 = world.getBlockMetadata(x, y, z);
+	public int onBlockPlaced(World world, int x, int y, int z, int par5,	float par6, float par7, float par8, int par9) {
+		super.onBlockPlaced(world, x, y, z, par5, par6, par7, par8, par9);
+		int i1 = par9;
 		if (par5 <= 6) {
 			i1 = par5;
 		}
-		world.setBlockMetadataWithNotify(x, y, z, i1);
+		return i1;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })

@@ -9,8 +9,8 @@
 
 package buildcraft.core;
 
+import net.minecraft.tileentity.TileEntity;
 import buildcraft.api.core.Orientations;
-import net.minecraft.src.TileEntity;
 
 public interface ITileBufferHolder {
 

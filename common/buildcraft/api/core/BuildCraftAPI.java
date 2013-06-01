@@ -9,8 +9,8 @@
 
 package buildcraft.api.core;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.World;
+import net.minecraft.block.Block;
+import net.minecraft.world.World;
 
 public class BuildCraftAPI {
 	
@@ -45,7 +45,7 @@ public class BuildCraftAPI {
 			Block.blocksList[blockId].dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
 		}
 
-		world.setBlockWithNotify(x, y, z, 0);
+		world.setBlockToAir(x, y, z);
 	}
 
 	static {

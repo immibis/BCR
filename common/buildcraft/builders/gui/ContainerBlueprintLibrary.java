@@ -9,13 +9,12 @@
 
 package buildcraft.builders.gui;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.ICrafting;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Slot;
 import buildcraft.builders.TileBlueprintLibrary;
 import buildcraft.core.gui.BuildCraftContainer;
-
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.ICrafting;
-import net.minecraft.src.IInventory;
-import net.minecraft.src.Slot;
 
 public class ContainerBlueprintLibrary extends BuildCraftContainer {
 	
@@ -47,14 +46,14 @@ public class ContainerBlueprintLibrary extends BuildCraftContainer {
 	}
 
 	@Override
-	public void updateCraftingResults() {
-		super.updateCraftingResults();
+	public void detectAndSendChanges() {
+		super.detectAndSendChanges();
 		for (int i = 0; i < crafters.size(); i++) {
 			ICrafting icrafting = (ICrafting) crafters.get(i);
 			if (progressIn != library.progressIn)
-				icrafting.updateCraftingInventoryInfo(this, 0, library.progressIn);
+				icrafting.sendProgressBarUpdate(this, 0, library.progressIn);
 			if (progressOut != library.progressOut)
-				icrafting.updateCraftingInventoryInfo(this, 1, library.progressOut);
+				icrafting.sendProgressBarUpdate(this, 1, library.progressOut);
 		}
 
 		progressIn = library.progressIn;

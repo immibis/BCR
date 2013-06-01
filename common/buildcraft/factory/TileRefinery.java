@@ -9,6 +9,12 @@
 
 package buildcraft.factory;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ICrafting;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import buildcraft.BuildCraftCore;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.core.SafeTimeTracker;
@@ -24,12 +30,6 @@ import buildcraft.api.recipes.RefineryRecipe;
 import buildcraft.core.IMachine;
 import buildcraft.core.network.TileNetworkData;
 import buildcraft.core.proxy.CoreProxy;
-import net.minecraft.src.Container;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.ICrafting;
-import net.minecraft.src.IInventory;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.NBTTagCompound;
 
 public class TileRefinery extends TileMachine implements ITankContainer, IPowerReceptor, IInventory, IMachine {
 
@@ -381,8 +381,8 @@ public class TileRefinery extends TileMachine implements ITankContainer, IPowerR
 	}
 
 	public void sendGUINetworkData(Container container, ICrafting iCrafting) {
-		iCrafting.updateCraftingInventoryInfo(container, 0, filters[0]);
-		iCrafting.updateCraftingInventoryInfo(container, 1, filters[1]);
+		iCrafting.sendProgressBarUpdate(container, 0, filters[0]);
+		iCrafting.sendProgressBarUpdate(container, 1, filters[1]);
 	}
 
 	/* ITANKCONTAINER */

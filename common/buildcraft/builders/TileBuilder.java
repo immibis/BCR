@@ -13,6 +13,12 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import buildcraft.BuildCraftBuilders;
 import buildcraft.api.core.LaserKind;
 import buildcraft.api.core.Orientations;
@@ -20,15 +26,7 @@ import buildcraft.api.core.Position;
 import buildcraft.api.power.IPowerProvider;
 import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerFramework;
-import buildcraft.core.BlockIndex;
-import buildcraft.core.Box;
-import buildcraft.core.DefaultProps;
-import buildcraft.core.EntityLaser;
-import buildcraft.core.EntityPowerLaser;
-import buildcraft.core.EntityRobot;
-import buildcraft.core.IBuilderInventory;
-import buildcraft.core.IMachine;
-import buildcraft.core.TileBuildCraft;
+import buildcraft.core.*;
 import buildcraft.core.blueprints.BptBase;
 import buildcraft.core.blueprints.BptBlueprint;
 import buildcraft.core.blueprints.BptBuilderBase;
@@ -40,13 +38,6 @@ import buildcraft.core.network.TileNetworkData;
 import buildcraft.core.proxy.CoreProxy;
 import buildcraft.core.utils.SurroundingInventory;
 import buildcraft.core.utils.Utils;
-
-import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.NBTTagList;
-import net.minecraft.src.TileEntity;
 
 public class TileBuilder extends TileBuildCraft implements IBuilderInventory, IPowerReceptor, IMachine {
 
@@ -205,7 +196,7 @@ public class TileBuilder extends TileBuildCraft implements IBuilderInventory, IP
 						path = ((TilePathMarker) tile).getPath();
 
 						for (BlockIndex b : path) {
-							worldObj.setBlockWithNotify(b.i, b.j, b.k, 0);
+							worldObj.setBlockToAir(b.i, b.j, b.k);
 
 							BuildCraftBuilders.pathMarkerBlock.dropBlockAsItem(worldObj, b.i, b.j, b.k,
 									BuildCraftBuilders.pathMarkerBlock.blockID, 0);

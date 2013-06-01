@@ -11,11 +11,10 @@ package buildcraft.api.bptblocks;
 
 import java.util.LinkedList;
 
+import net.minecraft.item.ItemStack;
 import buildcraft.api.blueprints.BptBlock;
 import buildcraft.api.blueprints.BptSlotInfo;
 import buildcraft.api.blueprints.IBptContext;
-
-import net.minecraft.src.ItemStack;
 
 public class BptBlockDoor extends BptBlock {
 
@@ -62,11 +61,11 @@ public class BptBlockDoor extends BptBlock {
 
 	@Override
 	public void buildBlock(BptSlotInfo slot, IBptContext context) {
-		context.world().setBlockAndMetadataWithNotify(slot.x, slot.y, slot.z, slot.blockId, slot.meta);
-		context.world().setBlockAndMetadataWithNotify(slot.x, slot.y + 1, slot.z, slot.blockId, slot.meta + 8);
+		context.world().setBlock(slot.x, slot.y, slot.z, slot.blockId, slot.meta, 0);
+		context.world().setBlock(slot.x, slot.y + 1, slot.z, slot.blockId, slot.meta + 8, 3);
 
-		context.world().setBlockMetadataWithNotify(slot.x, slot.y + 1, slot.z, slot.meta + 8);
-		context.world().setBlockMetadataWithNotify(slot.x, slot.y, slot.z, slot.meta);
+		context.world().setBlockMetadataWithNotify(slot.x, slot.y + 1, slot.z, slot.meta + 8, 0);
+		context.world().setBlockMetadataWithNotify(slot.x, slot.y, slot.z, slot.meta, 3);
 
 	}
 }

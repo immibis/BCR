@@ -9,12 +9,11 @@
 
 package buildcraft.core;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 import buildcraft.api.core.Position;
 import buildcraft.core.proxy.CoreProxy;
-
-import net.minecraft.src.Entity;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.World;
 
 public class EntityLaser extends Entity {
 
@@ -161,6 +160,7 @@ public class EntityLaser extends Entity {
 		dataWatcher.updateObject(16, texture);
 	}
 
+	@Override
 	public String getTexture() {
 		return texture;
 	}

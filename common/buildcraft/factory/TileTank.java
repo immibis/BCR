@@ -8,6 +8,8 @@
  */
 package buildcraft.factory;
 
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import buildcraft.BuildCraftCore;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.core.SafeTimeTracker;
@@ -20,8 +22,6 @@ import buildcraft.core.TileBuildCraft;
 import buildcraft.core.network.PacketPayload;
 import buildcraft.core.network.PacketUpdate;
 import buildcraft.core.proxy.CoreProxy;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.TileEntity;
 
 public class TileTank extends TileBuildCraft implements ITankContainer
 {

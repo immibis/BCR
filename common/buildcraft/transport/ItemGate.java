@@ -2,13 +2,11 @@ package buildcraft.transport;
 
 import java.util.List;
 
-import cpw.mods.fml.common.Side;
-import cpw.mods.fml.common.asm.SideOnly;
-
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemStack;
 import buildcraft.core.ItemBuildCraft;
-
-import net.minecraft.src.CreativeTabs;
-import net.minecraft.src.ItemStack;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemGate extends ItemBuildCraft {
 
@@ -52,8 +50,8 @@ public class ItemGate extends ItemBuildCraft {
 	}
 
 	@Override
-	public String getItemNameIS(ItemStack itemstack) {
-		return (new StringBuilder()).append(super.getItemName()).append(".").append(itemstack.getItemDamage()).toString();
+	public String getUnlocalizedName(ItemStack itemstack) {
+		return (new StringBuilder()).append(super.getUnlocalizedName()).append(".").append(itemstack.getItemDamage()).toString();
 	}
 
 	@Override

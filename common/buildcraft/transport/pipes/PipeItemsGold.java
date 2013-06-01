@@ -10,6 +10,7 @@ package buildcraft.transport.pipes;
 
 import java.util.LinkedList;
 
+import net.minecraft.tileentity.TileEntity;
 import buildcraft.BuildCraftTransport;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.core.Position;
@@ -20,8 +21,6 @@ import buildcraft.transport.IPipeTransportItemsHook;
 import buildcraft.transport.Pipe;
 import buildcraft.transport.PipeTransportItems;
 import buildcraft.transport.TileGenericPipe;
-
-import net.minecraft.src.TileEntity;
 
 public class PipeItemsGold extends Pipe implements IPipeTransportItemsHook {
 

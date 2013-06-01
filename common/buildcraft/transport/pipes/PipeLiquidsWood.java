@@ -8,6 +8,8 @@
 
 package buildcraft.transport.pipes;
 
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.core.Position;
 import buildcraft.api.liquids.ITankContainer;
@@ -21,8 +23,6 @@ import buildcraft.core.DefaultProps;
 import buildcraft.core.network.TileNetworkData;
 import buildcraft.transport.Pipe;
 import buildcraft.transport.PipeTransportLiquids;
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.World;
 
 public class PipeLiquidsWood extends Pipe implements IPowerReceptor {
 

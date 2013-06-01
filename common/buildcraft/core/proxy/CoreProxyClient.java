@@ -12,10 +12,21 @@ package buildcraft.core.proxy;
 import java.io.File;
 import java.util.List;
 
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
-
+import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.util.StringTranslate;
+import net.minecraft.world.World;
+import net.minecraftforge.client.MinecraftForgeClient;
 import buildcraft.BuildCraftCore;
 import buildcraft.core.DefaultProps;
 import buildcraft.core.EntityBlock;
@@ -30,29 +41,19 @@ import buildcraft.core.render.RenderingEntityBlocks;
 import buildcraft.core.render.RenderingMarkers;
 import buildcraft.core.render.RenderingOil;
 import buildcraft.transport.render.TileEntityPickupFX;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.src.Block;
-import net.minecraft.src.CreativeTabs;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityItem;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.Packet;
-import net.minecraft.src.StringTranslate;
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.World;
-import net.minecraft.src.WorldClient;
-import net.minecraftforge.client.MinecraftForgeClient;
+import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class CoreProxyClient extends CoreProxy {
 
 	/* INSTANCES */
+	@Override
 	public Object getClient() {
 		return FMLClientHandler.instance().getClient();
 	}
 	
+	@Override
 	public World getClientWorld() {
 		return FMLClientHandler.instance().getClient().theWorld;
 	}
@@ -67,6 +68,7 @@ public class CoreProxyClient extends CoreProxy {
 	}
 
 	/* WRAPPER */
+	@Override
 	public void feedSubBlocks(int id, CreativeTabs tab, List itemList) {
 		if(Block.blocksList[id] == null)
 			return;
@@ -128,10 +130,11 @@ public class CoreProxyClient extends CoreProxy {
 	/* NETWORKING */
 	@Override
 	public void sendToServer(Packet packet) {
-		FMLClientHandler.instance().getClient().getSendQueue().addToSendQueue(packet);
+		FMLClientHandler.instance().getClient().getNetHandler().getNetManager().addToSendQueue(packet);
 	}
 
 	/* FILE SYSTEM */
+	@Override
 	public File getBuildCraftBase() {
 		return Minecraft.getMinecraftDir();
 	}
@@ -145,7 +148,8 @@ public class CoreProxyClient extends CoreProxy {
 	private EntityPlayer createNewPlayer(World world) {
 		return new EntityPlayer(world) {
 			@Override public void sendChatToPlayer(String var1) {}
-			@Override public boolean canCommandSenderUseCommand(String var1) { return false; }
+			@Override public boolean canCommandSenderUseCommand(int var1, String var2) { return false; }
+			@Override public ChunkCoordinates getPlayerCoordinates() {return new ChunkCoordinates();}
 		};
 	}
 

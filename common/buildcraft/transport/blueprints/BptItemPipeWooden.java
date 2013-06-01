@@ -11,12 +11,11 @@ package buildcraft.transport.blueprints;
 
 import java.util.LinkedList;
 
+import net.minecraft.item.ItemStack;
 import buildcraft.api.blueprints.BptSlotInfo;
 import buildcraft.api.blueprints.IBptContext;
 import buildcraft.api.core.Orientations;
 import buildcraft.core.blueprints.BptItem;
-
-import net.minecraft.src.ItemStack;
 
 public class BptItemPipeWooden extends BptItem {
 
@@ -31,7 +30,7 @@ public class BptItemPipeWooden extends BptItem {
 
 	@Override
 	public void postProcessing(BptSlotInfo slot, IBptContext context) {
-		context.world().setBlockMetadata(slot.x, slot.y, slot.z, slot.meta);
+		context.world().setBlockMetadataWithNotify(slot.x, slot.y, slot.z, slot.meta, 3);
 	}
 
 	@Override

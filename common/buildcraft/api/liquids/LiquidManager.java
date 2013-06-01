@@ -2,7 +2,7 @@ package buildcraft.api.liquids;
 
 import java.util.LinkedList;
 
-import net.minecraft.src.ItemStack;
+import net.minecraft.item.ItemStack;
 
 public class LiquidManager {
 	

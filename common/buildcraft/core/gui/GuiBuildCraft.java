@@ -2,9 +2,9 @@ package buildcraft.core.gui;
 
 import java.util.ArrayList;
 
-import net.minecraft.src.GuiContainer;
-import net.minecraft.src.IInventory;
-import net.minecraft.src.TileEntity;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.tileentity.TileEntity;
 
 import org.lwjgl.opengl.GL11;
 
@@ -199,7 +199,7 @@ public abstract class GuiBuildCraft extends GuiContainer {
 
 			GL11.glColor4f(colorR, colorG, colorB, 1.0F);
 
-			mc.renderEngine.bindTexture(texture);
+			mc.renderEngine.bindTexture(DefaultProps.TEXTURE_PATH_GUI + "/ledger.png");
 			drawTexturedModalRect(x, y, 0, 256 - currentHeight, 4, currentHeight);
 			drawTexturedModalRect(x + 4, y, 256 - currentWidth + 4, 0, currentWidth - 4, 4);
 			// Add in top left corner again
@@ -214,8 +214,7 @@ public abstract class GuiBuildCraft extends GuiContainer {
 		protected void drawIcon(String texture, int iconIndex, int x, int y) {
 
 			GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0F);
-			int tex = mc.renderEngine.getTexture(texture);
-			mc.renderEngine.bindTexture(tex);
+			mc.renderEngine.bindTexture(texture);
 			int textureRow = iconIndex >> 4;
 			int textureColumn = iconIndex - 16 * textureRow;
 			drawTexturedModalRect(x, y, 16 * textureColumn, 16 * textureRow, 16, 16);
@@ -235,9 +234,9 @@ public abstract class GuiBuildCraft extends GuiContainer {
 	}
 
 	protected void initLedgers(IInventory inventory) {}
-
+	
 	@Override
-	protected void drawGuiContainerForegroundLayer() {
+	protected void drawGuiContainerForegroundLayer(int par1, int par2) {
 		ledgerManager.drawLedgers(mouseX, mouseY);
 	}
 

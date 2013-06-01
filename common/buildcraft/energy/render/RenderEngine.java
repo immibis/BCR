@@ -9,12 +9,11 @@
 
 package buildcraft.energy.render;
 
-import net.minecraft.src.ModelBase;
-import net.minecraft.src.ModelRenderer;
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.TileEntitySpecialRenderer;
-import net.minecraftforge.client.ForgeHooksClient;
-
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.opengl.GL11;
 
 import buildcraft.BuildCraftCore;
@@ -23,8 +22,8 @@ import buildcraft.api.core.Orientations;
 import buildcraft.core.DefaultProps;
 import buildcraft.core.IInventoryRenderer;
 import buildcraft.energy.Engine;
-import buildcraft.energy.IEngineProvider;
 import buildcraft.energy.Engine.EnergyStage;
+import buildcraft.energy.IEngineProvider;
 
 public class RenderEngine extends TileEntitySpecialRenderer implements IInventoryRenderer {
 
@@ -150,7 +149,7 @@ public class RenderEngine extends TileEntitySpecialRenderer implements IInventor
 
 		float factor = (float) (1.0 / 16.0);
 
-		ForgeHooksClient.bindTexture(baseTexture, 0);
+		Minecraft.getMinecraft().renderEngine.bindTexture(baseTexture);
 
 		box.render(factor);
 
@@ -158,7 +157,7 @@ public class RenderEngine extends TileEntitySpecialRenderer implements IInventor
 		movingBox.render(factor);
 		GL11.glTranslatef(-translate[0] * translatefact, -translate[1] * translatefact, -translate[2] * translatefact);
 
-		ForgeHooksClient.bindTexture(DefaultProps.TEXTURE_PATH_BLOCKS + "/chamber.png", 0);
+		Minecraft.getMinecraft().renderEngine.bindTexture(DefaultProps.TEXTURE_PATH_BLOCKS + "/chamber.png");
 
 		float chamberf = 2F / 16F;
 
@@ -187,7 +186,7 @@ public class RenderEngine extends TileEntitySpecialRenderer implements IInventor
 			break;
 		}
 
-		ForgeHooksClient.bindTexture(texture, 0);
+		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 
 		trunk.render(factor);
 

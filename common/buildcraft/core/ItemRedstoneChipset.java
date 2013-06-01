@@ -2,11 +2,10 @@ package buildcraft.core;
 
 import java.util.List;
 
-import cpw.mods.fml.common.Side;
-import cpw.mods.fml.common.asm.SideOnly;
-
-import net.minecraft.src.CreativeTabs;
-import net.minecraft.src.ItemStack;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemStack;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemRedstoneChipset extends ItemBuildCraft {
 
@@ -36,8 +35,8 @@ public class ItemRedstoneChipset extends ItemBuildCraft {
 	}
 
 	@Override
-	public String getItemNameIS(ItemStack itemstack) {
-		return (new StringBuilder()).append(super.getItemName()).append(".").append(itemstack.getItemDamage()).toString();
+	public String getUnlocalizedName(ItemStack itemstack) {
+		return (new StringBuilder()).append(super.getUnlocalizedName()).append(".").append(itemstack.getItemDamage()).toString();
 	}
 
 

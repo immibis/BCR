@@ -9,7 +9,8 @@
 
 package buildcraft.core.network;
 
-import net.minecraft.src.Packet;
+import net.minecraft.network.packet.Packet;
+
 
 public interface ISynchronizedTile {
 

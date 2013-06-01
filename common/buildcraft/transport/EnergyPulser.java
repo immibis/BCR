@@ -1,8 +1,8 @@
 package buildcraft.transport;
 
+import net.minecraft.nbt.NBTTagCompound;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.power.IPowerReceptor;
-import net.minecraft.src.NBTTagCompound;
 
 public class EnergyPulser {
 

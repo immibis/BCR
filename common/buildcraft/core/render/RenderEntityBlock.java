@@ -9,12 +9,13 @@
 
 package buildcraft.core.render;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.Entity;
-import net.minecraft.src.IBlockAccess;
-import net.minecraft.src.Render;
-import net.minecraft.src.Tessellator;
-import net.minecraft.src.World;
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.Icon;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 import net.minecraftforge.client.ForgeHooksClient;
 
 import org.lwjgl.opengl.GL11;
@@ -35,10 +36,10 @@ public class RenderEntityBlock extends Render {
 
 		public Block baseBlock = Block.sand;
 
-		public int texture = -1;
+		public Icon texture = null;
 
-		public int getBlockTextureFromSide(int i) {
-			if (texture == -1)
+		public Icon getBlockTextureFromSide(int i) {
+			if (texture == null)
 				return baseBlock.getBlockTextureFromSide(i);
 			else
 				return texture;

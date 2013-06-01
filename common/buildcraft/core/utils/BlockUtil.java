@@ -10,11 +10,10 @@ package buildcraft.core.utils;
 
 import java.util.ArrayList;
 
+import net.minecraft.block.Block;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import buildcraft.BuildCraftCore;
-
-import net.minecraft.src.Block;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.World;
 
 public class BlockUtil {
 
@@ -35,7 +34,7 @@ public class BlockUtil {
 		if (blockId != 0 && BuildCraftCore.dropBrokenBlocks)
 			Block.blocksList[blockId].dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
 
-		world.setBlockWithNotify(x, y, z, 0);
+		world.setBlockToAir(x, y, z);
 	}
 
 }

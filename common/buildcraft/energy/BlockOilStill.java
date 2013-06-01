@@ -9,13 +9,13 @@
 
 package buildcraft.energy;
 
+import net.minecraft.block.BlockStationary;
+import net.minecraft.block.material.Material;
+import net.minecraft.world.World;
 import buildcraft.BuildCraftCore;
 import buildcraft.BuildCraftEnergy;
 import buildcraft.api.liquids.ILiquid;
 import buildcraft.core.DefaultProps;
-import net.minecraft.src.BlockStationary;
-import net.minecraft.src.Material;
-import net.minecraft.src.World;
 
 
 public class BlockOilStill extends BlockStationary implements ILiquid {

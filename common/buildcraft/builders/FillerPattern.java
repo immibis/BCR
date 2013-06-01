@@ -9,15 +9,15 @@
 
 package buildcraft.builders;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import buildcraft.BuildCraftBuilders;
 import buildcraft.api.core.BuildCraftAPI;
 import buildcraft.api.core.IBox;
 import buildcraft.api.filler.IFillerPattern;
 import buildcraft.core.proxy.CoreProxy;
 import buildcraft.core.utils.BlockUtil;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.World;
 
 public abstract class FillerPattern implements IFillerPattern {
 
@@ -98,7 +98,7 @@ public abstract class FillerPattern implements IFillerPattern {
 
 		if (lastX != Integer.MAX_VALUE) {
 			if (BuildCraftBuilders.fillerDestroy) {
-				world.setBlockWithNotify(lastX, lastY, lastZ, 0);
+				world.setBlockToAir(lastX, lastY, lastZ);
 			} else {
 				BlockUtil.breakBlock(world, lastX, lastY, lastZ);
 			}

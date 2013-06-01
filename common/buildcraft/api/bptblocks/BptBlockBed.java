@@ -11,12 +11,11 @@ package buildcraft.api.bptblocks;
 
 import java.util.LinkedList;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import buildcraft.api.blueprints.BptBlock;
 import buildcraft.api.blueprints.BptSlotInfo;
 import buildcraft.api.blueprints.IBptContext;
-
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemStack;
 
 public class BptBlockBed extends BptBlock {
 
@@ -58,7 +57,7 @@ public class BptBlockBed extends BptBlock {
 			return;
 		}
 
-		context.world().setBlockAndMetadataWithNotify(slot.x, slot.y, slot.z, slot.blockId, slot.meta);
+		context.world().setBlock(slot.x, slot.y, slot.z, slot.blockId, slot.meta, 0);
 
 		int x2 = slot.x;
 		int z2 = slot.z;
@@ -78,7 +77,7 @@ public class BptBlockBed extends BptBlock {
 			break;
 		}
 
-		context.world().setBlockAndMetadataWithNotify(x2, slot.y, z2, slot.blockId, slot.meta + 8);
+		context.world().setBlock(x2, slot.y, z2, slot.blockId, slot.meta + 8, 3);
 	}
 
 	@Override

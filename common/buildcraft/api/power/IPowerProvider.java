@@ -1,8 +1,8 @@
 package buildcraft.api.power;
 
+import net.minecraft.nbt.NBTTagCompound;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.core.SafeTimeTracker;
-import net.minecraft.src.NBTTagCompound;
 
 public interface IPowerProvider {
 

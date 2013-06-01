@@ -9,7 +9,7 @@
 
 package buildcraft.api.transport;
 
-import net.minecraft.src.ItemStack;
+import net.minecraft.item.ItemStack;
 import buildcraft.api.core.Orientations;
 
 /**

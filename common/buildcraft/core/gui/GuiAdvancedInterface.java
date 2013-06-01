@@ -1,9 +1,9 @@
 package buildcraft.core.gui;
 
-import net.minecraft.src.IInventory;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.OpenGlHelper;
-import net.minecraft.src.RenderHelper;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
 
 import org.lwjgl.opengl.GL11;
 
@@ -49,8 +49,7 @@ public abstract class GuiAdvancedInterface extends GuiBuildCraft {
 			if (getItemStack() != null)
 				drawStack(getItemStack());
 			else if (getTexture() != null && !getTexture().equals("")) {
-				int texture = mc.renderEngine.getTexture(getTexture());
-				mc.renderEngine.bindTexture(texture);
+				mc.renderEngine.bindTexture(getTexture());
 
 				int textureI = getTextureIndex() >> 4;
 				int textureJ = getTextureIndex() - textureI * 16;
@@ -165,7 +164,7 @@ public abstract class GuiAdvancedInterface extends GuiBuildCraft {
 		if (s.length() > 0) {
 			int i2 = (lastX - cornerX);
 			int k2 = lastY - cornerY;
-			func_74190_a(s, i2, k2);
+			drawCreativeTabHoveringText(s, i2, k2);
 		}
 	}
 

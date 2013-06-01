@@ -9,13 +9,13 @@
 
 package buildcraft.energy;
 
+import net.minecraft.inventory.ICrafting;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntityFurnace;
 import buildcraft.core.DefaultProps;
 import buildcraft.core.utils.Utils;
 import buildcraft.energy.gui.ContainerEngine;
-import net.minecraft.src.ICrafting;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.TileEntityFurnace;
 
 public class EngineStone extends Engine {
 
@@ -151,10 +151,10 @@ public class EngineStone extends Engine {
 
 	@Override
 	public void sendGUINetworkData(ContainerEngine containerEngine, ICrafting iCrafting) {
-		iCrafting.updateCraftingInventoryInfo(containerEngine, 0, Math.round(energy));
-		iCrafting.updateCraftingInventoryInfo(containerEngine, 1, Math.round(currentOutput));
-		iCrafting.updateCraftingInventoryInfo(containerEngine, 2, burnTime);
-		iCrafting.updateCraftingInventoryInfo(containerEngine, 3, totalBurnTime);
+		iCrafting.sendProgressBarUpdate(containerEngine, 0, Math.round(energy));
+		iCrafting.sendProgressBarUpdate(containerEngine, 1, Math.round(currentOutput));
+		iCrafting.sendProgressBarUpdate(containerEngine, 2, burnTime);
+		iCrafting.sendProgressBarUpdate(containerEngine, 3, totalBurnTime);
 	}
 
 	@Override

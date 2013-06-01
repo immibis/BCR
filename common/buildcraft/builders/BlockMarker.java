@@ -11,23 +11,21 @@ package buildcraft.builders;
 
 import java.util.ArrayList;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
+import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 import buildcraft.BuildCraftBuilders;
 import buildcraft.BuildCraftCore;
-import buildcraft.builders.BuildersProxy;
 import buildcraft.core.DefaultProps;
 import buildcraft.core.utils.Utils;
-
-import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.Block;
-import net.minecraft.src.BlockContainer;
-import net.minecraft.src.CreativeTabs;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.Material;
-import net.minecraft.src.MovingObjectPosition;
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.Vec3;
-import net.minecraft.src.World;
 
 
 public class BlockMarker extends BlockContainer {
@@ -133,7 +131,7 @@ public class BlockMarker extends BlockContainer {
 			}
 			if (flag) {
 				dropBlockAsItem(world, i, j, k, BuildCraftBuilders.markerBlock.blockID, 0);
-				world.setBlockWithNotify(i, j, k, 0);
+				world.setBlockToAir(i, j, k);
 			}
 		}
 	}
@@ -165,9 +163,9 @@ public class BlockMarker extends BlockContainer {
 	}
 
 	@Override
-	public void updateBlockMetadata(World world, int x, int y, int z, int par5, float par6, float par7, float par8) {
-		super.updateBlockMetadata(world, x, y, z, par5, par6, par7, par8);
-		int i1 = world.getBlockMetadata(x, y, z);
+	public int onBlockPlaced(World world, int x, int y, int z, int par5, float par6, float par7, float par8, int par9) {
+		par9 = super.onBlockPlaced(world, x, y, z, par5, par6, par7, par8, par9);
+		int i1 = par9;
 		if (par5 == 1 && BuildersProxy.canPlaceTorch(world, x, y - 1, z)) {
 			i1 = 5;
 		}
@@ -186,7 +184,7 @@ public class BlockMarker extends BlockContainer {
 		if (par5 == 0 && BuildersProxy.canPlaceTorch(world, x, y + 1, z)) {
 			i1 = 0;
 		}
-		world.setBlockMetadataWithNotify(x, y, z, i1);
+		return i1;
 	}
 	
 	@Override
@@ -194,17 +192,17 @@ public class BlockMarker extends BlockContainer {
 		super.onBlockAdded(world, i, j, k);
 
 		if (BuildersProxy.canPlaceTorch(world, i - 1, j, k)) {
-			world.setBlockMetadataWithNotify(i, j, k, 1);
+			world.setBlockMetadataWithNotify(i, j, k, 1, 3);
 		} else if (BuildersProxy.canPlaceTorch(world, i + 1, j, k)) {
-			world.setBlockMetadataWithNotify(i, j, k, 2);
+			world.setBlockMetadataWithNotify(i, j, k, 2, 3);
 		} else if (BuildersProxy.canPlaceTorch(world, i, j, k - 1)) {
-			world.setBlockMetadataWithNotify(i, j, k, 3);
+			world.setBlockMetadataWithNotify(i, j, k, 3, 3);
 		} else if (BuildersProxy.canPlaceTorch(world, i, j, k + 1)) {
-			world.setBlockMetadataWithNotify(i, j, k, 4);
+			world.setBlockMetadataWithNotify(i, j, k, 4, 3);
 		} else if (BuildersProxy.canPlaceTorch(world, i, j - 1, k)) {
-			world.setBlockMetadataWithNotify(i, j, k, 5);
+			world.setBlockMetadataWithNotify(i, j, k, 5, 3);
 		} else if (BuildersProxy.canPlaceTorch(world, i, j + 1, k)) {
-			world.setBlockMetadataWithNotify(i, j, k, 0);
+			world.setBlockMetadataWithNotify(i, j, k, 0, 3);
 		}
 
 		dropTorchIfCantStay(world, i, j, k);
@@ -213,7 +211,7 @@ public class BlockMarker extends BlockContainer {
 	private boolean dropTorchIfCantStay(World world, int i, int j, int k) {
 		if (!canPlaceBlockAt(world, i, j, k)) {
 			dropBlockAsItem(world, i, j, k, BuildCraftBuilders.markerBlock.blockID, 0);
-			world.setBlockWithNotify(i, j, k, 0);
+			world.setBlockToAir(i, j, k);
 			return false;
 		} else {
 			return true;

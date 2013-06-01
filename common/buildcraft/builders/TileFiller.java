@@ -9,6 +9,9 @@
 
 package buildcraft.builders;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import buildcraft.BuildCraftCore;
 import buildcraft.api.core.IAreaProvider;
 import buildcraft.api.core.LaserKind;
@@ -32,9 +35,6 @@ import buildcraft.core.proxy.CoreProxy;
 import buildcraft.core.triggers.ActionMachineControl;
 import buildcraft.core.triggers.ActionMachineControl.Mode;
 import buildcraft.core.utils.Utils;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.NBTTagCompound;
 
 public class TileFiller extends TileBuildCraft implements ISpecialInventory, IPowerReceptor, IMachine, IActionReceptor {
 
@@ -136,7 +136,7 @@ public class TileFiller extends TileBuildCraft implements ISpecialInventory, IPo
 			}
 
 			if (done) {
-				worldObj.markBlockAsNeedsUpdate(xCoord, yCoord, zCoord);
+				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 				sendNetworkUpdate();
 			}
 		}
@@ -177,7 +177,7 @@ public class TileFiller extends TileBuildCraft implements ISpecialInventory, IPo
 		}
 
 		if (worldObj != null) {
-			worldObj.markBlockAsNeedsUpdate(xCoord, yCoord, zCoord);
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
 
 		if (currentPattern == null) {
@@ -309,7 +309,7 @@ public class TileFiller extends TileBuildCraft implements ISpecialInventory, IPo
 		super.handleDescriptionPacket(packet);
 
 		currentPattern = FillerManager.registry.getPattern(currentPatternId);
-		worldObj.markBlockAsNeedsUpdate(xCoord, yCoord, zCoord);
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 
 		if (!initialized && box.isInitialized()) {
 			box.createLasers(worldObj, LaserKind.Stripes);
@@ -323,7 +323,7 @@ public class TileFiller extends TileBuildCraft implements ISpecialInventory, IPo
 		super.handleUpdatePacket(packet);
 
 		currentPattern = FillerManager.registry.getPattern(currentPatternId);
-		worldObj.markBlockAsNeedsUpdate(xCoord, yCoord, zCoord);
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 
 		if (!initialized && box.isInitialized()) {
 			box.createLasers(worldObj, LaserKind.Stripes);
