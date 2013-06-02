@@ -115,11 +115,11 @@ public class BuildCraftEnergy {
 			throw new RuntimeException("Oil Still id must be Oil Moving id + 1");
 		}
 
-		fuel = new Item(itemFuelId.getInt(DefaultProps.FUEL_ID)).setUnlocalizedName(DefaultProps.ICON_PREFIX + "fuel");
+		fuel = new Item(itemFuelId.getInt(DefaultProps.FUEL_ID) - 256).setUnlocalizedName(DefaultProps.ICON_PREFIX + "fuel");
 
 		MinecraftForge.EVENT_BUS.register(new OilBucketHandler());
 
-		bucketOil = (new ItemBucketOil(bucketOilId.getInt(DefaultProps.BUCKET_OIL_ID))).setUnlocalizedName(DefaultProps.ICON_PREFIX + "bucket-oil").setContainerItem(Item.bucketEmpty);
+		bucketOil = (new ItemBucketOil(bucketOilId.getInt(DefaultProps.BUCKET_OIL_ID) - 256)).setUnlocalizedName(DefaultProps.ICON_PREFIX + "bucket-oil").setContainerItem(Item.bucketEmpty);
 
 		bucketFuel = new Item(bucketFuelId.getInt() - 256).setUnlocalizedName(DefaultProps.ICON_PREFIX + "bucket-fuel").setContainerItem(Item.bucketEmpty);
 		bucketFuel.setMaxStackSize(1).setCreativeTab(CreativeTabs.tabMisc);
