@@ -227,7 +227,7 @@ public class PacketHandlerTransport implements IPacketHandler {
 
 	}
 
-	private void onPacketLiquid(EntityPlayer player, PacketLiquidUpdate packetLiquid) {
+	public static void onPacketLiquid(EntityPlayer player, PacketLiquidUpdate packetLiquid) {
 		World world = player.worldObj;
 		if (!world.blockExists(packetLiquid.posX, packetLiquid.posY, packetLiquid.posZ))
 			return;

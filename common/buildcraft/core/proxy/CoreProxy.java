@@ -22,6 +22,8 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.INetworkManager;
+import net.minecraft.network.MemoryConnection;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
@@ -105,10 +107,26 @@ public class CoreProxy {
 			}
 		}
 	}
+	
+	public void sendToPlayers(BuildCraftPacket packet, World world, int x, int y, int z, int maxDistance) {
+		if (packet != null) {
+			for (int j = 0; j < world.playerEntities.size(); j++) {
+				EntityPlayerMP player = (EntityPlayerMP) world.playerEntities.get(j);
+
+				if (Math.abs(player.posX - x) <= maxDistance && Math.abs(player.posY - y) <= maxDistance
+						&& Math.abs(player.posZ - z) <= maxDistance)
+					sendToPlayer(player, packet);
+			}
+		}
+	}
 
 	public void sendToPlayer(EntityPlayer entityplayer, BuildCraftPacket packet) {
 		EntityPlayerMP player = (EntityPlayerMP) entityplayer;
-		player.playerNetServerHandler.sendPacketToPlayer(packet.getPacket());
+		INetworkManager connection = player.playerNetServerHandler.netManager;
+		if(connection instanceof MemoryConnection)
+			connection.addToSendQueue(packet.getSSPPacket());
+		else
+			connection.addToSendQueue(packet.getPacket());
 	}
 
 	public void sendToServer(Packet packet) {}

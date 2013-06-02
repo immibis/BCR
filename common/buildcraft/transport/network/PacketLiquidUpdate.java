@@ -4,6 +4,9 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import net.minecraft.network.packet.NetHandler;
+import net.minecraft.network.packet.Packet;
+
 import buildcraft.api.core.Orientations;
 import buildcraft.api.liquids.LiquidStack;
 import buildcraft.core.network.PacketCoordinates;
@@ -49,6 +52,32 @@ public class PacketLiquidUpdate extends PacketCoordinates{
 			}
 			
 		}
+	}
+	
+	// Using a fake SSP packet allows the client to directly access the server's renderCache for rendering.
+	@Override
+	public Packet getSSPPacket() {
+		return new Packet() {
+			@Override
+			public void writePacketData(DataOutputStream dataoutputstream) throws IOException {
+				throw new UnsupportedOperationException();
+			}
+			
+			@Override
+			public void readPacketData(DataInputStream datainputstream) throws IOException {
+				throw new UnsupportedOperationException();
+			}
+			
+			@Override
+			public void processPacket(NetHandler nethandler) {
+				PacketHandlerTransport.onPacketLiquid(nethandler.getPlayer(), PacketLiquidUpdate.this);
+			}
+			
+			@Override
+			public int getPacketSize() {
+				return 0;
+			}
+		};
 	}
 
 }

@@ -38,4 +38,13 @@ public abstract class BuildCraftPacket {
 	public abstract void readData(DataInputStream data) throws IOException;
 
 	public abstract void writeData(DataOutputStream data) throws IOException;
+
+	/**
+	 * Returns a possibly-fake packet to be sent over the MemoryConnection in SSP.
+	 * (or to the host on a LAN server).
+	 * Can be used to establish shared data structures for fast rendering.
+	 */
+	public Packet getSSPPacket() {
+		return getPacket();
+	}
 }

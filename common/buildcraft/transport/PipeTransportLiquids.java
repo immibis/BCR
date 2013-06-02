@@ -220,7 +220,7 @@ public class PipeTransportLiquids extends PipeTransport implements ITankContaine
 
 				PacketLiquidUpdate packet = new PacketLiquidUpdate(xCoord, yCoord, zCoord);
 				packet.displayLiquid = this.renderCache;
-				CoreProxy.proxy.sendToPlayers(packet.getPacket(), worldObj, xCoord, yCoord, zCoord,
+				CoreProxy.proxy.sendToPlayers(packet, worldObj, xCoord, yCoord, zCoord,
 						DefaultProps.NETWORK_UPDATE_RANGE);
 			}
 
