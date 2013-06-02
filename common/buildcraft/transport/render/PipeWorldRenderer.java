@@ -75,42 +75,42 @@ public class PipeWorldRenderer implements ISimpleBlockRenderingHandler {
 		float maxSize = Utils.pipeMaxPos;
 
 		state.currentTextureIndex = state.textureMatrix.getTextureIndex(Orientations.Unknown);
-		block.setBlockBounds(minSize, minSize, minSize, maxSize, maxSize, maxSize);
+		renderblocks.setRenderBounds(minSize, minSize, minSize, maxSize, maxSize, maxSize);
 		renderblocks.renderStandardBlock(block, x, y, z);
 
 		if (state.pipeConnectionMatrix.isConnected(Orientations.XNeg)) {
 			state.currentTextureIndex = state.textureMatrix.getTextureIndex(Orientations.XNeg);
-			block.setBlockBounds(0.0F, minSize, minSize, minSize, maxSize, maxSize);
+			renderblocks.setRenderBounds(0.0F, minSize, minSize, minSize, maxSize, maxSize);
 			renderblocks.renderStandardBlock(block, x, y, z);
 		}
 
 		if (state.pipeConnectionMatrix.isConnected(Orientations.XPos)) {
 			state.currentTextureIndex = state.textureMatrix.getTextureIndex(Orientations.XPos);
-			block.setBlockBounds(maxSize, minSize, minSize, 1.0F, maxSize, maxSize);
+			renderblocks.setRenderBounds(maxSize, minSize, minSize, 1.0F, maxSize, maxSize);
 			renderblocks.renderStandardBlock(block, x, y, z);
 		}
 
 		if (state.pipeConnectionMatrix.isConnected(Orientations.YNeg)) {
 			state.currentTextureIndex = state.textureMatrix.getTextureIndex(Orientations.YNeg);
-			block.setBlockBounds(minSize, 0.0F, minSize, maxSize, minSize, maxSize);
+			renderblocks.setRenderBounds(minSize, 0.0F, minSize, maxSize, minSize, maxSize);
 			renderblocks.renderStandardBlock(block, x, y, z);
 		}
 
 		if (state.pipeConnectionMatrix.isConnected(Orientations.YPos)) {
 			state.currentTextureIndex = state.textureMatrix.getTextureIndex(Orientations.YPos);
-			block.setBlockBounds(minSize, maxSize, minSize, maxSize, 1.0F, maxSize);
+			renderblocks.setRenderBounds(minSize, maxSize, minSize, maxSize, 1.0F, maxSize);
 			renderblocks.renderStandardBlock(block, x, y, z);
 		}
 
 		if (state.pipeConnectionMatrix.isConnected(Orientations.ZNeg)) {
 			state.currentTextureIndex = state.textureMatrix.getTextureIndex(Orientations.ZNeg);
-			block.setBlockBounds(minSize, minSize, 0.0F, maxSize, maxSize, minSize);
+			renderblocks.setRenderBounds(minSize, minSize, 0.0F, maxSize, maxSize, minSize);
 			renderblocks.renderStandardBlock(block, x, y, z);
 		}
 
 		if (state.pipeConnectionMatrix.isConnected(Orientations.ZPos)) {
 			state.currentTextureIndex = state.textureMatrix.getTextureIndex(Orientations.ZPos);
-			block.setBlockBounds(minSize, minSize, maxSize, maxSize, maxSize, 1.0F);
+			renderblocks.setRenderBounds(minSize, minSize, maxSize, maxSize, maxSize, 1.0F);
 			renderblocks.renderStandardBlock(block, x, y, z);
 		}
 
@@ -174,14 +174,14 @@ public class PipeWorldRenderer implements ISimpleBlockRenderingHandler {
 					rotated[2][1] = Utils.pipeMinPos;
 					rotated[1][0] -= zFightOffset / 2;
 					transform(rotated, direction);
-					block.setBlockBounds(rotated[0][0], rotated[1][0], rotated[2][0], rotated[0][1], rotated[1][1], rotated[2][1]);
+					renderblocks.setRenderBounds(rotated[0][0], rotated[1][0], rotated[2][0], rotated[0][1], rotated[1][1], rotated[2][1]);
 					renderblocks.renderStandardBlock(block, x, y, z);
 
 					rotated = deepClone(zeroState);
 					rotated[2][0] = Utils.pipeMaxPos;
 					rotated[1][0] -= zFightOffset/2;
 					transform(rotated, direction);
-					block.setBlockBounds(rotated[0][0], rotated[1][0], rotated[2][0], rotated[0][1], rotated[1][1], rotated[2][1]);
+					renderblocks.setRenderBounds(rotated[0][0], rotated[1][0], rotated[2][0], rotated[0][1], rotated[1][1], rotated[2][1]);
 					renderblocks.renderStandardBlock(block, x, y, z);
 
 					rotated = deepClone(zeroState);
@@ -189,7 +189,7 @@ public class PipeWorldRenderer implements ISimpleBlockRenderingHandler {
 					rotated[0][1] = Utils.pipeMinPos;
 					rotated[1][1] -= zFightOffset;
 					transform(rotated, direction);
-					block.setBlockBounds(rotated[0][0], rotated[1][0], rotated[2][0], rotated[0][1], rotated[1][1], rotated[2][1]);
+					renderblocks.setRenderBounds(rotated[0][0], rotated[1][0], rotated[2][0], rotated[0][1], rotated[1][1], rotated[2][1]);
 					renderblocks.renderStandardBlock(block, x, y, z);
 
 					rotated = deepClone(zeroState);
@@ -197,12 +197,12 @@ public class PipeWorldRenderer implements ISimpleBlockRenderingHandler {
 					rotated[0][1] = 1F;
 					rotated[1][1] -= zFightOffset;
 					transform(rotated, direction);
-					block.setBlockBounds(rotated[0][0], rotated[1][0], rotated[2][0], rotated[0][1], rotated[1][1], rotated[2][1]);
+					renderblocks.setRenderBounds(rotated[0][0], rotated[1][0], rotated[2][0], rotated[0][1], rotated[1][1], rotated[2][1]);
 					renderblocks.renderStandardBlock(block, x, y, z);
 				} else { //Solid facade
 					float[][] rotated = deepClone(zeroState);
 					transform(rotated, direction);
-					block.setBlockBounds(rotated[0][0], rotated[1][0], rotated[2][0], rotated[0][1], rotated[1][1], rotated[2][1]);
+					renderblocks.setRenderBounds(rotated[0][0], rotated[1][0], rotated[2][0], rotated[0][1], rotated[1][1], rotated[2][1]);
 					renderblocks.renderStandardBlock(block, x, y, z);
 				}
 			}
@@ -225,7 +225,7 @@ public class PipeWorldRenderer implements ISimpleBlockRenderingHandler {
 				float[][] rotated = deepClone(zeroState);
 				transform(rotated, direction);
 
-				block.setBlockBounds(rotated[0][0], rotated[1][0], rotated[2][0], rotated[0][1], rotated[1][1], rotated[2][1]);
+				renderblocks.setRenderBounds(rotated[0][0], rotated[1][0], rotated[2][0], rotated[0][1], rotated[1][1], rotated[2][1]);
 				renderblocks.renderStandardBlock(block, x, y, z);
 			}
 		}
@@ -412,7 +412,7 @@ public class PipeWorldRenderer implements ISimpleBlockRenderingHandler {
 		// Z render
 
 		if (minZ != Utils.pipeMinPos || maxZ != Utils.pipeMaxPos || !found) {
-			block.setBlockBounds(cx == Utils.pipeMinPos ? cx - 0.05F : cx, cy == Utils.pipeMinPos ? cy - 0.05F : cy, minZ,
+			renderblocks.setRenderBounds(cx == Utils.pipeMinPos ? cx - 0.05F : cx, cy == Utils.pipeMinPos ? cy - 0.05F : cy, minZ,
 					cx == Utils.pipeMinPos ? cx : cx + 0.05F, cy == Utils.pipeMinPos ? cy : cy + 0.05F, maxZ);
 
 			renderblocks.renderStandardBlock(block, x, y, z);
@@ -421,7 +421,7 @@ public class PipeWorldRenderer implements ISimpleBlockRenderingHandler {
 		// X render
 
 		if (minX != Utils.pipeMinPos || maxX != Utils.pipeMaxPos || !found) {
-			block.setBlockBounds(minX, cy == Utils.pipeMinPos ? cy - 0.05F : cy, cz == Utils.pipeMinPos ? cz - 0.05F : cz, maxX,
+			renderblocks.setRenderBounds(minX, cy == Utils.pipeMinPos ? cy - 0.05F : cy, cz == Utils.pipeMinPos ? cz - 0.05F : cz, maxX,
 					cy == Utils.pipeMinPos ? cy : cy + 0.05F, cz == Utils.pipeMinPos ? cz : cz + 0.05F);
 
 			renderblocks.renderStandardBlock(block, x, y, z);
@@ -430,14 +430,14 @@ public class PipeWorldRenderer implements ISimpleBlockRenderingHandler {
 		// Y render
 
 		if (minY != Utils.pipeMinPos || maxY != Utils.pipeMaxPos || !found) {
-			block.setBlockBounds(cx == Utils.pipeMinPos ? cx - 0.05F : cx, minY, cz == Utils.pipeMinPos ? cz - 0.05F : cz,
+			renderblocks.setRenderBounds(cx == Utils.pipeMinPos ? cx - 0.05F : cx, minY, cz == Utils.pipeMinPos ? cz - 0.05F : cz,
 					cx == Utils.pipeMinPos ? cx : cx + 0.05F, maxY, cz == Utils.pipeMinPos ? cz : cz + 0.05F);
 
 			renderblocks.renderStandardBlock(block, x, y, z);
 		}
 
 		if (center || !found) {
-			block.setBlockBounds(cx == Utils.pipeMinPos ? cx - 0.05F : cx, cy == Utils.pipeMinPos ? cy - 0.05F : cy,
+			renderblocks.setRenderBounds(cx == Utils.pipeMinPos ? cx - 0.05F : cx, cy == Utils.pipeMinPos ? cy - 0.05F : cy,
 					cz == Utils.pipeMinPos ? cz - 0.05F : cz, cx == Utils.pipeMinPos ? cx : cx + 0.05F,
 					cy == Utils.pipeMinPos ? cy : cy + 0.05F, cz == Utils.pipeMinPos ? cz : cz + 0.05F);
 
@@ -454,32 +454,32 @@ public class PipeWorldRenderer implements ISimpleBlockRenderingHandler {
 		float max = Utils.pipeMaxPos - 0.05F;
 
 		if (!state.pipeConnectionMatrix.isConnected(Orientations.XNeg) && !state.facadeMatrix.isConnected(Orientations.XNeg)) {
-			block.setBlockBounds(Utils.pipeMinPos - 0.10F, min, min, Utils.pipeMinPos, max, max);
+			renderblocks.setRenderBounds(Utils.pipeMinPos - 0.10F, min, min, Utils.pipeMinPos, max, max);
 			renderblocks.renderStandardBlock(block, x, y, z);
 		}
 
 		if (!state.pipeConnectionMatrix.isConnected(Orientations.XPos) && !state.facadeMatrix.isConnected(Orientations.XPos)) {
-			block.setBlockBounds(Utils.pipeMaxPos, min, min, Utils.pipeMaxPos + 0.10F, max, max);
+			renderblocks.setRenderBounds(Utils.pipeMaxPos, min, min, Utils.pipeMaxPos + 0.10F, max, max);
 			renderblocks.renderStandardBlock(block, x, y, z);
 		}
 
 		if (!state.pipeConnectionMatrix.isConnected(Orientations.YNeg) && !state.facadeMatrix.isConnected(Orientations.YNeg)) {
-			block.setBlockBounds(min, Utils.pipeMinPos - 0.10F, min, max, Utils.pipeMinPos, max);
+			renderblocks.setRenderBounds(min, Utils.pipeMinPos - 0.10F, min, max, Utils.pipeMinPos, max);
 			renderblocks.renderStandardBlock(block, x, y, z);
 		}
 
 		if (!state.pipeConnectionMatrix.isConnected(Orientations.YPos) && !state.facadeMatrix.isConnected(Orientations.YPos)) {
-			block.setBlockBounds(min, Utils.pipeMaxPos, min, max, Utils.pipeMaxPos + 0.10F, max);
+			renderblocks.setRenderBounds(min, Utils.pipeMaxPos, min, max, Utils.pipeMaxPos + 0.10F, max);
 			renderblocks.renderStandardBlock(block, x, y, z);
 		}
 
 		if (!state.pipeConnectionMatrix.isConnected(Orientations.ZNeg) && !state.facadeMatrix.isConnected(Orientations.ZNeg)) {
-			block.setBlockBounds(min, min, Utils.pipeMinPos - 0.10F, max, max, Utils.pipeMinPos);
+			renderblocks.setRenderBounds(min, min, Utils.pipeMinPos - 0.10F, max, max, Utils.pipeMinPos);
 			renderblocks.renderStandardBlock(block, x, y, z);
 		}
 
 		if (!state.pipeConnectionMatrix.isConnected(Orientations.ZPos) && !state.facadeMatrix.isConnected(Orientations.ZPos)) {
-			block.setBlockBounds(min, min, Utils.pipeMaxPos, max, max, Utils.pipeMaxPos + 0.10F);
+			renderblocks.setRenderBounds(min, min, Utils.pipeMaxPos, max, max, Utils.pipeMaxPos + 0.10F);
 			renderblocks.renderStandardBlock(block, x, y, z);
 		}
 	}
