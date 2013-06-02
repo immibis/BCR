@@ -39,7 +39,6 @@ import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
 @Mod(name="BuildCraft Builders", version=Version.VERSION, useMetadata = false, modid = "BuildCraft|Builders", dependencies = DefaultProps.DEPENDENCY_CORE)
 @NetworkMod(channels = {DefaultProps.NET_CHANNEL_NAME}, packetHandler = PacketHandlerBuilders.class, clientSideRequired = true, serverSideRequired = true)
@@ -189,36 +188,28 @@ public class BuildCraftBuilders {
 		fillerDestroy = fillerDestroyProp.getBoolean(DefaultProps.FILLER_DESTROY);
 
 		templateItem = new ItemBptTemplate(templateItemId.getInt() - 256);
-		templateItem.setUnlocalizedName("templateItem");
-		LanguageRegistry.addName(templateItem, "Template");
+		templateItem.setUnlocalizedName(DefaultProps.ICON_PREFIX + "template");
 
 		blueprintItem = new ItemBptBluePrint(blueprintItemId.getInt() - 256);
-		blueprintItem.setUnlocalizedName("blueprintItem");
-		LanguageRegistry.addName(blueprintItem, "Blueprint");
+		blueprintItem.setUnlocalizedName(DefaultProps.ICON_PREFIX + "blueprint");
 
 		markerBlock = new BlockMarker(markerId.getInt());
 		CoreProxy.proxy.registerBlock(markerBlock.setUnlocalizedName(DefaultProps.ICON_PREFIX + "landmark"));
-		CoreProxy.proxy.addName(markerBlock, "Land Mark");
 
 		pathMarkerBlock = new BlockPathMarker(pathMarkerId.getInt());
-		CoreProxy.proxy.registerBlock(pathMarkerBlock.setUnlocalizedName("pathMarkerBlock"));
-		CoreProxy.proxy.addName(pathMarkerBlock, "Path Mark");
+		CoreProxy.proxy.registerBlock(pathMarkerBlock.setUnlocalizedName(DefaultProps.ICON_PREFIX + "pathmark"));
 
 		fillerBlock = new BlockFiller(fillerId.getInt());
-		CoreProxy.proxy.registerBlock(fillerBlock.setUnlocalizedName("fillerBlock"));
-		CoreProxy.proxy.addName(fillerBlock, "Filler");
+		CoreProxy.proxy.registerBlock(fillerBlock.setUnlocalizedName(DefaultProps.ICON_PREFIX + "filler"));
 
 		builderBlock = new BlockBuilder(builderId.getInt());
-		CoreProxy.proxy.registerBlock(builderBlock.setUnlocalizedName("builderBlock"));
-		CoreProxy.proxy.addName(builderBlock, "Builder");
+		CoreProxy.proxy.registerBlock(builderBlock.setUnlocalizedName(DefaultProps.ICON_PREFIX + "builder"));
 
 		architectBlock = new BlockArchitect(architectId.getInt());
-		CoreProxy.proxy.registerBlock(architectBlock.setUnlocalizedName("architectBlock"));
-		CoreProxy.proxy.addName(architectBlock, "Architect Table");
+		CoreProxy.proxy.registerBlock(architectBlock.setUnlocalizedName(DefaultProps.ICON_PREFIX + "architect"));
 
 		libraryBlock = new BlockBlueprintLibrary(libraryId.getInt());
-		CoreProxy.proxy.registerBlock(libraryBlock.setUnlocalizedName("libraryBlock"));
-		CoreProxy.proxy.addName(libraryBlock, "Blueprint Library");
+		CoreProxy.proxy.registerBlock(libraryBlock.setUnlocalizedName(DefaultProps.ICON_PREFIX + "library"));
 
 		GameRegistry.registerTileEntity(TileMarker.class, "Marker");
 		GameRegistry.registerTileEntity(TileFiller.class, "Filler");

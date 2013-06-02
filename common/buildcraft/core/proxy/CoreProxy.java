@@ -64,7 +64,6 @@ public class CoreProxy {
 	public void feedSubBlocks(int id, CreativeTabs tab, List itemList) {}
 
 	/* LOCALIZATION */
-	public void addName(Object obj, String s) {}
 	public void addLocalization(String s1, String string) {}
 	public String getItemDisplayName(ItemStack newStack) { return ""; }
 

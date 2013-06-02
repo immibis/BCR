@@ -10,20 +10,13 @@
 package buildcraft.energy;
 
 import net.minecraft.item.ItemBucket;
-import net.minecraft.item.ItemStack;
 import buildcraft.BuildCraftEnergy;
-import buildcraft.core.utils.StringUtil;
 
 
 public class ItemBucketOil extends ItemBucket {
 
 	public ItemBucketOil(int i) {
 		super(i, BuildCraftEnergy.oilMoving.blockID);
-	}
-
-	@Override
-	public String getItemDisplayName(ItemStack itemstack) {
-		return StringUtil.localize(getUnlocalizedName(itemstack));
 	}
 
 }

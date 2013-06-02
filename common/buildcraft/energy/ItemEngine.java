@@ -10,6 +10,7 @@
 package buildcraft.energy;
 
 import net.minecraft.item.ItemStack;
+import buildcraft.core.DefaultProps;
 import buildcraft.core.ItemBlockBuildCraft;
 
 public class ItemEngine extends ItemBlockBuildCraft {
@@ -25,14 +26,14 @@ public class ItemEngine extends ItemBlockBuildCraft {
 		return i;
 	}
 
+	@Override
 	@SuppressWarnings({ "all" })
-	public String getItemNameIS(ItemStack itemstack) {
-		if (itemstack.getItemDamage() == 0) {
-			return "tile.engineWood";
-		} else if (itemstack.getItemDamage() == 1) {
-			return "tile.engineStone";
-		} else {
-			return "tile.engineIron";
+	public String getUnlocalizedName(ItemStack itemstack) {
+		switch(itemstack.getItemDamage()) {
+		case 0: return "tile." + DefaultProps.ICON_PREFIX + "engine.redstone";
+		case 1: return "tile." + DefaultProps.ICON_PREFIX + "engine.steam";
+		case 2: return "tile." + DefaultProps.ICON_PREFIX + "engine.combustion";
+		default: return "";
 		}
 	}
 }

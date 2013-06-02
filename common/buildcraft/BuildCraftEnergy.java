@@ -42,7 +42,6 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
 @Mod(name="BuildCraft Energy", version=Version.VERSION, useMetadata = false, modid = "BuildCraft|Energy", dependencies = DefaultProps.DEPENDENCY_CORE)
 @NetworkMod(channels = {DefaultProps.NET_CHANNEL_NAME}, packetHandler = PacketHandler.class, clientSideRequired = true, serverSideRequired = true)
@@ -102,16 +101,12 @@ public class BuildCraftEnergy {
 		engineBlock = new BlockEngine(engineId.getInt(DefaultProps.ENGINE_ID));
 		GameRegistry.registerBlock(engineBlock, ItemEngine.class);
 
-		LanguageRegistry.addName(new ItemStack(engineBlock, 1, 0), "Redstone Engine");
-		LanguageRegistry.addName(new ItemStack(engineBlock, 1, 1), "Steam Engine");
-		LanguageRegistry.addName(new ItemStack(engineBlock, 1, 2), "Combustion Engine");
-
-		oilStill = (new BlockOilStill(oilStillId.getInt(DefaultProps.OIL_STILL_ID), Material.water)).setUnlocalizedName("oil");
-		CoreProxy.proxy.addName(oilStill.setUnlocalizedName("oilStill"), "Oil");
+		oilStill = (new BlockOilStill(oilStillId.getInt(DefaultProps.OIL_STILL_ID), Material.water));
+		oilStill.setUnlocalizedName(DefaultProps.ICON_PREFIX + "oilStill");
 		CoreProxy.proxy.registerBlock(oilStill);
 
-		oilMoving = (new BlockOilFlowing(oilMovingId.getInt(DefaultProps.OIL_MOVING_ID), Material.water)).setUnlocalizedName("oil");
-		CoreProxy.proxy.addName(oilMoving.setUnlocalizedName("oilMoving"), "Oil");
+		oilMoving = (new BlockOilFlowing(oilMovingId.getInt(DefaultProps.OIL_MOVING_ID), Material.water));
+		oilMoving.setUnlocalizedName(DefaultProps.ICON_PREFIX + "oilMoving");
 		CoreProxy.proxy.registerBlock(oilMoving);
 
 		// Oil and fuel
@@ -121,7 +116,6 @@ public class BuildCraftEnergy {
 		}
 
 		fuel = new Item(itemFuelId.getInt(DefaultProps.FUEL_ID)).setUnlocalizedName(DefaultProps.ICON_PREFIX + "fuel");
-		LanguageRegistry.addName(fuel, "Fuel");
 
 		MinecraftForge.EVENT_BUS.register(new OilBucketHandler());
 

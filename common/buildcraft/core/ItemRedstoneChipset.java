@@ -52,7 +52,14 @@ public class ItemRedstoneChipset extends Item {
 
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
-		return (new StringBuilder()).append(super.getUnlocalizedName()).append(".").append(itemstack.getItemDamage()).toString();
+		switch(itemstack.getItemDamage()) {
+		case 0: return super.getUnlocalizedName() + ".redstone";
+		case 1: return super.getUnlocalizedName() + ".iron";
+		case 2: return super.getUnlocalizedName() + ".gold";
+		case 3: return super.getUnlocalizedName() + ".diamond";
+		case 4: return super.getUnlocalizedName() + ".ender";
+		default: return super.getUnlocalizedName();
+		}
 	}
 
 

@@ -122,42 +122,42 @@ public class BuildCraftFactory {
 		BuildCraftCore.mainConfiguration.save();
 
 		miningWellBlock = new BlockMiningWell(minigWellId.getInt());
-		CoreProxy.proxy.registerBlock(miningWellBlock.setUnlocalizedName("miningWellBlock"));
-		CoreProxy.proxy.addName(miningWellBlock, "Mining Well");
+		miningWellBlock.setUnlocalizedName(DefaultProps.ICON_PREFIX + "miningwell");
+		CoreProxy.proxy.registerBlock(miningWellBlock);
 
 		plainPipeBlock = new BlockPlainPipe(plainPipeId.getInt());
-		CoreProxy.proxy.registerBlock(plainPipeBlock.setUnlocalizedName(DefaultProps.ICON_PREFIX + "drill-pipe"));
-		CoreProxy.proxy.addName(plainPipeBlock, "Mining Pipe");
+		plainPipeBlock.setUnlocalizedName(DefaultProps.ICON_PREFIX + "drill-pipe");
+		CoreProxy.proxy.registerBlock(plainPipeBlock);
 
 		autoWorkbenchBlock = new BlockAutoWorkbench(autoWorkbenchId.getInt());
-		CoreProxy.proxy.registerBlock(autoWorkbenchBlock.setUnlocalizedName("autoWorkbenchBlock"));
-		CoreProxy.proxy.addName(autoWorkbenchBlock, "Automatic Crafting Table");
+		autoWorkbenchBlock.setUnlocalizedName(DefaultProps.ICON_PREFIX + "autoworkbench");
+		CoreProxy.proxy.registerBlock(autoWorkbenchBlock);
 
 		frameBlock = new BlockFrame(frameId.getInt());
-		CoreProxy.proxy.registerBlock(frameBlock.setUnlocalizedName(DefaultProps.ICON_PREFIX + "frame"));
-		CoreProxy.proxy.addName(frameBlock, "Frame");
+		frameBlock.setUnlocalizedName(DefaultProps.ICON_PREFIX + "frame");
+		CoreProxy.proxy.registerBlock(frameBlock);
 
 		quarryBlock = new BlockQuarry(quarryId.getInt());
-		CoreProxy.proxy.registerBlock(quarryBlock.setUnlocalizedName("machineBlock"));
-		CoreProxy.proxy.addName(quarryBlock, "Quarry");
+		quarryBlock.setUnlocalizedName(DefaultProps.ICON_PREFIX + "quarry");
+		CoreProxy.proxy.registerBlock(quarryBlock);
 
 		tankBlock = new BlockTank(tankId.getInt());
-		CoreProxy.proxy.registerBlock(tankBlock.setUnlocalizedName("tankBlock"));
-		CoreProxy.proxy.addName(tankBlock, "Tank");
+		tankBlock.setUnlocalizedName(DefaultProps.ICON_PREFIX + "tank");
+		CoreProxy.proxy.registerBlock(tankBlock);
 
 		pumpBlock = new BlockPump(pumpId.getInt());
-		CoreProxy.proxy.registerBlock(pumpBlock.setUnlocalizedName("pumpBlock"));
-		CoreProxy.proxy.addName(pumpBlock, "Pump");
+		pumpBlock.setUnlocalizedName(DefaultProps.ICON_PREFIX + "pump");
+		CoreProxy.proxy.registerBlock(pumpBlock);
 
 		refineryBlock = new BlockRefinery(refineryId.getInt());
-		CoreProxy.proxy.registerBlock(refineryBlock.setUnlocalizedName("refineryBlock"));
-		CoreProxy.proxy.addName(refineryBlock, "Refinery");
+		refineryBlock.setUnlocalizedName(DefaultProps.ICON_PREFIX + "refinery");
+		CoreProxy.proxy.registerBlock(refineryBlock);
 
 		hopperDisabled = hopperDisable.getBoolean(false);
 		if (!hopperDisabled) {
 			hopperBlock = new BlockHopper(hopperId.getInt());
-			CoreProxy.proxy.registerBlock(hopperBlock.setUnlocalizedName("blockHopper"));
-			CoreProxy.proxy.addName(hopperBlock, "Hopper");
+			hopperBlock.setUnlocalizedName(DefaultProps.ICON_PREFIX + "hopper");
+			CoreProxy.proxy.registerBlock(hopperBlock);
 		}
 
 		BuildCraftCore.mainConfiguration.save();

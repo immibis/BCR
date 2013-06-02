@@ -53,7 +53,6 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
 @Mod(name="BuildCraft", version=Version.VERSION, useMetadata = false, modid = "BuildCraft|Core")
 @NetworkMod(channels = {DefaultProps.NET_CHANNEL_NAME}, packetHandler = PacketHandler.class, clientSideRequired = true, serverSideRequired = true)
@@ -184,7 +183,6 @@ public class BuildCraftCore {
 			Property wrenchId = BuildCraftCore.mainConfiguration.get("wrench.id", Configuration.CATEGORY_ITEM, DefaultProps.WRENCH_ID);
 
 			wrenchItem = (new ItemWrench(wrenchId.getInt(DefaultProps.WRENCH_ID))).setUnlocalizedName(DefaultProps.ICON_PREFIX + "wrench");
-			LanguageRegistry.addName(wrenchItem, "Wrench");
 
 			Property woodenGearId = BuildCraftCore.mainConfiguration.get("woodenGearItem.id", Configuration.CATEGORY_ITEM, DefaultProps.WOODEN_GEAR_ID);
 			Property stoneGearId = BuildCraftCore.mainConfiguration.get("stoneGearItem.id", Configuration.CATEGORY_ITEM, DefaultProps.STONE_GEAR_ID);
