@@ -65,7 +65,8 @@ public class PipeTransportPower extends PipeTransport {
 
 		// Send the power to nearby pipes who requested it
 
-		displayPower = new short[] { 0, 0, 0, 0, 0, 0 };
+		for(int k = 0; k < displayPower.length; k++)
+			displayPower[k] = 0;
 
 		for (int i = 0; i < 6; ++i)
 			if (internalPower[i] > 0) {
@@ -150,7 +151,7 @@ public class PipeTransportPower extends PipeTransport {
 		if (!worldObj.isRemote && tracker.markTimeIfDelay(worldObj, 2 * BuildCraftCore.updateFactor)) {
 				PacketPowerUpdate packet = new PacketPowerUpdate(xCoord, yCoord, zCoord);
 				packet.displayPower = displayPower;
-				CoreProxy.proxy.sendToPlayers(packet.getPacket(), worldObj, xCoord, yCoord, zCoord,
+				CoreProxy.proxy.sendToPlayers(packet, worldObj, xCoord, yCoord, zCoord,
 						DefaultProps.NETWORK_UPDATE_RANGE);
 			}
 

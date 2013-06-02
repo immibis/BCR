@@ -205,7 +205,7 @@ public class PacketHandlerTransport implements IPacketHandler {
 	 * Updates the display power on a power pipe
 	 * @param packetPower
 	 */
-	private void onPacketPower(EntityPlayer player, PacketPowerUpdate packetPower) {
+	public static void onPacketPower(EntityPlayer player, PacketPowerUpdate packetPower) {
 		World world = player.worldObj;
 		if (!world.blockExists(packetPower.posX, packetPower.posY, packetPower.posZ))
 			return;
