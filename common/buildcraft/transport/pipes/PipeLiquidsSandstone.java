@@ -9,6 +9,8 @@
 
 package buildcraft.transport.pipes;
 
+import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.util.Icon;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.liquids.LiquidStack;
 import buildcraft.transport.IPipeTransportLiquidsHook;
@@ -31,5 +33,17 @@ public class PipeLiquidsSandstone extends Pipe implements IPipeTransportLiquidsH
 			return 0;
 		
 		return ((PipeTransportLiquids)this.transport).getTanks()[from.ordinal()].fill(resource, doFill);
+	}
+	
+	private static Icon icon;
+	
+	@Override
+	public void registerIcons(IconRegister r) {
+		icon = r.registerIcon(getDefaultIconPath());
+	}
+	
+	@Override
+	public Icon getTexture(Orientations direction) {
+		return icon;
 	}
 }

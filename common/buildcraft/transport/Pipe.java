@@ -129,24 +129,20 @@ public abstract class Pipe implements IPipe, IDropControlInventory {
 		return logic.isPipeConnected(tile) && transport.isPipeConnected(tile);
 	}
 
-	protected Icon icon;
-	
 	protected String getDefaultIconPath() {
 		return DefaultProps.ICON_PREFIX + "pipes/" + getClass().getSimpleName();
 	}
 	
-	public void registerIcons(IconRegister r) {
-		icon = r.registerIcon(getDefaultIconPath());
-	}
+	// Only called for one instance of each type of pipe, so
+	// your icons should be saved in static fields.
+	public abstract void registerIcons(IconRegister r);
 	
 	/**
 	 * Should return the texture.
 	 * @param direction The orientation for the texture that is requested. Unknown for the center pipe center 
 	 * @return the index in the texture sheet
 	 */
-	public Icon getTexture(Orientations direction) {
-		return icon;
-	}
+	public abstract Icon getTexture(Orientations direction);
 	
 	
 	/**

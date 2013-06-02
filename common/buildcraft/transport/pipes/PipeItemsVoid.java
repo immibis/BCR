@@ -9,7 +9,10 @@
 
 package buildcraft.transport.pipes;
 
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
+import buildcraft.api.core.Orientations;
 import buildcraft.transport.EntityData;
 import buildcraft.transport.IItemTravelingHook;
 import buildcraft.transport.Pipe;
@@ -38,4 +41,17 @@ public class PipeItemsVoid extends Pipe implements IItemTravelingHook{
 	@Override
 	public void endReached(PipeTransportItems pipe, EntityData data, TileEntity tile) {}
 
+
+	
+	private static Icon icon;
+	
+	@Override
+	public void registerIcons(IconRegister r) {
+		icon = r.registerIcon(getDefaultIconPath());
+	}
+	
+	@Override
+	public Icon getTexture(Orientations direction) {
+		return icon;
+	}
 }

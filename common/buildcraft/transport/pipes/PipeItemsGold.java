@@ -29,11 +29,11 @@ public class PipeItemsGold extends Pipe implements IPipeTransportItemsHook {
 		super(new PipeTransportItems(), new PipeLogicGold(), itemID);
 	}
 	
-	private Icon iconOn;
+	private static Icon iconOn, iconOff;
 	
 	@Override
 	public void registerIcons(IconRegister r) {
-		super.registerIcons(r);
+		iconOff = r.registerIcon(getDefaultIconPath());
 		iconOn = r.registerIcon(getDefaultIconPath() + "-active");
 	}
 	
@@ -42,7 +42,7 @@ public class PipeItemsGold extends Pipe implements IPipeTransportItemsHook {
 		if (broadcastRedstone || worldObj != null && worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord))
 			return iconOn;
 		else
-			return super.getTexture(direction);
+			return iconOff;
 	}
 	
 	@Override

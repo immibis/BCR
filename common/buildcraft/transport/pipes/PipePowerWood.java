@@ -8,7 +8,9 @@
 
 package buildcraft.transport.pipes;
 
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.power.IPowerProvider;
 import buildcraft.api.power.IPowerReceptor;
@@ -88,6 +90,18 @@ public class PipePowerWood extends Pipe implements IPowerReceptor {
 	@Override
 	public int powerRequest() {
 		return getPowerProvider().getMaxEnergyReceived();
+	}
+	
+	private static Icon icon;
+	
+	@Override
+	public void registerIcons(IconRegister r) {
+		icon = r.registerIcon(getDefaultIconPath());
+	}
+	
+	@Override
+	public Icon getTexture(Orientations direction) {
+		return icon;
 	}
 
 }

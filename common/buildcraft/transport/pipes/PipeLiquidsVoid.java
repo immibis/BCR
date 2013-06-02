@@ -9,6 +9,8 @@
 
 package buildcraft.transport.pipes;
 
+import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.util.Icon;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.liquids.LiquidStack;
 import buildcraft.transport.IPipeTransportLiquidsHook;
@@ -25,5 +27,17 @@ public class PipeLiquidsVoid extends Pipe implements IPipeTransportLiquidsHook{
 	@Override
 	public int fill(Orientations from, LiquidStack resource, boolean doFill) {
 		return resource.amount;
+	}
+	
+	private static Icon icon;
+	
+	@Override
+	public void registerIcons(IconRegister r) {
+		icon = r.registerIcon(getDefaultIconPath());
+	}
+	
+	@Override
+	public Icon getTexture(Orientations direction) {
+		return icon;
 	}
 }

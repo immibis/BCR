@@ -10,9 +10,10 @@ import buildcraft.api.core.Orientations;
 import buildcraft.api.transport.IPipe;
 import buildcraft.api.transport.IPipe.WireColor;
 import buildcraft.core.utils.Utils;
-import buildcraft.transport.IPipeRenderState;
 import buildcraft.transport.ItemFacade;
+import buildcraft.transport.Pipe;
 import buildcraft.transport.PipeRenderState;
+import buildcraft.transport.TileGenericPipe;
 import buildcraft.transport.TransportProxyClient;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
@@ -70,47 +71,47 @@ public class PipeWorldRenderer implements ISimpleBlockRenderingHandler {
 		return target;
 	}
 
-	public void renderPipe(RenderBlocks renderblocks, IBlockAccess iblockaccess, Block block, PipeRenderState state, int x, int y, int z) {
+	public void renderPipe(RenderBlocks renderblocks, IBlockAccess iblockaccess, Block block, Pipe pipe, PipeRenderState state, int x, int y, int z) {
 
 		float minSize = Utils.pipeMinPos;
 		float maxSize = Utils.pipeMaxPos;
 
-		state.currentTextureIndex = state.textureMatrix.getTextureIndex(Orientations.Unknown);
+		state.currentTextureIndex = pipe.getTexture(Orientations.Unknown);
 		renderblocks.setRenderBounds(minSize, minSize, minSize, maxSize, maxSize, maxSize);
 		renderblocks.renderStandardBlock(block, x, y, z);
 
 		if (state.pipeConnectionMatrix.isConnected(Orientations.XNeg)) {
-			state.currentTextureIndex = state.textureMatrix.getTextureIndex(Orientations.XNeg);
+			state.currentTextureIndex = pipe.getTexture(Orientations.XNeg);
 			renderblocks.setRenderBounds(0.0F, minSize, minSize, minSize, maxSize, maxSize);
 			renderblocks.renderStandardBlock(block, x, y, z);
 		}
 
 		if (state.pipeConnectionMatrix.isConnected(Orientations.XPos)) {
-			state.currentTextureIndex = state.textureMatrix.getTextureIndex(Orientations.XPos);
+			state.currentTextureIndex = pipe.getTexture(Orientations.XPos);
 			renderblocks.setRenderBounds(maxSize, minSize, minSize, 1.0F, maxSize, maxSize);
 			renderblocks.renderStandardBlock(block, x, y, z);
 		}
 
 		if (state.pipeConnectionMatrix.isConnected(Orientations.YNeg)) {
-			state.currentTextureIndex = state.textureMatrix.getTextureIndex(Orientations.YNeg);
+			state.currentTextureIndex = pipe.getTexture(Orientations.YNeg);
 			renderblocks.setRenderBounds(minSize, 0.0F, minSize, maxSize, minSize, maxSize);
 			renderblocks.renderStandardBlock(block, x, y, z);
 		}
 
 		if (state.pipeConnectionMatrix.isConnected(Orientations.YPos)) {
-			state.currentTextureIndex = state.textureMatrix.getTextureIndex(Orientations.YPos);
+			state.currentTextureIndex = pipe.getTexture(Orientations.YPos);
 			renderblocks.setRenderBounds(minSize, maxSize, minSize, maxSize, 1.0F, maxSize);
 			renderblocks.renderStandardBlock(block, x, y, z);
 		}
 
 		if (state.pipeConnectionMatrix.isConnected(Orientations.ZNeg)) {
-			state.currentTextureIndex = state.textureMatrix.getTextureIndex(Orientations.ZNeg);
+			state.currentTextureIndex = pipe.getTexture(Orientations.ZNeg);
 			renderblocks.setRenderBounds(minSize, minSize, 0.0F, maxSize, maxSize, minSize);
 			renderblocks.renderStandardBlock(block, x, y, z);
 		}
 
 		if (state.pipeConnectionMatrix.isConnected(Orientations.ZPos)) {
-			state.currentTextureIndex = state.textureMatrix.getTextureIndex(Orientations.ZPos);
+			state.currentTextureIndex = pipe.getTexture(Orientations.ZPos);
 			renderblocks.setRenderBounds(minSize, minSize, maxSize, maxSize, maxSize, 1.0F);
 			renderblocks.renderStandardBlock(block, x, y, z);
 		}
@@ -499,9 +500,10 @@ public class PipeWorldRenderer implements ISimpleBlockRenderingHandler {
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
 		TileEntity tile = world.getBlockTileEntity(x, y, z);
 
-		if (tile instanceof IPipeRenderState){
-			IPipeRenderState pipeTile = (IPipeRenderState) tile;
-			renderPipe(renderer, world, block, pipeTile.getRenderState(), x, y, z);
+		if (tile instanceof TileGenericPipe){
+			TileGenericPipe pipeTile = (TileGenericPipe) tile;
+			if(pipeTile.pipe != null)
+				renderPipe(renderer, world, block, pipeTile.pipe, pipeTile.getRenderState(), x, y, z);
 		}
 		return true;
 	}

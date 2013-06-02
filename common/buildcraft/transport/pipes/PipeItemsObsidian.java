@@ -10,6 +10,7 @@ package buildcraft.transport.pipes;
 
 import java.util.List;
 
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityMinecartContainer;
@@ -18,6 +19,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Icon;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.core.Position;
 import buildcraft.api.power.IPowerProvider;
@@ -276,5 +278,19 @@ public class PipeItemsObsidian extends Pipe implements IPowerReceptor {
 	@Override
 	public int powerRequest() {
 		return getPowerProvider().getMaxEnergyReceived();
+	}
+	
+
+	
+	private static Icon icon;
+	
+	@Override
+	public void registerIcons(IconRegister r) {
+		icon = r.registerIcon(getDefaultIconPath());
+	}
+	
+	@Override
+	public Icon getTexture(Orientations direction) {
+		return icon;
 	}
 }

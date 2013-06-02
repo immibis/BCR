@@ -23,23 +23,23 @@ public class PipeLiquidsIron extends Pipe {
 		super(new PipeTransportLiquids(), new PipeLogicIron(), itemID);
 	}
 	
-	private Icon texBlocked;
+	private static Icon texBlocked, tex;
 	
 	@Override
 	public void registerIcons(IconRegister r) {
-		super.registerIcons(r);
+		tex = r.registerIcon(getDefaultIconPath());
 		texBlocked = r.registerIcon(getDefaultIconPath() + "-blocked");
 	}
 	
 	@Override
 	public Icon getTexture(Orientations direction) {
 		if (direction == Orientations.Unknown)
-			return super.getTexture(direction);
+			return tex;
 		else {
 			int metadata = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
 
 			if (metadata == direction.ordinal())
-				return super.getTexture(direction);
+				return tex;
 			else
 				return texBlocked;
 		}

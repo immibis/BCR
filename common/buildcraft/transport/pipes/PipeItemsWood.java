@@ -47,25 +47,25 @@ public class PipeItemsWood extends Pipe implements IPowerReceptor {
 		this(itemID, new PipeTransportItems());
 	}
 	
-	private Icon iconActive;
+	private static Icon iconActive, icon;
 	
 	@Override
 	public void registerIcons(IconRegister r) {
-		super.registerIcons(r);
+		icon = r.registerIcon(getDefaultIconPath());
 		iconActive = r.registerIcon(getDefaultIconPath() + "-active");
 	}
 	
 	@Override
 	public Icon getTexture(Orientations direction) {
 		if (direction == Orientations.Unknown)
-			return super.getTexture(direction);
+			return icon;
 		else {
 			int metadata = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
 
 			if (metadata == direction.ordinal())
 				return iconActive;
 			else
-				return super.getTexture(direction);
+				return icon;
 		}
 	}
 

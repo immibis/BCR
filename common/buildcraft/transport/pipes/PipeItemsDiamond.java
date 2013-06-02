@@ -27,14 +27,13 @@ public class PipeItemsDiamond extends Pipe implements IPipeTransportItemsHook {
 		super(new PipeTransportItems(), new PipeLogicDiamond(), itemID);
 	}
 	
-	private Icon iconSide[] = new Icon[7];
+	private static Icon iconSide[] = new Icon[7];
 	
 	@Override
 	public void registerIcons(IconRegister r) {
-		super.registerIcons(r);
 		for(int k = 0; k < 6; k++)
 			iconSide[k] = r.registerIcon(getDefaultIconPath() + "-" + k);
-		iconSide[6] = super.icon;
+		iconSide[6] = r.registerIcon(getDefaultIconPath());
 	}
 	
 	@Override

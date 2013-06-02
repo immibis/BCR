@@ -10,6 +10,9 @@ package buildcraft.transport.pipes;
 
 import java.util.LinkedList;
 
+import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.util.Icon;
+
 import buildcraft.api.core.Orientations;
 import buildcraft.api.core.Position;
 import buildcraft.api.transport.IPipedItem;
@@ -44,6 +47,20 @@ public class PipeItemsStone extends Pipe implements IPipeTransportItemsHook {
 	@Override
 	public void entityEntered(IPipedItem item, Orientations orientation) {
 
+	}
+	
+
+	
+	private static Icon icon;
+	
+	@Override
+	public void registerIcons(IconRegister r) {
+		icon = r.registerIcon(getDefaultIconPath());
+	}
+	
+	@Override
+	public Icon getTexture(Orientations direction) {
+		return icon;
 	}
 
 }
