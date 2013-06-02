@@ -33,7 +33,7 @@ public class ItemGate extends Item {
 	public void registerIcons(IconRegister r) {
 		icons = new Icon[7];
 		for(int k = 0; k < icons.length; k++)
-			r.registerIcon(DefaultProps.ICON_PREFIX + (series > 0 ? "gate-a" : "gate-") + k);
+			icons[k] = r.registerIcon(DefaultProps.ICON_PREFIX + (series > 0 ? "gate-a" : "gate-") + k);
 	}
 
 	@SuppressWarnings({ "all" })

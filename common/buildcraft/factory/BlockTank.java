@@ -66,8 +66,8 @@ public class BlockTank extends BlockContainer {
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister r) {
 		texTop = r.registerIcon(DefaultProps.ICON_PREFIX + "tank-top");
-		texSide = r.registerIcon(DefaultProps.ICON_PREFIX + "tank-top");
-		texSideJoined = r.registerIcon(DefaultProps.ICON_PREFIX + "tank-top");
+		texSide = r.registerIcon(DefaultProps.ICON_PREFIX + "tank-side");
+		texSideJoined = r.registerIcon(DefaultProps.ICON_PREFIX + "tank-side-joined");
 	}
 
 	@Override
