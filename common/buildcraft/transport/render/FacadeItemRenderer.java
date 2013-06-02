@@ -30,9 +30,18 @@ public class FacadeItemRenderer implements IItemRenderer {
 		
 		Minecraft.getMinecraft().renderEngine.bindTexture("/terrain.png");
 		
+		GL11.glColor3f(1, 1, 1);
+		
+		/*tessellator.startDrawingQuads();
+		tessellator.addVertexWithUV(-1, -1, -1, 1, 0);
+		tessellator.addVertexWithUV(-1, -1, 1, 1, 1);
+		tessellator.addVertexWithUV(1, 1, 1, 0, 1);
+		tessellator.addVertexWithUV(1, 1, -1, 0, 0);
+		tessellator.draw();*/
+		
 		//Render Facade
 		GL11.glPushMatrix();
-		block.setBlockBounds(0F, 0F, 1F - 1F/16F, 1F, 1F, 1F);
+		render.setRenderBounds(0F, 0F, 1F - 1F/16F, 1F, 1F, 1F);
 		GL11.glTranslatef(translateX, translateY, translateZ);
 		
 		tessellator.startDrawingQuads();
@@ -68,6 +77,7 @@ public class FacadeItemRenderer implements IItemRenderer {
 		Icon textureID = BuildCraftTransport.pipeStructureCobblestone.getIconFromDamage(0);
 		block.setBlockBounds(Utils.pipeMinPos, Utils.pipeMinPos, Utils.pipeMinPos, Utils.pipeMaxPos, Utils.pipeMaxPos, Utils.pipeMaxPos - 1F/16F);
 		block.setBlockBoundsForItemRender();
+		render.setRenderBoundsFromBlock(block);
 		GL11.glTranslatef(translateX, translateY, translateZ + 0.25F);
 		
 		tessellator.startDrawingQuads();

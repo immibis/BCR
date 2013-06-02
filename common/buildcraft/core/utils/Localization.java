@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.Properties;
+import java.util.Scanner;
+
+import cpw.mods.fml.common.registry.LanguageRegistry;
 
 import buildcraft.core.proxy.CoreProxy;
 
@@ -64,6 +67,24 @@ public class Localization {
 
 		return mappings.getProperty(key, defaultMappings.getProperty(key, key));
 	}
+	
+	private static void loadProperties(Properties p, InputStream str) throws IOException {
+		Scanner s = new Scanner(str);
+		try {
+			while(s.hasNextLine()) {
+				String l = s.nextLine().trim();
+				if(l.startsWith("#") || !l.contains("="))
+					continue;
+				
+				String key = l.substring(0, l.indexOf('=')).trim();
+				String value = l.substring(l.indexOf('=') + 1).trim();
+				
+				p.put(key, value);
+			}
+		} finally {
+			s.close();
+		}
+	}
 
 	private static void load(String path, String default_language) {
 		InputStream langStream = null;
@@ -72,18 +93,20 @@ public class Localization {
 		try {
 			//Load the default language mappings
 			langStream = Localization.class.getResourceAsStream(path + default_language + ".properties");
-			modMappings.load(langStream);
+			loadProperties(modMappings, langStream);
 			defaultMappings.putAll(modMappings);
-			langStream.close();
 
 			//Try to load the current language mappings. 
 			//If the file doesn't exist use the default mappings.
 			langStream = Localization.class.getResourceAsStream(path + getCurrentLanguage() + ".properties");
 			if (langStream != null) {
 				modMappings.clear();
-				modMappings.load(langStream);
+				loadProperties(modMappings, langStream);
 			}
 			mappings.putAll(modMappings);
+			
+			LanguageRegistry.instance().addStringLocalization(defaultMappings, default_language);
+			LanguageRegistry.instance().addStringLocalization(mappings, getCurrentLanguage());
 
 		} catch (Exception e) {
 			e.printStackTrace();

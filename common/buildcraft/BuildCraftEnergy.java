@@ -126,11 +126,9 @@ public class BuildCraftEnergy {
 		MinecraftForge.EVENT_BUS.register(new OilBucketHandler());
 
 		bucketOil = (new ItemBucketOil(bucketOilId.getInt(DefaultProps.BUCKET_OIL_ID))).setUnlocalizedName(DefaultProps.ICON_PREFIX + "bucket-oil").setContainerItem(Item.bucketEmpty);
-		LanguageRegistry.addName(bucketOil, "Oil Bucket");
 
-		bucketFuel = new Item(bucketFuelId.getInt() - 256).setUnlocalizedName(DefaultProps.ICON_PREFIX + "bucket-oil").setContainerItem(Item.bucketEmpty);
+		bucketFuel = new Item(bucketFuelId.getInt() - 256).setUnlocalizedName(DefaultProps.ICON_PREFIX + "bucket-fuel").setContainerItem(Item.bucketEmpty);
 		bucketFuel.setMaxStackSize(1).setCreativeTab(CreativeTabs.tabMisc);
-		LanguageRegistry.addName(bucketFuel, "Fuel Bucket");
 
 		RefineryRecipe.registerRefineryRecipe(new RefineryRecipe(new LiquidStack(oilStill.blockID, 1, 0), null, new LiquidStack(fuel.itemID, 1, 0), 10, 1));
 

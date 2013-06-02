@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -17,6 +18,7 @@ import buildcraft.BuildCraftTransport;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.recipes.AssemblyRecipe;
 import buildcraft.core.proxy.CoreProxy;
+import buildcraft.core.utils.StringUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -33,8 +35,13 @@ public class ItemFacade extends Item {
 	}
 	
 	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister par1IconRegister) {
+	}
+	
+	@Override
 	public String getItemDisplayName(ItemStack itemstack) {
-		String name = super.getItemDisplayName(itemstack);
+		String name = "" + StringUtil.localize(getUnlocalizedName(itemstack));
 		int decodedBlockId = ItemFacade.getBlockId(itemstack.getItemDamage());
 		int decodedMeta = ItemFacade.getMetaData(itemstack.getItemDamage());
 		ItemStack newStack = new ItemStack(decodedBlockId, 1, decodedMeta);
@@ -44,11 +51,6 @@ public class ItemFacade extends Item {
 			name += " < BROKEN (" + decodedBlockId + ":"+ decodedMeta +" )>";
 		}
 		return name; 
-	}
-
-	@Override
-	public String getUnlocalizedName(ItemStack itemstack) {
-		return "item.Facade";
 	}
 
 	
@@ -93,6 +95,16 @@ public class ItemFacade extends Item {
 				int blockId = itemBlock.getBlockID();
 				//Block certain IDs (Bedrock, leaves and spunge)
 				if (blockId == 7 || blockId == 18 || blockId == 19) continue; 
+				
+				Block b = Block.blocksList[blockId];
+				if(b == null)
+					continue;
+				if(b.getIcon(0, stack.getItemDamage()) == null) continue;
+				if(b.getIcon(1, stack.getItemDamage()) == null) continue;
+				if(b.getIcon(2, stack.getItemDamage()) == null) continue;
+				if(b.getIcon(3, stack.getItemDamage()) == null) continue;
+				if(b.getIcon(4, stack.getItemDamage()) == null) continue;
+				if(b.getIcon(5, stack.getItemDamage()) == null) continue;
 
 				if (Block.blocksList[blockId] != null 
 					&& Block.blocksList[blockId].isOpaqueCube() 

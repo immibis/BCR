@@ -17,6 +17,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import buildcraft.BuildCraftTransport;
 import buildcraft.core.IItemPipe;
@@ -32,10 +33,23 @@ public class ItemPipe extends Item implements IItemPipe {
 		this.setCreativeTab(CreativeTabs.tabTransport);
 	}
 	
+	// icon needs to be registered in the block texture sheet
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister r) {
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public void registerPipeIcons(IconRegister r) {
 		dummyPipe.registerIcons(r);
+		if(getIconFromDamage(0) == null)
+			throw new RuntimeException("icon loading failed for "+dummyPipe);
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public Icon getIconFromDamage(int par1) {
+		return dummyPipe.getTextureForItem();
 	}
 
 	@Override

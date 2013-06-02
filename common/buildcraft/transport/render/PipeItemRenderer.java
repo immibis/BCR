@@ -1,6 +1,7 @@
 package buildcraft.transport.render;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.Item;
@@ -23,9 +24,12 @@ public class PipeItemRenderer implements IItemRenderer {
 
 		Block block = BuildCraftTransport.genericPipeBlock;
 		Icon textureID = ((ItemPipe) Item.itemsList[item.itemID]).getIconFromDamage(0);
+		
+		Minecraft.getMinecraft().renderEngine.bindTexture("/terrain.png");
 
 		block.setBlockBounds(Utils.pipeMinPos, 0.0F, Utils.pipeMinPos, Utils.pipeMaxPos, 1.0F, Utils.pipeMaxPos);
 		block.setBlockBoundsForItemRender();
+		render.setRenderBoundsFromBlock(block);
 		GL11.glTranslatef(translateX, translateY, translateZ);
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(0.0F, -1F, 0.0F);

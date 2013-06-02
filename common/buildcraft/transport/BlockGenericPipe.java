@@ -15,6 +15,7 @@ import java.util.TreeMap;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -48,6 +49,11 @@ public class BlockGenericPipe extends BlockContainer {
 	@Override
 	public int getRenderType() {
 		return TransportProxyClient.pipeModel;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister par1IconRegister) {
 	}
 
 	@Override

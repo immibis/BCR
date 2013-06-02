@@ -34,7 +34,7 @@ public class PipeItemsDiamond extends Pipe implements IPipeTransportItemsHook {
 		super.registerIcons(r);
 		for(int k = 0; k < 6; k++)
 			iconSide[k] = r.registerIcon(getDefaultIconPath() + "-" + k);
-		iconSide[6] = getTextureForItem();
+		iconSide[6] = super.icon;
 	}
 	
 	@Override
