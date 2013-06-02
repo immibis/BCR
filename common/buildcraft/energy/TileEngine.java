@@ -53,6 +53,7 @@ public class TileEngine extends TileBuildCraft implements IPowerReceptor, IInven
 
 	boolean lastPower = false;
 
+	@TileNetworkData
 	public int orientation;
 
 	IPowerProvider provider;
