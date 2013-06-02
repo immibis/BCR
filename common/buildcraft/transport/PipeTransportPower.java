@@ -35,6 +35,8 @@ public class PipeTransportPower extends PipeTransport {
 	public double[] internalNextPower = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 
 	public double powerResitance = 0.01;
+	
+	public static final int MAX_REQUEST = 100000;
 
 	public PipeTransportPower() {
 		for (int i = 0; i < 6; ++i)
@@ -185,6 +187,9 @@ public class PipeTransportPower extends PipeTransport {
 	}
 
 	public void requestEnergy(Orientations from, int i) {
+		if(i <= 0) return;
+		if(i > MAX_REQUEST) i = MAX_REQUEST;
+		
 		step();
 		if (this.container.pipe instanceof IPipeTransportPowerHook)
 			((IPipeTransportPowerHook) this.container.pipe).requestEnergy(from, i);
