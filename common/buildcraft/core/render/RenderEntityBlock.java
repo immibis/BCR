@@ -10,6 +10,7 @@
 package buildcraft.core.render;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
@@ -106,6 +107,8 @@ public class RenderEntityBlock extends Render {
 		float f1 = 1.0F;
 		float f2 = 0.8F;
 		float f3 = 0.6F;
+		
+		Minecraft.getMinecraft().renderEngine.bindTexture("/terrain.png");
 
 		Tessellator tessellator = Tessellator.instance;
 

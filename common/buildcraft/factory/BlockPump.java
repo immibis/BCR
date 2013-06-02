@@ -53,9 +53,9 @@ public class BlockPump extends BlockContainer {
 	public Icon getIcon(int i, int j) {
 		switch (i) {
 		case 0:
-			return texTop;
-		case 1:
 			return texBottom;
+		case 1:
+			return texTop;
 		default:
 			return texSide;
 		}
