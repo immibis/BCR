@@ -4,41 +4,27 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import net.minecraft.util.Icon;
-
 import buildcraft.api.core.Orientations;
 
 
 public class FacadeMatrix extends ConnectionMatrix {
-	private String[] _textureFiles = new String[Orientations.dirs().length];
-	private Icon[] _textureIndex = new Icon[Orientations.dirs().length];
+	private int[] facadeTypes = new int[Orientations.dirs().length];
 	
 	private boolean dirty = false;
 	
 	public FacadeMatrix() {
 		for (Orientations direction : Orientations.dirs()){
-			_textureFiles[direction.ordinal()] = "";
+			facadeTypes[direction.ordinal()] = 0;
 		}
 	}
 	
-	public String getTextureFile(Orientations direction){
-		return _textureFiles[direction.ordinal()];
+	public int getFacadeType(Orientations direction){
+		return facadeTypes[direction.ordinal()];
 	}
 	
-	public void setTextureFile(Orientations direction, String filePath){
-		if (!_textureFiles[direction.ordinal()].equals(filePath)){
-			_textureFiles[direction.ordinal()] = filePath;
-			dirty = true;
-		}
-	}
-	
-	public Icon getTextureIndex(Orientations direction){
-		return _textureIndex[direction.ordinal()];
-	}
-	
-	public void setTextureIndex(Orientations direction, Icon value){
-		if (_textureIndex[direction.ordinal()] != value){
-			_textureIndex[direction.ordinal()] = value;
+	public void setFacadeType(Orientations direction, int newType){
+		if (facadeTypes[direction.ordinal()] != newType){
+			facadeTypes[direction.ordinal()] = newType;
 			dirty = true;
 		}
 	}
@@ -58,8 +44,7 @@ public class FacadeMatrix extends ConnectionMatrix {
 	public void readData(DataInputStream data) throws IOException {
 		super.readData(data);
 		for (int i = 0; i < Orientations.dirs().length; i++){
-			_textureFiles[i] = data.readUTF();
-			//_textureIndex[i] = data.readInt();
+			facadeTypes[i] = data.readInt();
 		}
 	}
 	
@@ -67,8 +52,7 @@ public class FacadeMatrix extends ConnectionMatrix {
 	public void writeData(DataOutputStream data) throws IOException {
 		super.writeData(data);
 		for (int i = 0; i < Orientations.dirs().length; i++){
-			data.writeUTF(_textureFiles[i]);
-			//data.writeInt(_textureIndex[i]);
+			data.writeInt(facadeTypes[i]);
 		}
 	}
 }

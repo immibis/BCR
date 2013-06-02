@@ -11,6 +11,7 @@ import buildcraft.api.transport.IPipe;
 import buildcraft.api.transport.IPipe.WireColor;
 import buildcraft.core.utils.Utils;
 import buildcraft.transport.IPipeRenderState;
+import buildcraft.transport.ItemFacade;
 import buildcraft.transport.PipeRenderState;
 import buildcraft.transport.TransportProxyClient;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
@@ -165,7 +166,10 @@ public class PipeWorldRenderer implements ISimpleBlockRenderingHandler {
 
 		for (Orientations direction : Orientations.dirs()){
 			if (state.facadeMatrix.isConnected(direction)){
-				state.currentTextureIndex = state.facadeMatrix.getTextureIndex(direction);
+				int facadeType = state.facadeMatrix.getFacadeType(direction);
+				int blockId = ItemFacade.getBlockId(facadeType);
+				int metadata = ItemFacade.getMetaData(facadeType);
+				state.currentTextureIndex = Block.blocksList[blockId].getIcon(direction.ordinal(), metadata);
 
 				//Hollow facade
 				if (state.pipeConnectionMatrix.isConnected(direction)){
