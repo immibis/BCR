@@ -57,8 +57,10 @@ public class GuiCombustionEngine extends GuiEngine {
 
 		if (liquidId < Block.blocksList.length && Block.blocksList[liquidId] != null) {
 			liquidImgIndex = Block.blocksList[liquidId].getBlockTextureFromSide(0);
+			mc.renderEngine.bindTexture("/terrain.png");
 		} else if (Item.itemsList[liquidId] != null) {
 			liquidImgIndex = Item.itemsList[liquidId].getIconFromDamage(0);
+			mc.renderEngine.bindTexture("/gui/items.png");
 		} else {
 			return;			
 		}
