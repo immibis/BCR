@@ -59,28 +59,37 @@ public class PipeTransportPower extends PipeTransport {
 
 		TileEntity tiles[] = new TileEntity[6];
 
-		// Extract the nearby connected tiles
-
+		// Get the nearby connected tiles
 		for (int i = 0; i < 6; ++i)
 			if (Utils.checkPipesConnections(container.getTile(Orientations.values()[i]), container))
 				tiles[i] = container.getTile(Orientations.values()[i]);
-
-		// Send the power to nearby pipes who requested it
 
 		for(int k = 0; k < displayPower.length; k++)
 			displayPower[k] = 0;
 
 		for (int i = 0; i < 6; ++i)
 			if (internalPower[i] > 0) {
+				// Consider each side one at a time.
+				// While considering side i, side i is an input and all other sides are outputs.
+				// Split the power coming from side i to the other sides, weighted by powerQuery[side].
+
+				// Power is never reflected back the way it came, but power could
+				// be transferred between two sides in both directions at the same time.
+				// (e.g. 25MJ up->down and 25MJ down->up)
+				
+				// If there are no outputs, the power is lost.
+				
 				double div = 0;
 
+				// Count the total powerQuery from each output.
 				for (int j = 0; j < 6; ++j)
 					if (j != i && powerQuery[j] > 0)
 						if (tiles[j] instanceof TileGenericPipe || tiles[j] instanceof IPowerReceptor)
 							div += powerQuery[j];
 
+				// Get the energy received from the input in the last tick.
 				double totalWatt = internalPower[i];
-
+				// and divide it.
 				for (int j = 0; j < 6; ++j)
 					if (j != i && powerQuery[j] > 0) {
 						double watts = (totalWatt / div * powerQuery[j]);
@@ -109,8 +118,9 @@ public class PipeTransportPower extends PipeTransport {
 					}
 			}
 
-		// Compute the tiles requesting energy that are not pipes
-
+		// Update nextPowerQuery (via requestEnergy).
+		// Send a power request to myself from the machines on each side,
+		// but not pipes, as pipes send their own power requests.
 		for (int i = 0; i < 6; ++i)
 			if (tiles[i] instanceof IPowerReceptor && !(tiles[i] instanceof TileGenericPipe)) {
 				IPowerReceptor receptor = (IPowerReceptor) tiles[i];
@@ -120,10 +130,16 @@ public class PipeTransportPower extends PipeTransport {
 					requestEnergy(Orientations.values()[i], request);
 			}
 
-		// Sum the amount of energy requested on each side
-
+		// Send power requests to adjacent pipes.
+		// The power requested _by us_ on side i
+		// is the power requested _of us_ on all other sides.
+		// This is why loops cause power suckage, as
+		// our power requests tend to infinity if we are part of a loop,
+		// and then the rest of the network sends all its power here.
+		
 		int transferQuery[] = { 0, 0, 0, 0, 0, 0 };
 
+		// Calculate the power requests.
 		for (int i = 0; i < 6; ++i) {
 			transferQuery[i] = 0;
 
@@ -132,8 +148,7 @@ public class PipeTransportPower extends PipeTransport {
 					transferQuery[i] += powerQuery[j];
 		}
 
-		// Transfer the requested energy to nearby pipes
-
+		// Send the power requests.
 		for (int i = 0; i < 6; ++i)
 			if (transferQuery[i] != 0)
 				if (tiles[i] != null) {
@@ -150,6 +165,7 @@ public class PipeTransportPower extends PipeTransport {
 					}
 				}
 
+		// Send updates to clients.
 		if (!worldObj.isRemote && tracker.markTimeIfDelay(worldObj, 2 * BuildCraftCore.updateFactor)) {
 				PacketPowerUpdate packet = new PacketPowerUpdate(xCoord, yCoord, zCoord);
 				packet.displayPower = displayPower;
