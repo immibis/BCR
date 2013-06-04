@@ -25,7 +25,8 @@ import buildcraft.transport.PipeTransportPower;
 public class TriggerPipeContents extends Trigger implements ITriggerPipe {
 
 	public enum Kind {
-		Empty, ContainsItems, ContainsLiquids, ContainsEnergy
+		Empty, ContainsItems, ContainsLiquids, ContainsEnergy,
+		ContainsEnergy25, ContainsEnergy50, ContainsEnergy75
 	};
 
 	Kind kind;
@@ -46,6 +47,12 @@ public class TriggerPipeContents extends Trigger implements ITriggerPipe {
 			return 3 * 16 + 2;
 		case ContainsEnergy:
 			return 3 * 16 + 3;
+		case ContainsEnergy25:
+			return 3 * 16 + 5;
+		case ContainsEnergy50:
+			return 3 * 16 + 6;
+		case ContainsEnergy75:
+			return 3 * 16 + 7;
 		}
 		return 3 * 16 + 0;
 	}
@@ -73,6 +80,12 @@ public class TriggerPipeContents extends Trigger implements ITriggerPipe {
 			return "Liquid Traversing";
 		case ContainsEnergy:
 			return "Power Traversing";
+		case ContainsEnergy25:
+			return "Power Flow >25%";
+		case ContainsEnergy50:
+			return "Power Flow >50%";
+		case ContainsEnergy75:
+			return "Power Flow >75%";
 		}
 
 		return "";
@@ -124,9 +137,23 @@ public class TriggerPipeContents extends Trigger implements ITriggerPipe {
 						return false;
 
 				return true;
-			} else {
+			} else if(kind == Kind.ContainsEnergy) {
 				for (short s : transportPower.displayPower)
 					if (s != 0)
+						return true;
+
+				return false;
+			} else {
+				int minLevel;
+				switch(kind) {
+				case ContainsEnergy25: minLevel = PipeTransportPower.MAX_POWER / 4; break;
+				case ContainsEnergy50: minLevel = PipeTransportPower.MAX_POWER / 2; break;
+				case ContainsEnergy75: minLevel = PipeTransportPower.MAX_POWER * 3 / 4; break;
+				default: return false;
+				}
+				
+				for (short s : transportPower.displayPower)
+					if (s > minLevel)
 						return true;
 
 				return false;

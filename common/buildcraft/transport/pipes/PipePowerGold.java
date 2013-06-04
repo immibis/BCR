@@ -8,8 +8,12 @@
 
 package buildcraft.transport.pipes;
 
+import java.util.Arrays;
+
 import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.Icon;
+import net.minecraft.world.World;
 import buildcraft.api.core.Orientations;
 import buildcraft.transport.Pipe;
 import buildcraft.transport.PipeTransportPower;
@@ -34,5 +38,26 @@ public class PipePowerGold extends Pipe {
 		return icon;
 	}
 
+	private static boolean DEBUG_MODE = Boolean.getBoolean("bcr.debug.powerPipe");
+	
+	@Override
+	public boolean blockActivated(World world, int i, int j, int k, EntityPlayer pl) {
+		if(!DEBUG_MODE)
+			return super.blockActivated(world, i, j, k, pl);
+		
+		PipeTransportPower t = (PipeTransportPower)container.pipe.transport;
+		
+		if(!world.isRemote) {
+			pl.sendChatToPlayer("====== Gold power pipe at "+i+","+j+","+k);
+			//pl.sendChatToPlayer("Stored power: " + Arrays.toString(t.internalPower));
+			//pl.sendChatToPlayer("Next stored power: " + Arrays.toString(t.internalPower));
+			pl.sendChatToPlayer("Power query: " + Arrays.toString(t.powerQuery));
+			//pl.sendChatToPlayer("Next power query: " + Arrays.toString(t.nextPowerQuery));
+			pl.sendChatToPlayer("Power display: " + Arrays.toString(t.displayPower));
+			pl.sendChatToPlayer("Power resistance: " + t.powerResitance);
+		}
+		
+		return true;
+	}
 
 }

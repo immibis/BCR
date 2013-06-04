@@ -10,6 +10,7 @@
 package buildcraft.api.transport;
 
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 
 public interface IPipe {
 
@@ -19,6 +20,8 @@ public interface IPipe {
 
 	enum WireColor {
 		Red, Blue, Green, Yellow;
+		
+		public Icon iconOff, iconOn;
 
 		public WireColor reverse() {
 			switch (this) {

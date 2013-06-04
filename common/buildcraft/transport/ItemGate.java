@@ -27,6 +27,7 @@ public class ItemGate extends Item {
 	}
 	
 	private Icon[] icons;
+	private Icon[][] worldIcons;
 	
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -34,6 +35,14 @@ public class ItemGate extends Item {
 		icons = new Icon[7];
 		for(int k = 0; k < icons.length; k++)
 			icons[k] = r.registerIcon(DefaultProps.ICON_PREFIX + (series > 0 ? "gate-a" : "gate-") + k);
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public void registerWorldIcons(IconRegister r) {
+		worldIcons = new Icon[7][2];
+		for(int k = 0; k < worldIcons.length; k++)
+			for(int i = 0; i < 2; i++)
+				worldIcons[k][i] = r.registerIcon(DefaultProps.ICON_PREFIX + (series > 0 ? "gates/a" : "gates/") + k + "-" + i);
 	}
 
 	@SuppressWarnings({ "all" })
@@ -57,5 +66,9 @@ public class ItemGate extends Item {
 		itemList.add(new ItemStack(this, 1, 4));
 		itemList.add(new ItemStack(this, 1, 5));
 		itemList.add(new ItemStack(this, 1, 6));
+	}
+	
+	public Icon getGateWorldIcon(int meta, boolean on) {
+		return worldIcons[meta][on ? 1 : 0];
 	}
 }

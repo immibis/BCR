@@ -15,6 +15,7 @@ import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.liquids.ITankContainer;
+import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.tools.IToolWrench;
 import buildcraft.api.transport.IPipeEntry;
 import buildcraft.transport.TileGenericPipe;
@@ -51,7 +52,7 @@ public class PipeLogicIron extends PipeLogic {
 					continue;
 
 			if (tile instanceof IPipeEntry || tile instanceof IInventory || tile instanceof ITankContainer
-					|| tile instanceof TileGenericPipe) {
+					|| tile instanceof TileGenericPipe || tile instanceof IPowerReceptor) {
 
 				worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, nextMetadata, 3);
 				container.scheduleRenderUpdate();

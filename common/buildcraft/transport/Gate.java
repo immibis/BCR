@@ -96,7 +96,8 @@ public abstract class Gate {
 	public abstract void addTrigger(LinkedList<ITrigger> list);
 
 	// / TEXTURES
-	public abstract int getTexture(boolean isSignalActive);
+	public abstract int getGateItemID();
+	public abstract int getGateItemMetadata();
 
 	public abstract String getGuiFile();
 
@@ -104,5 +105,7 @@ public abstract class Gate {
 		return stack.itemID == BuildCraftTransport.pipeGate.itemID
 				|| stack.itemID == BuildCraftTransport.pipeGateAutarchic.itemID;
 	}
+
+	public abstract boolean shouldRenderActive();
 
 }

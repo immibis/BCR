@@ -3,6 +3,7 @@ package buildcraft.transport.render;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import buildcraft.BuildCraftTransport;
@@ -11,6 +12,7 @@ import buildcraft.api.transport.IPipe;
 import buildcraft.api.transport.IPipe.WireColor;
 import buildcraft.core.utils.Utils;
 import buildcraft.transport.ItemFacade;
+import buildcraft.transport.ItemGate;
 import buildcraft.transport.Pipe;
 import buildcraft.transport.PipeRenderState;
 import buildcraft.transport.TileGenericPipe;
@@ -453,7 +455,7 @@ public class PipeWorldRenderer implements ISimpleBlockRenderingHandler {
 
 	private void pipeGateRender(RenderBlocks renderblocks, Block block, PipeRenderState state, int x, int y, int z) {
 
-		state.currentTextureIndex = state.getGateTextureIndex();
+		state.currentTextureIndex = ((ItemGate)Item.itemsList[state.getGateID()]).getGateWorldIcon(state.getGateMetadata(), state.getGateState());
 
 		float min = Utils.pipeMinPos + 0.05F;
 		float max = Utils.pipeMaxPos - 0.05F;

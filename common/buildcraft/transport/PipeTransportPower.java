@@ -37,6 +37,7 @@ public class PipeTransportPower extends PipeTransport {
 	public double powerResitance = 0.01;
 	
 	public static final int MAX_REQUEST = 100000;
+	public static final int MAX_POWER = 1000;
 
 	public PipeTransportPower() {
 		for (int i = 0; i < 6; ++i)
@@ -197,7 +198,7 @@ public class PipeTransportPower extends PipeTransport {
 			else
 				internalNextPower[from.ordinal()] += val;
 
-			if (internalNextPower[from.ordinal()] >= 1000)
+			if (internalNextPower[from.ordinal()] >= MAX_POWER)
 				worldObj.createExplosion(null, xCoord, yCoord, zCoord, 2, true);
 		}
 	}
@@ -205,6 +206,9 @@ public class PipeTransportPower extends PipeTransport {
 	public void requestEnergy(Orientations from, int i) {
 		if(i <= 0) return;
 		if(i > MAX_REQUEST) i = MAX_REQUEST;
+		
+		if(!this.container.pipe.outputOpen(from))
+			return;
 		
 		step();
 		if (this.container.pipe instanceof IPipeTransportPowerHook)
@@ -230,6 +234,8 @@ public class PipeTransportPower extends PipeTransport {
 			internalPower[i] = nbttagcompound.getDouble("internalPower[" + i + "]");
 			internalNextPower[i] = nbttagcompound.getDouble("internalNextPower[" + i + "]");
 		}
+		
+		currentDate = nbttagcompound.getLong("currentDate");
 
 	}
 
@@ -243,6 +249,8 @@ public class PipeTransportPower extends PipeTransport {
 			nbttagcompound.setDouble("internalPower[" + i + "]", internalPower[i]);
 			nbttagcompound.setDouble("internalNextPower[" + i + "]", internalNextPower[i]);
 		}
+		
+		nbttagcompound.setLong("currentDate", currentDate);
 	}
 
 	public boolean isTriggerActive(ITrigger trigger) {

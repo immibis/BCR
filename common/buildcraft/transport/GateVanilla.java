@@ -240,7 +240,7 @@ public class GateVanilla extends Gate {
 	}
 
 	// / TEXTURES
-	@Override
+	/*@Override
 	public final int getTexture(boolean isSignalActive) {
 
 		boolean isGateActive = isSignalActive;
@@ -299,14 +299,14 @@ public class GateVanilla extends Gate {
 		}
 
 		return 0;
-	}
+	}*/
 
-	private int getTextureRow() {
+	/*private int getTextureRow() {
 		if (hasPulser())
 			return 9;
 		else
 			return 8;
-	}
+	}*/
 
 	@Override
 	public String getGuiFile() {
@@ -318,6 +318,21 @@ public class GateVanilla extends Gate {
 			return DefaultProps.TEXTURE_PATH_GUI + "/gate_interface_3.png";
 		else
 			return DefaultProps.TEXTURE_PATH_GUI + "/gate_interface_4.png";
+	}
+
+	@Override
+	public int getGateItemID() {
+		return hasPulser() ? BuildCraftTransport.pipeGateAutarchic.itemID : BuildCraftTransport.pipeGate.itemID;
+	}
+
+	@Override
+	public int getGateItemMetadata() {
+		return kind.ordinal() - 1;
+	}
+	
+	@Override
+	public boolean shouldRenderActive() {
+		return pipe.broadcastRedstone || (hasPulser() && pulser.isActive());
 	}
 
 }

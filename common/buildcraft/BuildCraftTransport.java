@@ -88,6 +88,7 @@ public class BuildCraftTransport {
 
 	public static Item pipePowerWood;
 	public static Item pipePowerStone;
+	public static Item pipePowerIron;
 	public static Item pipePowerGold;
 
 	public static Item facadeItem;
@@ -100,6 +101,9 @@ public class BuildCraftTransport {
 	public static Trigger triggerPipeItems = new TriggerPipeContents(DefaultProps.TRIGGER_PIPE_ITEMS, Kind.ContainsItems);
 	public static Trigger triggerPipeLiquids = new TriggerPipeContents(DefaultProps.TRIGGER_PIPE_LIQUIDS, Kind.ContainsLiquids);
 	public static Trigger triggerPipeEnergy = new TriggerPipeContents(DefaultProps.TRIGGER_PIPE_ENERGY, Kind.ContainsEnergy);
+	public static Trigger triggerPipeEnergy25 = new TriggerPipeContents(DefaultProps.TRIGGER_PIPE_ENERGY_25, Kind.ContainsEnergy25);
+	public static Trigger triggerPipeEnergy50 = new TriggerPipeContents(DefaultProps.TRIGGER_PIPE_ENERGY_50, Kind.ContainsEnergy50);
+	public static Trigger triggerPipeEnergy75 = new TriggerPipeContents(DefaultProps.TRIGGER_PIPE_ENERGY_75, Kind.ContainsEnergy75);
 	public static Trigger triggerRedSignalActive = new TriggerPipeSignal(DefaultProps.TRIGGER_RED_SIGNAL_ACTIVE, true, IPipe.WireColor.Red);
 	public static Trigger triggerRedSignalInactive = new TriggerPipeSignal(DefaultProps.TRIGGER_RED_SIGNAL_INACTIVE, false, IPipe.WireColor.Red);
 	public static Trigger triggerBlueSignalActive = new TriggerPipeSignal(DefaultProps.TRIGGER_BLUE_SIGNAL_ACTIVE, true, IPipe.WireColor.Blue);
@@ -235,7 +239,7 @@ public class BuildCraftTransport {
 			pipePowerWood = createPipe(DefaultProps.PIPE_POWER_WOOD_ID, PipePowerWood.class, Item.redstone, pipeItemsWood, null);
 			// cobblestone
 			pipePowerStone = createPipe(DefaultProps.PIPE_POWER_STONE_ID, PipePowerStone.class, Item.redstone, pipeItemsStone, null);
-			// iron
+			pipePowerIron = createPipe(DefaultProps.PIPE_POWER_IRON_ID, PipePowerIron.class, Item.redstone, pipeItemsIron, null);
 			pipePowerGold = createPipe(DefaultProps.PIPE_POWER_GOLD_ID, PipePowerGold.class, Item.redstone, pipeItemsGold, null);
 			// diamond
 			// obsidian
@@ -261,11 +265,24 @@ public class BuildCraftTransport {
 	}
 	
 	@ForgeSubscribe
-	public void registerPipeIcons(TextureStitchEvent evt) {
-		if(evt.map.textureType == 0)
-			for(Item i : Item.itemsList)
+	public void registerIcons(TextureStitchEvent evt) {
+		if(evt.map.textureType == 0) {
+			for(Item i : Item.itemsList) {
 				if(i instanceof ItemPipe)
 					((ItemPipe)i).registerPipeIcons(evt.map);
+				if(i instanceof ItemGate)
+					((ItemGate)i).registerWorldIcons(evt.map);
+			}
+		
+			IPipe.WireColor.Blue.iconOn  = evt.map.registerIcon(DefaultProps.ICON_PREFIX + "wires/blue1");
+			IPipe.WireColor.Blue.iconOff = evt.map.registerIcon(DefaultProps.ICON_PREFIX + "wires/blue0");
+			IPipe.WireColor.Red.iconOn  = evt.map.registerIcon(DefaultProps.ICON_PREFIX + "wires/red1");
+			IPipe.WireColor.Red.iconOff = evt.map.registerIcon(DefaultProps.ICON_PREFIX + "wires/red0");
+			IPipe.WireColor.Green.iconOn  = evt.map.registerIcon(DefaultProps.ICON_PREFIX + "wires/green1");
+			IPipe.WireColor.Green.iconOff = evt.map.registerIcon(DefaultProps.ICON_PREFIX + "wires/green0");
+			IPipe.WireColor.Yellow.iconOn  = evt.map.registerIcon(DefaultProps.ICON_PREFIX + "wires/yellow1");
+			IPipe.WireColor.Yellow.iconOff = evt.map.registerIcon(DefaultProps.ICON_PREFIX + "wires/yellow0");
+		}
 	}
 	
 	@Init

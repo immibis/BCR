@@ -46,6 +46,7 @@ import buildcraft.core.network.PacketTileState;
 import buildcraft.core.utils.Utils;
 import buildcraft.transport.Gate.GateKind;
 import buildcraft.transport.network.PipeRenderStatePacket;
+import static buildcraft.api.transport.IPipe.WireColor;
 
 public class TileGenericPipe extends TileEntity implements IPowerReceptor, ITankContainer, IPipeEntry,
 		IPipeTile, IOverrideDefaultTriggers, ITileBufferHolder, IPipeConnection, IDropControlInventory, IPipeRenderState,
@@ -205,33 +206,35 @@ public class TileGenericPipe extends TileEntity implements IPowerReceptor, ITank
 
 		// Wire Textures
 
-		/*if (pipe.wireSet[IPipe.WireColor.Red.ordinal()]) {
-			renderState.wireMatrix.setTextureIndex(WireColor.Red, pipe.signalStrength[IPipe.WireColor.Red.ordinal()] > 0 ? 6 : 5);
+		if (pipe.wireSet[IPipe.WireColor.Red.ordinal()]) {
+			renderState.wireMatrix.setWireState(WireColor.Red, pipe.signalStrength[IPipe.WireColor.Red.ordinal()] > 0);
 		} else {
-			renderState.wireMatrix.setTextureIndex(WireColor.Red, 0);
+			renderState.wireMatrix.setWireState(WireColor.Red, false);
 		}
 
 		if (pipe.wireSet[IPipe.WireColor.Blue.ordinal()]) {
-			renderState.wireMatrix.setTextureIndex(WireColor.Blue, pipe.signalStrength[IPipe.WireColor.Blue.ordinal()] > 0 ? 8 : 7);
+			renderState.wireMatrix.setWireState(WireColor.Blue, pipe.signalStrength[IPipe.WireColor.Blue.ordinal()] > 0);
 		} else {
-			renderState.wireMatrix.setTextureIndex(WireColor.Blue, 0);
+			renderState.wireMatrix.setWireState(WireColor.Blue, false);
 		}
 
 		if (pipe.wireSet[IPipe.WireColor.Green.ordinal()]) {
-			renderState.wireMatrix.setTextureIndex(WireColor.Green, pipe.signalStrength[IPipe.WireColor.Green.ordinal()] > 0 ? 10 : 9);
+			renderState.wireMatrix.setWireState(WireColor.Green, pipe.signalStrength[IPipe.WireColor.Green.ordinal()] > 0);
 		} else {
-			renderState.wireMatrix.setTextureIndex(WireColor.Green, 0);
+			renderState.wireMatrix.setWireState(WireColor.Green, false);
 		}
 
 		if (pipe.wireSet[IPipe.WireColor.Yellow.ordinal()]) {
-			renderState.wireMatrix.setTextureIndex(WireColor.Yellow, pipe.signalStrength[IPipe.WireColor.Yellow.ordinal()] > 0 ? 12 : 11);
+			renderState.wireMatrix.setWireState(WireColor.Yellow, pipe.signalStrength[IPipe.WireColor.Yellow.ordinal()] > 0);
 		} else {
-			renderState.wireMatrix.setTextureIndex(WireColor.Yellow, 0);
-		}*/
+			renderState.wireMatrix.setWireState(WireColor.Yellow, false);
+		}
 
 		// Gate Textures
 		renderState.setHasGate(pipe.hasGate());
-		//renderState.setGateTexture(!pipe.hasGate()?0:pipe.gate.getTexture(pipe.isGateActive()));
+		renderState.setGateID(!pipe.hasGate()?0:pipe.gate.getGateItemID());
+		renderState.setGateMetadata(!pipe.hasGate()?0:pipe.gate.getGateItemMetadata());
+		renderState.setGateState(!pipe.hasGate() ? false : pipe.gate.shouldRenderActive());
 
 		// Facades
 		for (Orientations direction:Orientations.dirs()){

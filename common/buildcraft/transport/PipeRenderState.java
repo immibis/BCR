@@ -16,7 +16,8 @@ import buildcraft.transport.utils.WireMatrix;
 public class PipeRenderState implements IClientState {
 
 	private boolean hasGate = false;
-	private Icon gateTextureIndex = null;
+	private int gateID = 0, gateMetadata = 0;
+	private boolean gateState = false;
 	
 	public final ConnectionMatrix pipeConnectionMatrix = new ConnectionMatrix();
 	public final TextureMatrix textureMatrix = new TextureMatrix();
@@ -53,15 +54,37 @@ public class PipeRenderState implements IClientState {
 		return hasGate;
 	}
 	
-	public void setGateTexture(Icon value){
-		if (gateTextureIndex != value){
-			gateTextureIndex = value;
+	public void setGateID(int value){
+		if (gateID != value){
+			gateID = value;
 			dirty = true;
 		}
 	}
 	
-	public Icon getGateTextureIndex(){
-		return gateTextureIndex;
+	public int getGateID(){
+		return gateID;
+	}
+	
+	public void setGateMetadata(int value){
+		if (gateMetadata != value){
+			gateMetadata = value;
+			dirty = true;
+		}
+	}
+	
+	public int getGateMetadata(){
+		return gateMetadata;
+	}
+	
+	public void setGateState(boolean value) {
+		if(gateState != value) {
+			gateState = value;
+			dirty = true;
+		}
+	}
+	
+	public boolean getGateState() {
+		return gateState;
 	}
 
 	public void clean(){
@@ -79,7 +102,9 @@ public class PipeRenderState implements IClientState {
 	@Override
 	public void writeData(DataOutputStream data) throws IOException {
 		data.writeBoolean(hasGate);
-		//data.writeInt(gateTextureIndex);
+		data.writeInt(gateID);
+		data.writeInt(gateMetadata);
+		data.writeBoolean(gateState);
 		pipeConnectionMatrix.writeData(data);
 		textureMatrix.writeData(data);
 		wireMatrix.writeData(data);
@@ -89,7 +114,9 @@ public class PipeRenderState implements IClientState {
 	@Override
 	public void readData(DataInputStream data) throws IOException {
 		hasGate = data.readBoolean();
-		//gateTextureIndex = data.readInt();
+		gateID = data.readInt();
+		gateMetadata = data.readInt();
+		gateState = data.readBoolean();
 		pipeConnectionMatrix.readData(data);
 		textureMatrix.readData(data);
 		wireMatrix.readData(data);
