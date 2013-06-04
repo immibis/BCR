@@ -30,6 +30,10 @@ public class PipeTransportPower extends PipeTransport {
 	public int[] powerQuery = new int[6];
 	public int[] nextPowerQuery = new int[6];
 	public long currentDate;
+	
+	public int freezeTicks;
+
+	private int transferQuery[] = { 0, 0, 0, 0, 0, 0 };
 
 	public double[] internalPower = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 	public double[] internalNextPower = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
@@ -55,6 +59,11 @@ public class PipeTransportPower extends PipeTransport {
 	public void updateEntity() {
 		if (CoreProxy.proxy.isRenderWorld(worldObj))
 			return;
+		
+		if(freezeTicks > 0) {
+			--freezeTicks;
+			return;
+		}
 
 		step();
 
@@ -146,15 +155,16 @@ public class PipeTransportPower extends PipeTransport {
 		// our power requests tend to infinity if we are part of a loop,
 		// and then the rest of the network sends all its power here.
 		
-		int transferQuery[] = { 0, 0, 0, 0, 0, 0 };
-
 		// Calculate the power requests.
 		for (int i = 0; i < 6; ++i) {
-			transferQuery[i] = 0;
+			int newTQ = 0;
 
 			for (int j = 0; j < 6; ++j)
 				if (j != i)
-					transferQuery[i] += powerQuery[j];
+					newTQ += powerQuery[j];
+			
+			//transferQuery[i] = (transferQuery[i] + newTQ + 1) / 2;
+			transferQuery[i] = newTQ;
 		}
 
 		// Send the power requests.
@@ -207,8 +217,11 @@ public class PipeTransportPower extends PipeTransport {
 			else
 				internalNextPower[from.ordinal()] += val;
 
-			if (internalNextPower[from.ordinal()] >= MAX_POWER)
-				worldObj.createExplosion(null, xCoord, yCoord, zCoord, 2, true);
+			if (internalNextPower[from.ordinal()] >= MAX_POWER) {
+				worldObj.createExplosion(null, xCoord, yCoord, zCoord, 2, false); // temporary
+				//worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+				internalNextPower[from.ordinal()] = 0;
+			}
 		}
 	}
 
@@ -243,10 +256,15 @@ public class PipeTransportPower extends PipeTransport {
 			nextPowerQuery[i] = nbttagcompound.getInteger("nextPowerQuery[" + i + "]");
 			internalPower[i] = nbttagcompound.getDouble("internalPower[" + i + "]");
 			internalNextPower[i] = nbttagcompound.getDouble("internalNextPower[" + i + "]");
+			transferQuery[i] = nbttagcompound.getInteger("transferQuery["+i+"]");
+			displayPower[i] = nbttagcompound.getShort("displayPower["+i+"]");
 		}
 		
 		currentDate = nbttagcompound.getLong("currentDate");
 
+		// Don't run for half a second after loading.
+		// Seems to fix storage loops becoming unstable when loading.
+		freezeTicks = 10;
 	}
 
 	@Override
@@ -258,6 +276,8 @@ public class PipeTransportPower extends PipeTransport {
 			nbttagcompound.setInteger("nextPowerQuery[" + i + "]", nextPowerQuery[i]);
 			nbttagcompound.setDouble("internalPower[" + i + "]", internalPower[i]);
 			nbttagcompound.setDouble("internalNextPower[" + i + "]", internalNextPower[i]);
+			nbttagcompound.setInteger("transferQuery["+i+"]", transferQuery[i]);
+			nbttagcompound.setShort("displayPower["+i+"]", displayPower[i]);
 		}
 		
 		nbttagcompound.setLong("currentDate", currentDate);
