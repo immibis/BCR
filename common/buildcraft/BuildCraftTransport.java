@@ -90,6 +90,7 @@ public class BuildCraftTransport {
 	public static Item pipePowerStone;
 	public static Item pipePowerIron;
 	public static Item pipePowerGold;
+	public static Item pipePowerDiamond;
 
 	public static Item facadeItem;
 
@@ -241,7 +242,7 @@ public class BuildCraftTransport {
 			pipePowerStone = createPipe(DefaultProps.PIPE_POWER_STONE_ID, PipePowerStone.class, Item.redstone, pipeItemsStone, null);
 			pipePowerIron = createPipe(DefaultProps.PIPE_POWER_IRON_ID, PipePowerIron.class, Item.redstone, pipeItemsIron, null);
 			pipePowerGold = createPipe(DefaultProps.PIPE_POWER_GOLD_ID, PipePowerGold.class, Item.redstone, pipeItemsGold, null);
-			// diamond
+			pipePowerDiamond = createPipe(DefaultProps.PIPE_POWER_DIAMOND_ID, PipePowerDiamond.class, Item.redstone, pipeItemsDiamond, null);
 			// obsidian
 
 			// Fix name and recipe (Structure pipe insteand of Signal?)

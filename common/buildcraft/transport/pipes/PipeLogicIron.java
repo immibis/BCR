@@ -33,6 +33,10 @@ public class PipeLogicIron extends PipeLogic {
 			lastPower = currentPower;
 		}
 	}
+	
+	public int getOutputDirection() {
+		return worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+	}
 
 	public void switchPosition() {
 		int metadata = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);

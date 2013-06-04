@@ -87,13 +87,21 @@ public class PipeTransportPower extends PipeTransport {
 					if (j != i && powerQuery[j] > 0)
 						if (tiles[j] instanceof TileGenericPipe || tiles[j] instanceof IPowerReceptor)
 							div += powerQuery[j];
-
+				
 				// Get the energy received from the input in the last tick.
 				double totalWatt = internalPower[i];
 				// and divide it.
+				double[] powerSent = new double[6];
 				for (int j = 0; j < 6; ++j)
-					if (j != i && powerQuery[j] > 0) {
-						double watts = (totalWatt / div * powerQuery[j]);
+					if (j != i && powerQuery[j] > 0)
+						powerSent[j] = (totalWatt / div * powerQuery[j]);
+				
+				if(container.pipe instanceof IPipeTransportPowerHook)
+					((IPipeTransportPowerHook)container.pipe).alterPowerSplit(Orientations.dirs()[i], powerQuery, powerSent);
+
+				for (int j = 0; j < 6; ++j)
+					if (j != i && powerSent[j] != 0) {
+						double watts = powerSent[j];
 
 						if (tiles[j] instanceof TileGenericPipe) {
 							TileGenericPipe nearbyTile = (TileGenericPipe) tiles[j];
@@ -151,7 +159,7 @@ public class PipeTransportPower extends PipeTransport {
 
 		// Send the power requests.
 		for (int i = 0; i < 6; ++i)
-			if (transferQuery[i] != 0)
+			if (transferQuery[i] != 0 && container.pipe.inputOpen(Orientations.dirs()[i]))
 				if (tiles[i] != null) {
 					TileEntity entity = tiles[i];
 
@@ -190,8 +198,9 @@ public class PipeTransportPower extends PipeTransport {
 
 	public void receiveEnergy(Orientations from, double val) {
 		step();
-		if (this.container.pipe instanceof IPipeTransportPowerHook)
-			((IPipeTransportPowerHook) this.container.pipe).receiveEnergy(from, val);
+		if (this.container.pipe instanceof IPipeTransportPowerHook
+			&& ((IPipeTransportPowerHook) this.container.pipe).receiveEnergy(from, val))
+			return;
 		else {
 			if (BuildCraftTransport.usePipeLoss)
 				internalNextPower[from.ordinal()] += val * (1 - powerResitance);
@@ -211,8 +220,9 @@ public class PipeTransportPower extends PipeTransport {
 			return;
 		
 		step();
-		if (this.container.pipe instanceof IPipeTransportPowerHook)
-			((IPipeTransportPowerHook) this.container.pipe).requestEnergy(from, i);
+		if (this.container.pipe instanceof IPipeTransportPowerHook
+			&& ((IPipeTransportPowerHook) this.container.pipe).requestEnergy(from, i))
+			return;
 		else {
 			step();
 			nextPowerQuery[from.ordinal()] += i;

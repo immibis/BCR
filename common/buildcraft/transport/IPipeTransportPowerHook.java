@@ -13,7 +13,9 @@ import buildcraft.api.core.Orientations;
 
 public interface IPipeTransportPowerHook {
 
-	public void receiveEnergy(Orientations from, double val);
-
-	public void requestEnergy(Orientations from, int i);
+	// Return true to override default behaviour
+	public boolean receiveEnergy(Orientations from, double val);
+	public boolean requestEnergy(Orientations from, int i);
+	
+	public void alterPowerSplit(Orientations from, int[] requested, double[] sent);
 }
