@@ -31,12 +31,16 @@ public class PipeTransportPower extends PipeTransport {
 	public int[] nextPowerQuery = new int[6];
 	public long currentDate;
 	
-	public int freezeTicks;
+	private int freezeTicks;
 
 	private int transferQuery[] = { 0, 0, 0, 0, 0, 0 };
 
-	public double[] internalPower = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
-	public double[] internalNextPower = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+	private double[] internalPower = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+	private double[] internalNextPower = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+	
+	// Used for measurement purposes only
+	public double[] statsLastReceivedPower = new double[6];
+	public double[] statsLastSentPower = new double[6];
 
 	public double powerResitance = 0.01;
 	
@@ -74,8 +78,11 @@ public class PipeTransportPower extends PipeTransport {
 			if (Utils.checkPipesConnections(container.getTile(Orientations.values()[i]), container))
 				tiles[i] = container.getTile(Orientations.values()[i]);
 
-		for(int k = 0; k < displayPower.length; k++)
+		for(int k = 0; k < displayPower.length; k++) {
 			displayPower[k] = 0;
+			statsLastReceivedPower[k] = 0;
+			statsLastSentPower[k] = 0;
+		}
 
 		for (int i = 0; i < 6; ++i)
 			if (internalPower[i] > 0) {
@@ -88,6 +95,8 @@ public class PipeTransportPower extends PipeTransport {
 				// (e.g. 25MJ up->down and 25MJ down->up)
 				
 				// If there are no outputs, the power is lost.
+				
+				statsLastReceivedPower[i] = internalPower[i];
 				
 				double div = 0;
 
@@ -111,6 +120,8 @@ public class PipeTransportPower extends PipeTransport {
 				for (int j = 0; j < 6; ++j)
 					if (j != i && powerSent[j] != 0) {
 						double watts = powerSent[j];
+						
+						statsLastSentPower[j] += watts;
 
 						if (tiles[j] instanceof TileGenericPipe) {
 							TileGenericPipe nearbyTile = (TileGenericPipe) tiles[j];

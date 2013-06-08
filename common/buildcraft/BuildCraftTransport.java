@@ -93,6 +93,8 @@ public class BuildCraftTransport {
 	public static Item pipePowerDiamond;
 
 	public static Item facadeItem;
+	
+	public static Item itemMultimeter;
 
 	//public static Item pipeItemsStipes;
 	public static Item pipeStructureCobblestone;
@@ -341,6 +343,9 @@ public class BuildCraftTransport {
 		facadeItem = new ItemFacade(pipeFacadeId.getInt() - 256);
 		facadeItem.setUnlocalizedName(DefaultProps.ICON_PREFIX + "facade");
 		ItemFacade.initialize();
+		
+		Property multimeterId = BuildCraftCore.mainConfiguration.get("multimeter.id", Configuration.CATEGORY_ITEM, DefaultProps.MULTIMETER_ID);
+		itemMultimeter = new ItemMultimeter(multimeterId.getInt() - 256);
 
 		BuildCraftCore.mainConfiguration.save();
 
