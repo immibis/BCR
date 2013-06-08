@@ -17,5 +17,5 @@ public interface IPipeTransportPowerHook {
 	public boolean receiveEnergy(Orientations from, double val);
 	public boolean requestEnergy(Orientations from, int i);
 	
-	public void alterPowerSplit(Orientations from, int[] requested, double[] sent);
+	public void alterPowerSplit(double[] received, double[] used, int[] requested, double[] sent);
 }

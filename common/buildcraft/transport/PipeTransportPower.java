@@ -80,24 +80,19 @@ public class PipeTransportPower extends PipeTransport {
 
 		for(int k = 0; k < displayPower.length; k++) {
 			displayPower[k] = 0;
-			statsLastReceivedPower[k] = 0;
 			statsLastSentPower[k] = 0;
 		}
+		
+		double[] powerSent = new double[6];
+		double[] powerUsed = new double[6];
+		
+		// Default power split: For each side, split the power received from that side
+		// among the remaining sides in proportion to their power request, or destroy the power
+		// if the total request is 0.
 
-		for (int i = 0; i < 6; ++i)
+		for (int i = 0; i < 6; ++i) {
+			statsLastReceivedPower[i] = internalPower[i];
 			if (internalPower[i] > 0) {
-				// Consider each side one at a time.
-				// While considering side i, side i is an input and all other sides are outputs.
-				// Split the power coming from side i to the other sides, weighted by powerQuery[side].
-
-				// Power is never reflected back the way it came, but power could
-				// be transferred between two sides in both directions at the same time.
-				// (e.g. 25MJ up->down and 25MJ down->up)
-				
-				// If there are no outputs, the power is lost.
-				
-				statsLastReceivedPower[i] = internalPower[i];
-				
 				double div = 0;
 
 				// Count the total powerQuery from each output.
@@ -106,46 +101,49 @@ public class PipeTransportPower extends PipeTransport {
 						if (tiles[j] instanceof TileGenericPipe || tiles[j] instanceof IPowerReceptor)
 							div += powerQuery[j];
 				
-				// Get the energy received from the input in the last tick.
-				double totalWatt = internalPower[i];
-				// and divide it.
-				double[] powerSent = new double[6];
-				for (int j = 0; j < 6; ++j)
-					if (j != i && powerQuery[j] > 0)
-						powerSent[j] = (totalWatt / div * powerQuery[j]);
-				
-				if(container.pipe instanceof IPipeTransportPowerHook)
-					((IPipeTransportPowerHook)container.pipe).alterPowerSplit(Orientations.dirs()[i], powerQuery, powerSent);
-
-				for (int j = 0; j < 6; ++j)
-					if (j != i && powerSent[j] != 0) {
-						double watts = powerSent[j];
-						
-						statsLastSentPower[j] += watts;
-
-						if (tiles[j] instanceof TileGenericPipe) {
-							TileGenericPipe nearbyTile = (TileGenericPipe) tiles[j];
-
-							PipeTransportPower nearbyTransport = (PipeTransportPower) nearbyTile.pipe.transport;
-
-							nearbyTransport.receiveEnergy(Orientations.values()[j].reverse(), watts);
-
-							displayPower[j] += watts / 2F;
-							displayPower[i] += watts / 2F;
-
-							internalPower[i] -= watts;
-						} else if (tiles[j] instanceof IPowerReceptor) {
-							IPowerReceptor pow = (IPowerReceptor) tiles[j];
-
-							pow.getPowerProvider().receiveEnergy((float) watts, Orientations.values()[j].reverse());
-
-							displayPower[j] += watts / 2F;
-							displayPower[i] += watts / 2F;
-
-							internalPower[i] -= watts;
-						}
-					}
+				if(div > 0) {
+					// Divide the energy received from the input in the last tick.
+					double totalWatt = internalPower[i];
+					for (int j = 0; j < 6; ++j)
+						if (j != i && powerQuery[j] > 0)
+							powerSent[j] += (totalWatt / div * powerQuery[j]);
+					powerUsed[i] += totalWatt;
+				}
 			}
+		}
+
+		if(container.pipe instanceof IPipeTransportPowerHook)
+			((IPipeTransportPowerHook)container.pipe).alterPowerSplit(internalPower, powerUsed, powerQuery, powerSent);
+
+		for (int j = 0; j < 6; ++j) {
+			if (powerUsed[j] != 0) {
+				internalPower[j] -= powerUsed[j];
+				displayPower[j] += powerUsed[j] / 2F;
+			}
+			
+			if (powerSent[j] != 0) {
+				double watts = powerSent[j];
+				
+				statsLastSentPower[j] += watts;
+
+				if (tiles[j] instanceof TileGenericPipe) {
+					TileGenericPipe nearbyTile = (TileGenericPipe) tiles[j];
+
+					PipeTransportPower nearbyTransport = (PipeTransportPower) nearbyTile.pipe.transport;
+
+					nearbyTransport.receiveEnergy(Orientations.values()[j].reverse(), watts);
+
+					displayPower[j] += watts / 2F;
+
+				} else if (tiles[j] instanceof IPowerReceptor) {
+					IPowerReceptor pow = (IPowerReceptor) tiles[j];
+
+					pow.getPowerProvider().receiveEnergy((float) watts, Orientations.values()[j].reverse());
+
+					displayPower[j] += watts / 2F;
+				}
+			}
+		}
 
 		// Update nextPowerQuery (via requestEnergy).
 		// Send a power request to myself from the machines on each side,
