@@ -35,6 +35,8 @@ public class RenderEntityBlock extends Render {
 		public Block baseBlock = Block.sand;
 
 		public Icon texture = null;
+		
+		public String textureSheet = "/terrain.png";
 
 		public Icon getBlockTextureFromSide(int i) {
 			if (texture == null)
@@ -108,7 +110,7 @@ public class RenderEntityBlock extends Render {
 		float f2 = 0.8F;
 		float f3 = 0.6F;
 		
-		Minecraft.getMinecraft().renderEngine.bindTexture("/terrain.png");
+		Minecraft.getMinecraft().renderEngine.bindTexture(block.textureSheet);
 
 		Tessellator tessellator = Tessellator.instance;
 

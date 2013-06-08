@@ -108,10 +108,13 @@ public class RenderPipe extends TileEntitySpecialRenderer {
 		displayLiquidLists.get(liquidId).put(meta, d);
 
 		BlockInterface block = new BlockInterface();
-		if (liquidId < Block.blocksList.length && Block.blocksList[liquidId] != null)
+		if (liquidId < Block.blocksList.length && Block.blocksList[liquidId] != null) {
 			block.texture = Block.blocksList[liquidId].getBlockTextureFromSide(0);
-		else
+			block.textureSheet = "/terrain.png";
+		} else {
 			block.texture = Item.itemsList[liquidId].getIconFromDamage(meta);
+			block.textureSheet = "/gui/items.png";
+		}
 	
 		float size = Utils.pipeMaxPos - Utils.pipeMinPos;
 
@@ -384,11 +387,6 @@ public class RenderPipe extends TileEntitySpecialRenderer {
 		if (liquidId == 0)
 			return null;
 
-		/*if (liquidId < Block.blocksList.length && Block.blocksList[liquidId] != null) {
-			ForgeHooksClient.bindTexture(Block.blocksList[liquidId].getTextureFile(), 0);
-		} else {
-			ForgeHooksClient.bindTexture(Item.itemsList[liquidId].getTextureFile(), 0);
-		}*/
 		return getDisplayLiquidLists(liquidId, stack.itemMeta, world);
 	}
 
