@@ -57,21 +57,18 @@ public class PipePowerDiamond extends Pipe implements IPipeTransportPowerHook {
 		
 		int activeDir = ((PipeLogicIron)logic).getOutputDirection();
 		
-		int totalRequest = 0;
 		double totalSent = 0;
 		for(int k = 0; k < 6; k++) {
-			totalRequest += requested[k];
 			totalSent += sent[k];
 		}
-		totalRequest -= requested[activeDir] + requested[from.ordinal()];
-		
-		if(totalRequest == 0)
-			return;
 		
 		int numSides = 0;
+		int sideMask = 0;
 		for(int k = 0; k < 6; k++)
-			if(k != activeDir && k != from.ordinal() && container.isPipeConnected(Orientations.dirs()[k]))
+			if(k != activeDir && k != from.ordinal() && container.isPipeConnected(Orientations.dirs()[k])) {
 				numSides++;
+				sideMask |= 1 << k;
+			}
 		
 		if(totalSent <= requested[activeDir] || numSides == 0) {
 			for(int k = 0; k < 6; k++)
@@ -81,7 +78,7 @@ public class PipePowerDiamond extends Pipe implements IPipeTransportPowerHook {
 		} else {
 			double excessPerSide = (totalSent - requested[activeDir]) / numSides;
 			for(int k = 0; k < 6; k++)
-				if(k != from.ordinal())
+				if((sideMask & (1 << k)) != 0)
 					sent[k] = excessPerSide;
 			sent[activeDir] = requested[activeDir];
 		}
