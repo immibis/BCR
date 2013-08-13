@@ -545,4 +545,10 @@ public class BlockGenericPipe extends BlockContainer {
 	public static boolean isValid(Pipe pipe) {
 		return isFullyDefined(pipe);
 	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean shouldSideBeRendered(IBlockAccess par1iBlockAccess, int par2, int par3, int par4, int par5) {
+		return true;
+	}
 }
