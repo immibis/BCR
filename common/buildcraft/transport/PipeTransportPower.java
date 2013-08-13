@@ -108,6 +108,12 @@ public class PipeTransportPower extends PipeTransport {
 						if (j != i && powerQuery[j] > 0)
 							powerSent[j] += (totalWatt / div * powerQuery[j]);
 					powerUsed[i] += totalWatt;
+					
+				} else {
+					if(powerQuery[i] > 0) {
+						powerSent[i] += internalPower[i];
+						powerUsed[i] += internalPower[i];
+					}
 				}
 			}
 		}

@@ -15,6 +15,12 @@ import buildcraft.api.core.Orientations;
 import buildcraft.api.core.SafeTimeTracker;
 
 public abstract class PowerProvider implements IPowerProvider {
+	
+	// For energy-surge explosions
+	// Maximum ramp-up rate for most devices is 1 MJ/t/t
+	protected double lastReceived = -1;
+	protected double lastLastReceived = -1;
+	protected double rampUpRate = 0;
 
 	protected int latency;
 	protected int minEnergyReceived;
@@ -63,6 +69,14 @@ public abstract class PowerProvider implements IPowerProvider {
 
 		TileEntity tile = (TileEntity) receptor;
 		boolean result = false;
+		
+		
+		if(lastLastReceived >= 0)
+			rampUpRate = (lastReceived - lastLastReceived) * 0.05 + rampUpRate * 0.95;
+		else
+			rampUpRate = 0;
+		lastLastReceived = lastReceived;
+		lastReceived = 0;
 
 		if (energyStored >= minActivationEnergy) {
 			if (latency == 0) {
@@ -120,28 +134,35 @@ public abstract class PowerProvider implements IPowerProvider {
 	}
 
 	@Override 
-	public void readFromNBT(NBTTagCompound nbttagcompound) {
-		latency = nbttagcompound.getInteger("latency");
-		minEnergyReceived = nbttagcompound.getInteger("minEnergyReceived");
-		maxEnergyReceived = nbttagcompound.getInteger("maxEnergyReceived");
-		maxEnergyStored = nbttagcompound.getInteger("maxStoreEnergy");
-		minActivationEnergy = nbttagcompound.getInteger("minActivationEnergy");
+	public void readFromNBT(NBTTagCompound tag) {
+		latency = tag.getInteger("latency");
+		minEnergyReceived = tag.getInteger("minEnergyReceived");
+		maxEnergyReceived = tag.getInteger("maxEnergyReceived");
+		maxEnergyStored = tag.getInteger("maxStoreEnergy");
+		minActivationEnergy = tag.getInteger("minActivationEnergy");
 
 		try {
-			energyStored = nbttagcompound.getFloat("storedEnergy");
+			energyStored = tag.getFloat("storedEnergy");
 		} catch (Throwable c) {
 			energyStored = 0;
+		}
+		
+		if(tag.hasKey("lastReceived")) {
+			lastReceived = tag.getDouble("lastReceived");
+			lastLastReceived = tag.getDouble("lastLastReceived");
 		}
 	}
 
 	@Override 
-	public void writeToNBT(NBTTagCompound nbttagcompound) {
-		nbttagcompound.setInteger("latency", latency);
-		nbttagcompound.setInteger("minEnergyReceived", minEnergyReceived);
-		nbttagcompound.setInteger("maxEnergyReceived", maxEnergyReceived);
-		nbttagcompound.setInteger("maxStoreEnergy", maxEnergyStored);
-		nbttagcompound.setInteger("minActivationEnergy", minActivationEnergy);
-		nbttagcompound.setFloat("storedEnergy", energyStored);
+	public void writeToNBT(NBTTagCompound tag) {
+		tag.setInteger("latency", latency);
+		tag.setInteger("minEnergyReceived", minEnergyReceived);
+		tag.setInteger("maxEnergyReceived", maxEnergyReceived);
+		tag.setInteger("maxStoreEnergy", maxEnergyStored);
+		tag.setInteger("minActivationEnergy", minActivationEnergy);
+		tag.setFloat("storedEnergy", energyStored);
+		tag.setDouble("lastReceived", lastReceived);
+		tag.setDouble("lastLastReceived", lastLastReceived);
 	}
 
 	@Override
@@ -153,10 +174,17 @@ public abstract class PowerProvider implements IPowerProvider {
 		if (energyStored > maxEnergyStored) {
 			energyStored = maxEnergyStored;
 		}
+		
+		lastReceived += quantity;
 	}
 
 	@Override
 	public boolean isPowerSource(Orientations from) {
 		return powerSources[from.ordinal()] != 0;
+	}
+	
+	@Override
+	public double getPowerRamp() {
+		return rampUpRate;
 	}
 }

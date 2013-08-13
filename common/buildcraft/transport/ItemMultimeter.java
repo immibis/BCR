@@ -1,5 +1,7 @@
 package buildcraft.transport;
 
+import buildcraft.api.power.IPowerProvider;
+import buildcraft.api.power.IPowerReceptor;
 import buildcraft.core.DefaultProps;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -56,12 +58,22 @@ public class ItemMultimeter extends Item {
 		double inPct = maxIn / PipeTransportPower.MAX_POWER * 100;
 		double outPct = maxOut / PipeTransportPower.MAX_POWER * 100;
 		
-		pl.sendChatToPlayer("=== POWER MEASUREMENT ===");
+		pl.sendChatToPlayer("=== CONDUCTIVE PIPE MEASUREMENT ===");
 		pl.sendChatToPlayer("Power requests: " + powerReqStr);
 		pl.sendChatToPlayer("Power input: " + powerInStr);
 		pl.sendChatToPlayer("Power output: " + powerOutStr);
 		pl.sendChatToPlayer("Total in: " + CYAN + displayRounded(totalIn) + WHITE + ", " + CYAN + displayRounded(inPct) + "%");
 		pl.sendChatToPlayer("Total out: " + CYAN + displayRounded(totalOut) + WHITE + ", " + CYAN + displayRounded(outPct) + "%");
+	}
+	
+	private void measurePower(IPowerProvider t, IPowerReceptor r, EntityPlayer pl) {
+		final String CYAN = "\u00A73", WHITE = "\u00A7r";
+		
+		pl.sendChatToPlayer("=== MACHINE POWER MEASUREMENT ===");
+		pl.sendChatToPlayer("Power request: " + CYAN + r.powerRequest());
+		pl.sendChatToPlayer("Power ramp rate: " + CYAN + t.getPowerRamp());
+		pl.sendChatToPlayer("Stored energy: " + CYAN + t.getEnergyStored() + WHITE + "/" + CYAN + t.getMaxEnergyStored());
+		pl.sendChatToPlayer("Activation energy: " + CYAN + t.getActivationEnergy());
 	}
 	
 	@Override
@@ -76,6 +88,14 @@ public class ItemMultimeter extends Item {
 				
 				return true;
 			}
+		}
+		
+		if(te instanceof IPowerReceptor) {
+			IPowerProvider pp = ((IPowerReceptor)te).getPowerProvider();
+			if(pp != null && !world.isRemote)
+				measurePower(pp, (IPowerReceptor)te, player);
+			
+			return true;
 		}
 		
 		return false;

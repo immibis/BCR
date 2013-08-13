@@ -38,4 +38,7 @@ public interface IPowerProvider {
 
 	SafeTimeTracker getTimeTracker();
 
+	// Returns change in supplied power, in MJ/t/t
+	// Used for power-surge explosions
+	double getPowerRamp();
 }

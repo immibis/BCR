@@ -17,6 +17,7 @@ import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import buildcraft.BuildCraftCore;
+import buildcraft.BuildCraftEnergy;
 import buildcraft.BuildCraftFactory;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.core.Position;
@@ -35,6 +36,8 @@ import buildcraft.core.proxy.CoreProxy;
 import buildcraft.core.utils.Utils;
 
 public class TilePump extends TileMachine implements IMachine, IPowerReceptor {
+
+	private static final double MAX_POWER_RAMP = 3;
 
 	EntityBlock tube;
 
@@ -63,6 +66,11 @@ public class TilePump extends TileMachine implements IMachine, IPowerReceptor {
 		super.updateEntity();
 
 		if (tube == null) {
+			return;
+		}
+		
+		if (!worldObj.isRemote && powerProvider != null && powerProvider.getPowerRamp() > MAX_POWER_RAMP && BuildCraftEnergy.allowPowerSurgeExplosions) {
+			worldObj.newExplosion(null, xCoord+0.5, yCoord+0.5, zCoord+0.5, 2f, false, true);
 			return;
 		}
 

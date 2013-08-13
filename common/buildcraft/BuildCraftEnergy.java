@@ -70,6 +70,8 @@ public class BuildCraftEnergy {
 
 	@Instance("BuildCraft|Energy")
 	public static BuildCraftEnergy instance;
+	
+	public static boolean allowPowerSurgeExplosions;
 
 	@Init
 	public static void load(FMLInitializationEvent evt) {
@@ -114,6 +116,8 @@ public class BuildCraftEnergy {
 		{
 			throw new RuntimeException("Oil Still id must be Oil Moving id + 1");
 		}
+		
+		allowPowerSurgeExplosions = BuildCraftCore.mainConfiguration.get(Configuration.CATEGORY_GENERAL, "allowPowerSurgeExplosions", true).getBoolean(true);
 
 		fuel = new Item(itemFuelId.getInt(DefaultProps.FUEL_ID) - 256).setUnlocalizedName(DefaultProps.ICON_PREFIX + "fuel");
 

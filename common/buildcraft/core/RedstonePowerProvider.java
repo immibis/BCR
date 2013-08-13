@@ -72,4 +72,9 @@ public class RedstonePowerProvider extends PowerProvider {
 	public void configurePowerPerdition(int powerLoss, int powerLossRegularity) {
 
 	}
+
+	@Override
+	public double getPowerRamp() {
+		return 0;
+	}
 }
