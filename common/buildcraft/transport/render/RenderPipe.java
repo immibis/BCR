@@ -235,9 +235,12 @@ public class RenderPipe extends TileEntitySpecialRenderer {
 			GL11.glEndList();
 		}
 
-		for (int i = 0; i < displayPowerStages; ++i)
-			displayPowerLimits[displayPowerStages - i - 1] = maxPower
-					- Math.sqrt(maxPower * maxPower / (displayPowerStages - 1) * i);
+		for (int i = 0; i < displayPowerStages; ++i) {
+			//displayPowerLimits[displayPowerStages - i - 1] = maxPower
+					//- Math.sqrt(maxPower * maxPower / (displayPowerStages - 1) * i);
+			double frac = (i / (double)(displayPowerStages - 1));
+			displayPowerLimits[i] = (frac * frac) * maxPower;
+		}
 	}
 
 	@Override
