@@ -52,7 +52,7 @@ public class ItemMultimeter extends Item {
 				powerOutStr += ForgeDirection.VALID_DIRECTIONS[k].name() + ":" + CYAN + displayRounded(t.statsLastSentPower[k]) + WHITE;
 				totalOut += t.statsLastSentPower[k];
 			}
-			maxOut = Math.max(t.statsLastReceivedPower[k], maxOut);
+			maxOut = Math.max(t.statsLastSentPower[k], maxOut);
 		}
 		
 		double inPct = maxIn / PipeTransportPower.MAX_POWER * 100;
