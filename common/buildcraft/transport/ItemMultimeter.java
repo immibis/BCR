@@ -64,6 +64,7 @@ public class ItemMultimeter extends Item {
 		pl.sendChatToPlayer("Power output: " + powerOutStr);
 		pl.sendChatToPlayer("Total in: " + CYAN + displayRounded(totalIn) + WHITE + ", " + CYAN + displayRounded(inPct) + "%");
 		pl.sendChatToPlayer("Total out: " + CYAN + displayRounded(totalOut) + WHITE + ", " + CYAN + displayRounded(outPct) + "%");
+		pl.sendChatToPlayer("Overload power: " + CYAN + displayRounded(t.excessPower) + WHITE + ", " + CYAN + displayRounded(t.excessPower / t.MAX_EXCESS_POWER) + "%");
 	}
 	
 	private void measurePower(IPowerProvider t, IPowerReceptor r, EntityPlayer pl) {

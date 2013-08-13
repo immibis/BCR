@@ -38,9 +38,12 @@ public class PipeTransportPower extends PipeTransport {
 	private double[] internalNextPower = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 	
 	// power built-up from overload conditions, used to send out destabilizing power spikes
-	private double excessPower; // TODO save in NBT
+	public double excessPower;
 	private final double MIN_POWER_SPIKE_SIZE = 300; // MJ
-	private final double MAX_POWER_SPIKE_SIZE = 600;
+	private final double MAX_POWER_SPIKE_SIZE = 600; // MJ
+	public final double MAX_EXCESS_POWER = 5000; // MJ; must be > MIN_POWER_SPIKE_SIZE*6
+	private int overloadExplodeTicks; // not saved in NBT
+	private final int MAX_OVERLOAD_EXPLODE_TICKS = 5;
 	
 	// Used for measurement purposes only
 	public double[] statsLastReceivedPower = new double[6];
@@ -156,6 +159,15 @@ public class PipeTransportPower extends PipeTransport {
 				excessPower -= powerSpikeSize * numTiles;
 			}
 		}
+		
+		if(excessPower >= MAX_EXCESS_POWER) {
+			if(++overloadExplodeTicks >= MAX_OVERLOAD_EXPLODE_TICKS) {
+				// explosion power 1.0 is not very big, but enough to destroy a few nearby pipes
+				worldObj.newExplosion(null, xCoord+0.5, yCoord+0.5, zCoord+0.5, 1.0f, false, true);
+				excessPower = 0;
+			}
+		} else
+			overloadExplodeTicks = 0;
 		
 		for (int j = 0; j < 6; ++j) {
 			if (powerUsed[j] != 0) {
@@ -309,6 +321,7 @@ public class PipeTransportPower extends PipeTransport {
 		}
 		
 		currentDate = nbttagcompound.getLong("currentDate");
+		excessPower = nbttagcompound.getDouble("excessPower");
 
 		// Don't run for half a second after loading.
 		// Seems to fix storage loops becoming unstable when loading.
@@ -329,6 +342,7 @@ public class PipeTransportPower extends PipeTransport {
 		}
 		
 		nbttagcompound.setLong("currentDate", currentDate);
+		nbttagcompound.setDouble("excessPower", excessPower);
 	}
 
 	public boolean isTriggerActive(ITrigger trigger) {
