@@ -146,9 +146,9 @@ public class TriggerPipeContents extends Trigger implements ITriggerPipe {
 			} else {
 				int minLevel;
 				switch(kind) {
-				case ContainsEnergy25: minLevel = PipeTransportPower.MAX_POWER / 4; break;
-				case ContainsEnergy50: minLevel = PipeTransportPower.MAX_POWER / 2; break;
-				case ContainsEnergy75: minLevel = PipeTransportPower.MAX_POWER * 3 / 4; break;
+				case ContainsEnergy25: minLevel = transportPower.MAX_POWER / 4; break;
+				case ContainsEnergy50: minLevel = transportPower.MAX_POWER / 2; break;
+				case ContainsEnergy75: minLevel = transportPower.MAX_POWER * 3 / 4; break;
 				default: return false;
 				}
 				

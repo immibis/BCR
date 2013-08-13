@@ -51,7 +51,7 @@ import buildcraft.transport.TileGenericPipe;
 
 public class RenderPipe extends TileEntitySpecialRenderer {
 
-	final static private int maxPower = 1000;
+	final static private int maxPower = PipeTransportPower.MAX_POWER_MAX;
 
 	final static private int displayLiquidStages = 40;
 	

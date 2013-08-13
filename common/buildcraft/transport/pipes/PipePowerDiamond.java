@@ -12,7 +12,7 @@ import buildcraft.transport.PipeTransportPower;
 
 public class PipePowerDiamond extends Pipe implements IPipeTransportPowerHook {
 	public PipePowerDiamond(int itemID) {
-		super(new PipeTransportPower(), new PipeLogicIron(), itemID);
+		super(new PipeTransportPower(PipeTransportPower.MAX_POWER_GOLD), new PipeLogicIron(), itemID);
 	}
 	
 	// logic.outputOpen returns true for the un-filled-texture side, false for others
@@ -62,13 +62,8 @@ public class PipePowerDiamond extends Pipe implements IPipeTransportPowerHook {
 		
 		double totalIn = 0;
 		for(int k = 0; k < 6; k++) {
-			if(k == activeDir) {
-				// shouldn't receive any power from here, but just in case
-				used[k] = 0;
-			} else {
-				totalIn += received[k];
-				used[k] = received[k]; // diamond pipes always use all power from every available input
-			}
+			totalIn += received[k];
+			used[k] = received[k]; // diamond pipes always use all power from every available input
 		}
 		
 		Arrays.fill(sent, 0);

@@ -12,7 +12,6 @@ package buildcraft.transport;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import buildcraft.BuildCraftCore;
-import buildcraft.BuildCraftTransport;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.core.SafeTimeTracker;
 import buildcraft.api.gates.ITrigger;
@@ -39,20 +38,23 @@ public class PipeTransportPower extends PipeTransport {
 	private double[] internalNextPower = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 	
 	// power built-up from overload conditions, used to send out destabilizing power spikes
-	private double excessPower;
+	private double excessPower; // TODO save in NBT
 	private final double MIN_POWER_SPIKE_SIZE = 300; // MJ
 	private final double MAX_POWER_SPIKE_SIZE = 600;
 	
 	// Used for measurement purposes only
 	public double[] statsLastReceivedPower = new double[6];
 	public double[] statsLastSentPower = new double[6];
-
-	public double powerResitance = 0.01;
 	
 	public static final int MAX_REQUEST = 100000;
-	public static final int MAX_POWER = 1000;
-
-	public PipeTransportPower() {
+	public final int MAX_POWER;
+	
+	public static final int MAX_POWER_GOLD = 1000;
+	public static final int MAX_POWER_STONE = 100;
+	public static final int MAX_POWER_MAX = 1000;
+	
+	public PipeTransportPower(int maxPower) {
+		this.MAX_POWER = maxPower;
 		for (int i = 0; i < 6; ++i)
 			powerQuery[i] = 0;
 	}
@@ -261,10 +263,7 @@ public class PipeTransportPower extends PipeTransport {
 			&& ((IPipeTransportPowerHook) this.container.pipe).receiveEnergy(from, val))
 			return;
 		else {
-			if (BuildCraftTransport.usePipeLoss)
-				internalNextPower[from.ordinal()] += val * (1 - powerResitance);
-			else
-				internalNextPower[from.ordinal()] += val;
+			internalNextPower[from.ordinal()] += val;
 
 			if (internalNextPower[from.ordinal()] >= MAX_POWER) {
 				double excessPowerHere = internalNextPower[from.ordinal()] - MAX_POWER;

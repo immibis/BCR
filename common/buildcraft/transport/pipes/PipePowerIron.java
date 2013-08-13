@@ -8,9 +8,7 @@ import buildcraft.transport.PipeTransportPower;
 
 public class PipePowerIron extends Pipe {
 	public PipePowerIron(int itemID) {
-		super(new PipeTransportPower(), new PipeLogicIron(), itemID);
-
-		((PipeTransportPower) transport).powerResitance = 0.001;
+		super(new PipeTransportPower(PipeTransportPower.MAX_POWER_GOLD), new PipeLogicIron(), itemID);
 	}
 	
 	private static Icon icon, iconBlocked;

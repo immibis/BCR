@@ -17,9 +17,7 @@ import buildcraft.transport.PipeTransportPower;
 public class PipePowerGold extends Pipe {
 
 	public PipePowerGold(int itemID) {
-		super(new PipeTransportPower(), new PipeLogicGold(), itemID);
-
-		((PipeTransportPower) transport).powerResitance = 0.001;
+		super(new PipeTransportPower(PipeTransportPower.MAX_POWER_GOLD), new PipeLogicGold(), itemID);
 	}
 	
 	private static Icon icon;

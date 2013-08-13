@@ -57,7 +57,6 @@ public class BuildCraftTransport {
 	public static BlockGenericPipe genericPipeBlock;
 
 	public static boolean alwaysConnectPipes;
-	public static boolean usePipeLoss;
 	public static int maxItemsInPipes;
 
 	public static Item pipeWaterproof;
@@ -180,12 +179,6 @@ public class BuildCraftTransport {
 			Property alwaysConnect = BuildCraftCore.mainConfiguration.get("pipes.alwaysConnect", Configuration.CATEGORY_GENERAL, DefaultProps.PIPES_ALWAYS_CONNECT);
 			alwaysConnect.comment = "set to false to deactivate pipe connection rules, true by default";
 			alwaysConnectPipes = alwaysConnect.getBoolean(DefaultProps.PIPES_ALWAYS_CONNECT);
-
-			/*Property pipeLoss = BuildCraftCore.mainConfiguration.get("power.usePipeLoss", Configuration.CATEGORY_GENERAL, DefaultProps.USE_PIPELOSS);
-			pipeLoss.comment = "Set to false to turn off energy loss over distance on all power pipes";
-			usePipeLoss = pipeLoss.getBoolean(DefaultProps.USE_PIPELOSS);*/
-			
-			usePipeLoss = false;
 
 			Property exclusionItemList = BuildCraftCore.mainConfiguration.get("woodenPipe.item.exclusion", Configuration.CATEGORY_BLOCK, "");
 

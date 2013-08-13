@@ -28,7 +28,7 @@ public class PipePowerWood extends Pipe implements IPowerReceptor {
 	private int plainTexture = 1 * 16 + 15;
 
 	public PipePowerWood(int itemID) {
-		super(new PipeTransportPower(), new PipeLogicWood(), itemID);
+		super(new PipeTransportPower(PipeTransportPower.MAX_POWER_STONE), new PipeLogicWood(), itemID);
 
 		powerProvider = PowerFramework.currentFramework.createPowerProvider();
 		powerProvider.configure(50, 1, 1000, 1, 1000);

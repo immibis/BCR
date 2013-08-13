@@ -55,8 +55,8 @@ public class ItemMultimeter extends Item {
 			maxOut = Math.max(t.statsLastSentPower[k], maxOut);
 		}
 		
-		double inPct = maxIn / PipeTransportPower.MAX_POWER * 100;
-		double outPct = maxOut / PipeTransportPower.MAX_POWER * 100;
+		double inPct = maxIn / t.MAX_POWER * 100;
+		double outPct = maxOut / t.MAX_POWER * 100;
 		
 		pl.sendChatToPlayer("=== CONDUCTIVE PIPE MEASUREMENT ===");
 		pl.sendChatToPlayer("Power requests: " + powerReqStr);
