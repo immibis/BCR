@@ -38,6 +38,11 @@ public class PipeTransportPower extends PipeTransport {
 	private double[] internalPower = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 	private double[] internalNextPower = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 	
+	// power built-up from overload conditions, used to send out destabilizing power spikes
+	private double excessPower;
+	private final double MIN_POWER_SPIKE_SIZE = 300; // MJ
+	private final double MAX_POWER_SPIKE_SIZE = 600;
+	
 	// Used for measurement purposes only
 	public double[] statsLastReceivedPower = new double[6];
 	public double[] statsLastSentPower = new double[6];
@@ -95,11 +100,15 @@ public class PipeTransportPower extends PipeTransport {
 			if (internalPower[i] > 0) {
 				double div = 0;
 
+				int numTiles = 0;
+				
 				// Count the total powerQuery from each output.
 				for (int j = 0; j < 6; ++j)
-					if (j != i && powerQuery[j] > 0)
-						if (tiles[j] instanceof TileGenericPipe || tiles[j] instanceof IPowerReceptor)
+					if (j != i)
+						if (tiles[j] instanceof TileGenericPipe || tiles[j] instanceof IPowerReceptor) {
 							div += powerQuery[j];
+							++numTiles;
+						}
 				
 				if(div > 0) {
 					// Divide the energy received from the input in the last tick.
@@ -109,11 +118,23 @@ public class PipeTransportPower extends PipeTransport {
 							powerSent[j] += (totalWatt / div * powerQuery[j]);
 					powerUsed[i] += totalWatt;
 					
+				} else if(numTiles > 0) {
+					// no power requests, split evenly among directions
+					double totalWatt = internalPower[i];
+					for(int j = 0; j < 6; ++j)
+						if (j != i && (tiles[j] instanceof TileGenericPipe || tiles[j] instanceof IPowerReceptor))
+							powerSent[j] += totalWatt / numTiles;
+					powerUsed[i] += totalWatt;
+					
 				} else {
-					if(powerQuery[i] > 0) {
-						powerSent[i] += internalPower[i];
-						powerUsed[i] += internalPower[i];
-					}
+					/* reflect power
+					powerSent[i] += internalPower[i];
+					powerUsed[i] += internalPower[i];
+					*/
+					
+					// absorb power
+					excessPower += internalPower[i];
+					powerUsed[i] += internalPower[i];
 				}
 			}
 		}
@@ -121,15 +142,28 @@ public class PipeTransportPower extends PipeTransport {
 		if(container.pipe instanceof IPipeTransportPowerHook)
 			((IPipeTransportPowerHook)container.pipe).alterPowerSplit(internalPower, powerUsed, powerQuery, powerSent);
 
+		double powerSpikeSize = 0;
+		if(excessPower >= MIN_POWER_SPIKE_SIZE) {
+			int numTiles = 0;
+			for(int j = 0; j < 6; j++)
+				if(tiles[j] instanceof TileGenericPipe || tiles[j] instanceof IPowerReceptor)
+					++numTiles;
+			if(numTiles > 0 && excessPower >= MIN_POWER_SPIKE_SIZE * numTiles) {
+				//System.out.println(container.xCoord+","+container.yCoord+","+container.zCoord+" spike "+excessPower+"/"+numTiles);
+				powerSpikeSize = Math.min(excessPower / numTiles, MAX_POWER_SPIKE_SIZE);
+				excessPower -= powerSpikeSize * numTiles;
+			}
+		}
+		
 		for (int j = 0; j < 6; ++j) {
 			if (powerUsed[j] != 0) {
 				internalPower[j] -= powerUsed[j];
 				displayPower[j] += powerUsed[j] / 2F;
 			}
 			
-			if (powerSent[j] != 0) {
-				double watts = powerSent[j];
-				
+			double watts = powerSent[j] + powerSpikeSize;
+			
+			if (watts != 0) {
 				statsLastSentPower[j] += watts;
 
 				if (tiles[j] instanceof TileGenericPipe) {
@@ -233,9 +267,9 @@ public class PipeTransportPower extends PipeTransport {
 				internalNextPower[from.ordinal()] += val;
 
 			if (internalNextPower[from.ordinal()] >= MAX_POWER) {
-				worldObj.createExplosion(null, xCoord, yCoord, zCoord, 2, false); // temporary
-				//worldObj.setBlockToAir(xCoord, yCoord, zCoord);
-				internalNextPower[from.ordinal()] = 0;
+				double excessPowerHere = internalNextPower[from.ordinal()] - MAX_POWER;
+				internalNextPower[from.ordinal()] -= excessPowerHere;
+				excessPower += excessPowerHere;
 			}
 		}
 	}
