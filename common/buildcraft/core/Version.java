@@ -33,6 +33,7 @@ public class Version {
 	}
 	
 	public static void versionCheck() {
+		if(true) return;
 		try {
 			
 			String location = REMOTE_VERSION_FILE;
