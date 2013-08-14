@@ -70,7 +70,7 @@ public class TilePump extends TileMachine implements IMachine, IPowerReceptor {
 		}
 		
 		if (!worldObj.isRemote && powerProvider != null && powerProvider.getPowerRamp() > MAX_POWER_RAMP && BuildCraftEnergy.allowPowerSurgeExplosions) {
-			worldObj.newExplosion(null, xCoord+0.5, yCoord+0.5, zCoord+0.5, 2f, false, true);
+			worldObj.newExplosion(null, xCoord+0.5, yCoord+0.5, zCoord+0.5, 2f, false, false);
 			return;
 		}
 
