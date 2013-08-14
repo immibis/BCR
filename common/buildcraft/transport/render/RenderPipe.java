@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
@@ -429,6 +430,12 @@ public class RenderPipe extends TileEntitySpecialRenderer {
 		if (entityitem.getItemStack().stackSize > 1)
 			quantity = 2;
 
+		if (itemstack.itemID < Block.blocksList.length && Block.blocksList[itemstack.itemID] != null
+				&& Block.blocksList[itemstack.itemID].blockID != 0)
+			Minecraft.getMinecraft().renderEngine.bindTexture("/terrain.png");
+		else
+			Minecraft.getMinecraft().renderEngine.bindTexture("/gui/items.png");
+		
 		GL11.glTranslatef((float) d, (float) d1, (float) d2);
 		GL11.glEnable(32826 /* GL_RESCALE_NORMAL_EXT */);
 
@@ -509,12 +516,7 @@ public class RenderPipe extends TileEntitySpecialRenderer {
 
 				GL11.glScalef(0.5F, 0.5F, 0.5F);
 				Icon i = itemstack.getIconIndex();
-				/*if (itemstack.itemID < Block.blocksList.length && Block.blocksList[itemstack.itemID] != null
-						&& Block.blocksList[itemstack.itemID].blockID != 0)
-					ForgeHooksClient.bindTexture(Block.blocksList[itemstack.itemID].getTextureFile(), 0);
-				else
-					ForgeHooksClient.bindTexture(Item.itemsList[itemstack.itemID].getTextureFile(), 0);*/
-
+				
 				drawItem(i, quantity);
 			}
 

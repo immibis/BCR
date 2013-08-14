@@ -67,6 +67,13 @@ public class ItemMultimeter extends Item {
 		pl.sendChatToPlayer("Overload power: " + CYAN + displayRounded(t.excessPower) + WHITE + ", " + CYAN + displayRounded(t.excessPower / t.MAX_EXCESS_POWER * 100) + "%");
 	}
 	
+	private void measureItems(PipeTransportItems t, EntityPlayer pl) {
+		final String CYAN = "\u00A73", WHITE = "\u00A7r";
+		
+		pl.sendChatToPlayer("=== ITEM PIPE MEASUREMENT ===");
+		pl.sendChatToPlayer("Num items: " + CYAN + t.travelingEntities.size());
+	}
+	
 	private void measurePower(IPowerProvider t, IPowerReceptor r, EntityPlayer pl) {
 		final String CYAN = "\u00A73", WHITE = "\u00A7r";
 		
@@ -87,6 +94,11 @@ public class ItemMultimeter extends Item {
 				if(!world.isRemote)
 					measurePower(power, player);
 				
+				return true;
+				
+			} else if(transport instanceof PipeTransportItems) {
+				if(world.isRemote)
+					measureItems((PipeTransportItems)transport, player);
 				return true;
 			}
 		}

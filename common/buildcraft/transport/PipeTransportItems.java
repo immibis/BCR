@@ -22,7 +22,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
-import buildcraft.BuildCraftCore;
 import buildcraft.BuildCraftTransport;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.core.Position;
@@ -91,7 +90,7 @@ public class PipeTransportItems extends PipeTransport {
 		if (container.pipe instanceof IPipeTransportItemsHook)
 			((IPipeTransportItemsHook) container.pipe).entityEntered(item, orientation);
 
-		if (!worldObj.isRemote && item.getSynchroTracker().markTimeIfDelay(worldObj, 6 * BuildCraftCore.updateFactor)) {
+		/*if (!worldObj.isRemote && item.getSynchroTracker().markTimeIfDelay(worldObj, 6 * BuildCraftCore.updateFactor))*/ {
 			int dimension = worldObj.provider.dimensionId;
 			PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, DefaultProps.NETWORK_UPDATE_RANGE, dimension, createItemPacket(item, orientation));
 		}
