@@ -49,7 +49,12 @@ public class Utils {
 
 	public static final float pipeMinPos = 0.25F;
 	public static final float pipeMaxPos = 0.75F;
-	public static float pipeNormalSpeed = 0.01F;
+	
+	public static float pipeSpeedDecrease = 0.01F; // blocks/tick/block, was 0.01
+	public static float pipeNormalSpeed = 0.05F; // was 0.01
+	public static float pipeInitialSpeed = 0.05F; // was 0.05
+	public static float pipeMaxSpeed = 0.20F; // was 0.20
+	public static float pipeBoostedSpeed = 0.20F; // was 0.20
 
 	/**
 	 * Tries to add the passed stack to any valid inventories around the given coordinates.

@@ -26,6 +26,7 @@ import buildcraft.api.transport.IPassiveItemContribution;
 import buildcraft.api.transport.IPipedItem;
 import buildcraft.api.transport.PipeManager;
 import buildcraft.core.proxy.CoreProxy;
+import buildcraft.core.utils.Utils;
 
 public class EntityPassiveItem implements IPipedItem {
 
@@ -33,7 +34,7 @@ public class EntityPassiveItem implements IPipedItem {
 	protected static int maxId = 0;
 	protected World worldObj;
 
-	protected float speed = 0.01F;
+	protected float speed = Utils.pipeInitialSpeed;
 	protected ItemStack item;
 
 	protected TileEntity container;

@@ -59,7 +59,7 @@ public class PipeTransportItems extends PipeTransport {
 	public void defaultReajustSpeed(IPipedItem item) {
 
 		if (item.getSpeed() > Utils.pipeNormalSpeed)
-			item.setSpeed(item.getSpeed() - Utils.pipeNormalSpeed);
+			item.setSpeed(item.getSpeed() - Utils.pipeSpeedDecrease);
 
 		if (item.getSpeed() < Utils.pipeNormalSpeed)
 			item.setSpeed(Utils.pipeNormalSpeed);

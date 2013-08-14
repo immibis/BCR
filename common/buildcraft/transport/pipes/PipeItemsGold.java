@@ -70,7 +70,7 @@ public class PipeItemsGold extends Pipe implements IPipeTransportItemsHook {
 	@Override
 	public void entityEntered(IPipedItem item, Orientations orientation) {
 		if (broadcastRedstone || worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord))
-			item.setSpeed(Utils.pipeNormalSpeed * 20F);
+			item.setSpeed(Utils.pipeBoostedSpeed);
 	}
 
 	@Override
