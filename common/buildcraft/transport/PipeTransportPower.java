@@ -97,11 +97,14 @@ public class PipeTransportPower extends PipeTransport {
 		double[] powerUsed = new double[6];
 		
 		// Default power split: For each side, split the power received from that side
-		// among the remaining sides in proportion to their power request, or destroy the power
-		// if the total request is 0.
+		// among the remaining sides in proportion to their power request. If the total request is 0,
+		// split evenly among remaining sides. If there are no sides to send to, store it as overload build-up.
+		
+		double totalPowerIn = 0;
 
 		for (int i = 0; i < 6; ++i) {
 			statsLastReceivedPower[i] = internalPower[i];
+			totalPowerIn += internalPower[i];
 			if (internalPower[i] > 0) {
 				double div = 0;
 
@@ -143,6 +146,10 @@ public class PipeTransportPower extends PipeTransport {
 				}
 			}
 		}
+		
+		// At low power transfer levels, overload power dissipates harmlessly
+		if(totalPowerIn < 2)
+			excessPower = 0;
 
 		if(container.pipe instanceof IPipeTransportPowerHook)
 			((IPipeTransportPowerHook)container.pipe).alterPowerSplit(internalPower, powerUsed, powerQuery, powerSent);
