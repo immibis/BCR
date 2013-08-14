@@ -90,6 +90,7 @@ public class BuildCraftTransport {
 	public static Item pipePowerIron;
 	public static Item pipePowerGold;
 	public static Item pipePowerDiamond;
+	public static Item pipePowerSwitch;
 
 	public static Item facadeItem;
 	
@@ -241,6 +242,7 @@ public class BuildCraftTransport {
 			pipePowerGold = createPipe(DefaultProps.PIPE_POWER_GOLD_ID, PipePowerGold.class, Item.redstone, pipeItemsGold, null);
 			pipePowerDiamond = createPipe(DefaultProps.PIPE_POWER_DIAMOND_ID, PipePowerDiamond.class, Item.redstone, pipeItemsDiamond, null);
 			// obsidian
+			pipePowerSwitch = createPipe(DefaultProps.PIPE_POWER_SWITCH_ID, PipePowerSwitch.class, Block.lever, pipePowerGold, null);
 
 			// Fix name and recipe (Structure pipe insteand of Signal?)
 			pipeStructureCobblestone = createPipe(DefaultProps.PIPE_STRUCTURE_COBBLESTONE_ID, PipeStructureCobblestone.class, Block.gravel, pipeItemsCobblestone, null);

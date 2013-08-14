@@ -112,7 +112,7 @@ public class PipeTransportPower extends PipeTransport {
 					if (j != i)
 						if (tiles[j] instanceof TileGenericPipe || tiles[j] instanceof IPowerReceptor) {
 							div += powerQuery[j];
-							++numTiles;
+							if(container.pipe.outputOpen(Orientations.values()[j])) ++numTiles;
 						}
 				
 				if(div > 0) {
@@ -127,7 +127,7 @@ public class PipeTransportPower extends PipeTransport {
 					// no power requests, split evenly among directions
 					double totalWatt = internalPower[i];
 					for(int j = 0; j < 6; ++j)
-						if (j != i && (tiles[j] instanceof TileGenericPipe || tiles[j] instanceof IPowerReceptor))
+						if (j != i && container.pipe.outputOpen(Orientations.values()[j]) && (tiles[j] instanceof TileGenericPipe || tiles[j] instanceof IPowerReceptor))
 							powerSent[j] += totalWatt / numTiles;
 					powerUsed[i] += totalWatt;
 					
@@ -151,7 +151,7 @@ public class PipeTransportPower extends PipeTransport {
 		if(excessPower >= MIN_POWER_SPIKE_SIZE) {
 			int numTiles = 0;
 			for(int j = 0; j < 6; j++)
-				if(tiles[j] instanceof TileGenericPipe || tiles[j] instanceof IPowerReceptor)
+				if(container.pipe.outputOpen(Orientations.values()[j]) && (tiles[j] instanceof TileGenericPipe || tiles[j] instanceof IPowerReceptor))
 					++numTiles;
 			if(numTiles > 0 && excessPower >= MIN_POWER_SPIKE_SIZE * numTiles) {
 				//System.out.println(container.xCoord+","+container.yCoord+","+container.zCoord+" spike "+excessPower+"/"+numTiles);
@@ -175,7 +175,7 @@ public class PipeTransportPower extends PipeTransport {
 				displayPower[j] += powerUsed[j] / 2F;
 			}
 			
-			double watts = powerSent[j] + powerSpikeSize;
+			double watts = powerSent[j] + (container.pipe.outputOpen(Orientations.values()[j]) ? powerSpikeSize : 0);
 			
 			if (watts != 0) {
 				statsLastSentPower[j] += watts;

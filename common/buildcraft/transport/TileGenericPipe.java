@@ -160,8 +160,8 @@ public class TileGenericPipe extends TileEntity implements IPowerReceptor, ITank
 
 		if (blockNeighborChange) {
 
-			computeConnections();
 			pipe.onNeighborBlockChange(0);
+			computeConnections();
 			blockNeighborChange = false;
 			refreshRenderState = true;
 		}
