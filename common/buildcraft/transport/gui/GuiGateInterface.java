@@ -11,8 +11,10 @@ package buildcraft.transport.gui;
 
 import java.util.Iterator;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
@@ -20,7 +22,6 @@ import buildcraft.api.gates.IAction;
 import buildcraft.api.gates.ITrigger;
 import buildcraft.api.gates.ITriggerParameter;
 import buildcraft.core.gui.GuiAdvancedInterface;
-import buildcraft.core.utils.StringUtil;
 import buildcraft.transport.Gate.GateKind;
 import buildcraft.transport.Pipe;
 
@@ -241,7 +242,7 @@ public class GuiGateInterface extends GuiAdvancedInterface {
 		String name = _container.getGateName();
 
 		fontRenderer.drawString(name, getCenteredOffset(name), 15, 0x404040);
-		fontRenderer.drawString(StringUtil.localize("gui.inventory"), 8, ySize - 97, 0x404040);
+		fontRenderer.drawString(I18n.getString("gui.inventory"), 8, ySize - 97, 0x404040);
 
 		drawForegroundSelection();
 	}
@@ -252,7 +253,7 @@ public class GuiGateInterface extends GuiAdvancedInterface {
 		_container.synchronize();
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.bindTexture(_container.getGateGuiFile());
+		mc.renderEngine.bindTexture(new ResourceLocation(_container.getGateGuiFile()));
 		int cornerX = (width - xSize) / 2;
 		int cornerY = (height - ySize) / 2;
 		drawTexturedModalRect(cornerX, cornerY, 0, 0, xSize, ySize);
@@ -270,18 +271,18 @@ public class GuiGateInterface extends GuiAdvancedInterface {
 						parameter = ((TriggerParameterSlot) slots[s + nbEntries * 2]).getTriggerParameter();
 
 					if (_container.isNearbyTriggerActive(trigger, parameter)) {
-						mc.renderEngine.bindTexture(_container.getGateGuiFile());
+						mc.renderEngine.bindTexture(new ResourceLocation(_container.getGateGuiFile()));
 
 						drawTexturedModalRect(cornerX + slot.x + 35, cornerY + slot.y + 6, 176, 18, 18, 4);
 					}
 
 					if (trigger == null || !trigger.hasParameter()) {
-						mc.renderEngine.bindTexture(_container.getGateGuiFile());
+						mc.renderEngine.bindTexture(new ResourceLocation(_container.getGateGuiFile()));
 
 						drawTexturedModalRect(cornerX + slot.x + 17, cornerY + slot.y - 1, 176, 0, 18, 18);
 					}
 				} else if (_container.isNearbyTriggerActive(trigger, null)) {
-					mc.renderEngine.bindTexture(_container.getGateGuiFile());
+					mc.renderEngine.bindTexture(new ResourceLocation(_container.getGateGuiFile()));
 
 					drawTexturedModalRect(cornerX + slot.x + 17, cornerY + slot.y + 6, 176, 18, 18, 4);
 				}

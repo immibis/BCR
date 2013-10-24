@@ -19,12 +19,10 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.util.StringTranslate;
 import net.minecraft.world.World;
 import buildcraft.BuildCraftCore;
 import buildcraft.core.EntityBlock;
@@ -41,7 +39,6 @@ import buildcraft.core.render.RenderingOil;
 import buildcraft.transport.render.TileEntityPickupFX;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class CoreProxyClient extends CoreProxy {
 
@@ -74,22 +71,6 @@ public class CoreProxyClient extends CoreProxy {
 		Block.blocksList[id].getSubBlocks(id, tab, itemList);
 	}
 	
-	/* LOCALIZATION */
-	@Override
-	public String getCurrentLanguage() {
-		return StringTranslate.getInstance().getCurrentLanguage();
-	}
-	@Override
-	public void addLocalization(String s1, String string) {
-		LanguageRegistry.instance().addStringLocalization(s1, string);
-	}
-	@Override
-	public String getItemDisplayName(ItemStack stack){
-		if (Item.itemsList[stack.itemID] == null) return "";
-
-		return Item.itemsList[stack.itemID].getItemDisplayName(stack);
-	}
-
 	/* GFX */
 	@Override
 	public void obsidianPipePickup(World world, EntityItem item, TileEntity tile) {
@@ -127,7 +108,7 @@ public class CoreProxyClient extends CoreProxy {
 	/* FILE SYSTEM */
 	@Override
 	public File getBuildCraftBase() {
-		return Minecraft.getMinecraftDir();
+		return Minecraft.getMinecraft().mcDataDir;
 	}
 
 	/* BUILDCRAFT PLAYER */
@@ -137,8 +118,8 @@ public class CoreProxyClient extends CoreProxy {
 	}
 
 	private EntityPlayer createNewPlayer(World world) {
-		return new EntityPlayer(world) {
-			@Override public void sendChatToPlayer(String var1) {}
+		return new EntityPlayer(world, "[BuildCraft]") {
+			@Override public void sendChatToPlayer(ChatMessageComponent var1) {}
 			@Override public boolean canCommandSenderUseCommand(int var1, String var2) { return false; }
 			@Override public ChunkCoordinates getPlayerCoordinates() {return new ChunkCoordinates();}
 		};

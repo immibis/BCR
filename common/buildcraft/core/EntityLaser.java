@@ -160,7 +160,6 @@ public class EntityLaser extends Entity {
 		dataWatcher.updateObject(16, texture);
 	}
 
-	@Override
 	public String getTexture() {
 		return texture;
 	}

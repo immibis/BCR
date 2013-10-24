@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Icon;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
@@ -110,7 +111,7 @@ public class RenderEntityBlock extends Render {
 		float f2 = 0.8F;
 		float f3 = 0.6F;
 		
-		Minecraft.getMinecraft().renderEngine.bindTexture(block.textureSheet);
+		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(block.textureSheet));
 
 		Tessellator tessellator = Tessellator.instance;
 
@@ -290,6 +291,12 @@ public class RenderEntityBlock extends Render {
 		tessellator.addVertexWithUV(d8, d9, d11, d4, d6);
 		tessellator.addVertexWithUV(d8, d10, d11, d4, d5);
 		tessellator.addVertexWithUV(d8, d10, d12, d3, d5);
+	}
+
+	@Override
+	protected ResourceLocation getEntityTexture(Entity entity) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -8,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
@@ -58,30 +59,30 @@ public class ItemMultimeter extends Item {
 		double inPct = maxIn / t.MAX_POWER * 100;
 		double outPct = maxOut / t.MAX_POWER * 100;
 		
-		pl.sendChatToPlayer("=== CONDUCTIVE PIPE MEASUREMENT ===");
-		pl.sendChatToPlayer("Power requests: " + powerReqStr);
-		pl.sendChatToPlayer("Power input: " + powerInStr);
-		pl.sendChatToPlayer("Power output: " + powerOutStr);
-		pl.sendChatToPlayer("Total in: " + CYAN + displayRounded(totalIn) + WHITE + ", " + CYAN + displayRounded(inPct) + "%");
-		pl.sendChatToPlayer("Total out: " + CYAN + displayRounded(totalOut) + WHITE + ", " + CYAN + displayRounded(outPct) + "%");
-		pl.sendChatToPlayer("Overload power: " + CYAN + displayRounded(t.excessPower) + WHITE + ", " + CYAN + displayRounded(t.excessPower / t.MAX_EXCESS_POWER * 100) + "%");
+		pl.sendChatToPlayer(ChatMessageComponent.createFromText("=== CONDUCTIVE PIPE MEASUREMENT ==="));
+		pl.sendChatToPlayer(ChatMessageComponent.createFromText("Power requests: " + powerReqStr));
+		pl.sendChatToPlayer(ChatMessageComponent.createFromText("Power input: " + powerInStr));
+		pl.sendChatToPlayer(ChatMessageComponent.createFromText("Power output: " + powerOutStr));
+		pl.sendChatToPlayer(ChatMessageComponent.createFromText("Total in: " + CYAN + displayRounded(totalIn) + WHITE + ", " + CYAN + displayRounded(inPct) + "%"));
+		pl.sendChatToPlayer(ChatMessageComponent.createFromText("Total out: " + CYAN + displayRounded(totalOut) + WHITE + ", " + CYAN + displayRounded(outPct) + "%"));
+		pl.sendChatToPlayer(ChatMessageComponent.createFromText("Overload power: " + CYAN + displayRounded(t.excessPower) + WHITE + ", " + CYAN + displayRounded(t.excessPower / t.MAX_EXCESS_POWER * 100) + "%"));
 	}
 	
 	private void measureItems(PipeTransportItems t, EntityPlayer pl) {
 		final String CYAN = "\u00A73", WHITE = "\u00A7r";
 		
-		pl.sendChatToPlayer("=== ITEM PIPE MEASUREMENT ===");
-		pl.sendChatToPlayer("Num items: " + CYAN + t.travelingEntities.size());
+		pl.sendChatToPlayer(ChatMessageComponent.createFromText("=== ITEM PIPE MEASUREMENT ==="));
+		pl.sendChatToPlayer(ChatMessageComponent.createFromText("Num items: " + CYAN + t.travelingEntities.size()));
 	}
 	
 	private void measurePower(IPowerProvider t, IPowerReceptor r, EntityPlayer pl) {
 		final String CYAN = "\u00A73", WHITE = "\u00A7r";
 		
-		pl.sendChatToPlayer("=== MACHINE POWER MEASUREMENT ===");
-		pl.sendChatToPlayer("Power request: " + CYAN + r.powerRequest());
-		pl.sendChatToPlayer("Power ramp rate: " + CYAN + t.getPowerRamp());
-		pl.sendChatToPlayer("Stored energy: " + CYAN + t.getEnergyStored() + WHITE + "/" + CYAN + t.getMaxEnergyStored());
-		pl.sendChatToPlayer("Activation energy: " + CYAN + t.getActivationEnergy());
+		pl.sendChatToPlayer(ChatMessageComponent.createFromText("=== MACHINE POWER MEASUREMENT ==="));
+		pl.sendChatToPlayer(ChatMessageComponent.createFromText("Power request: " + CYAN + r.powerRequest()));
+		pl.sendChatToPlayer(ChatMessageComponent.createFromText("Power ramp rate: " + CYAN + t.getPowerRamp()));
+		pl.sendChatToPlayer(ChatMessageComponent.createFromText("Stored energy: " + CYAN + t.getEnergyStored() + WHITE + "/" + CYAN + t.getMaxEnergyStored()));
+		pl.sendChatToPlayer(ChatMessageComponent.createFromText("Activation energy: " + CYAN + t.getActivationEnergy()));
 	}
 	
 	@Override

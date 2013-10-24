@@ -5,6 +5,8 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
 
 import buildcraft.core.DefaultProps;
@@ -34,7 +36,7 @@ public class RenderRobot extends Render {
 		GL11.glDisable(2896 /* GL_LIGHTING */);
 		GL11.glTranslated(x, y, z);
 
-		Minecraft.getMinecraft().renderEngine.bindTexture(DefaultProps.TEXTURE_PATH_ENTITIES + "/robot.png");
+		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(DefaultProps.TEXTURE_PATH_ENTITIES + "/robot.png"));
 
 		float factor = (float) (1.0 / 16.0);
 
@@ -43,6 +45,12 @@ public class RenderRobot extends Render {
 		GL11.glEnable(2896 /* GL_LIGHTING */);
 		GL11.glPopMatrix();
 
+	}
+
+	@Override
+	protected ResourceLocation getEntityTexture(Entity entity) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

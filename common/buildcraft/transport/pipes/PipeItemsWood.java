@@ -14,7 +14,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ISidedInventory;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.core.Position;
 import buildcraft.api.inventory.ISpecialInventory;
@@ -143,7 +142,7 @@ public class PipeItemsWood extends Pipe implements IPowerReceptor {
 			return stacks;
 		}
 
-		if (inventory instanceof ISidedInventory) {
+		/*if (inventory instanceof ISidedInventory) {
 			ISidedInventory sidedInv = (ISidedInventory) inventory;
 
 			int first = sidedInv.getStartInventorySide(from.toDirection());
@@ -191,7 +190,7 @@ public class PipeItemsWood extends Pipe implements IPowerReceptor {
 					return new ItemStack[] { inventory.decrStackSize(slotIndex, (int) powerProvider.useEnergy(1, slot.stackSize, true)) };
 				else
 					return new ItemStack[] { slot };
-		} else {
+		} else*/ {
 			// This is a generic inventory
 			IInventory inv = Utils.getInventory(inventory);
 

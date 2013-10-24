@@ -10,7 +10,9 @@
 package buildcraft.builders.gui;
 
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
@@ -23,7 +25,6 @@ import buildcraft.core.gui.GuiBuildCraft;
 import buildcraft.core.network.PacketIds;
 import buildcraft.core.network.PacketPayload;
 import buildcraft.core.proxy.CoreProxy;
-import buildcraft.core.utils.StringUtil;
 
 public class GuiBlueprintLibrary extends GuiBuildCraft {
 
@@ -67,15 +68,15 @@ public class GuiBlueprintLibrary extends GuiBuildCraft {
 		buttonList.add(nextPageButton);
 
 		// if (library.owner.equals(player.username)) {
-		deleteButton = new GuiButton(2, j + 100, k + 114, 25, 20, StringUtil.localize("gui.del"));
+		deleteButton = new GuiButton(2, j + 100, k + 114, 25, 20, I18n.getString("gui.del"));
 		buttonList.add(deleteButton);
 
-		lockButton = new GuiButton(3, j + 127, k + 114, 40, 20, StringUtil.localize("gui.lock"));
+		lockButton = new GuiButton(3, j + 127, k + 114, 40, 20, I18n.getString("gui.lock"));
 		buttonList.add(lockButton);
 		if (library.locked) {
-			lockButton.displayString = StringUtil.localize("gui.unlock");
+			lockButton.displayString = I18n.getString("gui.unlock");
 		} else {
-			lockButton.displayString = StringUtil.localize("gui.lock");
+			lockButton.displayString = I18n.getString("gui.lock");
 		}
 	}
 
@@ -83,7 +84,7 @@ public class GuiBlueprintLibrary extends GuiBuildCraft {
 	protected void drawGuiContainerForegroundLayer(int par1, int par2) {
 		// fontRenderer.drawString(library.owner + "'s Library", 6, 6,
 		// 0x404040);
-		String title = StringUtil.localize("tile.libraryBlock");
+		String title = I18n.getString("tile.libraryBlock");
 		fontRenderer.drawString(title, getCenteredOffset(title), 6, 0x404040);
 
 		int c = 0;
@@ -116,7 +117,7 @@ public class GuiBlueprintLibrary extends GuiBuildCraft {
 		// }
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.bindTexture(i);
+		mc.renderEngine.bindTexture(new ResourceLocation(i));
 		int j = (width - xSize) / 2;
 		int k = (height - ySize) / 2;
 		drawTexturedModalRect(j, k, 0, 0, xSize, ySize);
@@ -131,9 +132,9 @@ public class GuiBlueprintLibrary extends GuiBuildCraft {
 	@Override
 	public void updateScreen(){
 		if (library.locked) {
-			lockButton.displayString = StringUtil.localize("gui.unlock");
+			lockButton.displayString = I18n.getString("gui.unlock");
 		} else {
-			lockButton.displayString = StringUtil.localize("gui.lock");
+			lockButton.displayString = I18n.getString("gui.lock");
 		}
 	}
 	

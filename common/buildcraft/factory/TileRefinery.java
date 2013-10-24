@@ -463,7 +463,7 @@ public class TileRefinery extends TileMachine implements ITankContainer, IPowerR
 	}
 
 	@Override
-	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
+	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
 		return true;
 	}
 

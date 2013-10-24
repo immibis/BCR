@@ -19,6 +19,7 @@ import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 
@@ -173,7 +174,7 @@ public class RenderRefinery extends TileEntitySpecialRenderer implements IInvent
 		GL11.glRotatef(angle, 0, 1, 0);
 		GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
 
-		Minecraft.getMinecraft().renderEngine.bindTexture(DefaultProps.TEXTURE_PATH_BLOCKS + "/refinery.png");
+		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(DefaultProps.TEXTURE_PATH_BLOCKS + "/refinery.png"));
 		GL11.glTranslatef(-4F * factor, 0, -4F * factor);
 		tank.render(factor);
 		GL11.glTranslatef(4F * factor, 0, 4F * factor);

@@ -2,8 +2,8 @@ package buildcraft.core.utils;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.ISidedInventory;
 import buildcraft.api.core.Orientations;
 
 /**
@@ -17,32 +17,32 @@ public class SidedInventoryAdapter implements IInventory {
 
 	private final ISidedInventory _sidedInventory;
 	private final Orientations _side;
-	private final int _slotOffset;
+	private final int[] _slots;
 
 	public SidedInventoryAdapter(ISidedInventory sidedInventory, Orientations side) {
 		_sidedInventory = sidedInventory;
 		_side = side;
-		_slotOffset = _sidedInventory.getStartInventorySide(side.toDirection());
+		_slots = _sidedInventory.getAccessibleSlotsFromSide(side.toDirection().ordinal());
 	}
 
 	@Override
 	public int getSizeInventory() {
-		return _sidedInventory.getSizeInventorySide(_side.toDirection());
+		return _slots.length;
 	}
 
 	@Override
 	public ItemStack getStackInSlot(int i) {
-		return _sidedInventory.getStackInSlot(i + _slotOffset);
+		return _sidedInventory.getStackInSlot(_slots[i]);
 	}
 
 	@Override
 	public ItemStack decrStackSize(int i, int j) {
-		return _sidedInventory.decrStackSize(i + _slotOffset, j);
+		return _sidedInventory.decrStackSize(_slots[i], j);
 	}
 
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack) {
-		_sidedInventory.setInventorySlotContents(i + _slotOffset, itemstack);
+		_sidedInventory.setInventorySlotContents(_slots[i], itemstack);
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class SidedInventoryAdapter implements IInventory {
 
 	@Override
 	public ItemStack getStackInSlotOnClosing(int slot) {
-		return _sidedInventory.getStackInSlotOnClosing(slot + _slotOffset);
+		return _sidedInventory.getStackInSlotOnClosing(_slots[slot]);
 	}
 
 	@Override
@@ -86,7 +86,7 @@ public class SidedInventoryAdapter implements IInventory {
 	}
 
 	@Override
-	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
-		return _sidedInventory.isStackValidForSlot(i + _slotOffset, itemstack);
+	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+		return _sidedInventory.isItemValidForSlot(_slots[i], itemstack);
 	}
 }

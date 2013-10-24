@@ -179,14 +179,14 @@ public class SurroundingInventory implements IInventory, IBuilderInventory {
 	}
 
 	@Override
-	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
+	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
 		int lastSize = 0, size = 0;
 
 		for (IInventory inv : invs) {
 			size += inv.getSizeInventory();
 
 			if (size > i)
-				return inv.isStackValidForSlot(i - lastSize, itemstack);
+				return inv.isItemValidForSlot(i - lastSize, itemstack);
 			lastSize = size;
 		}
 

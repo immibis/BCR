@@ -18,6 +18,7 @@ import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;
@@ -432,9 +433,9 @@ public class RenderPipe extends TileEntitySpecialRenderer {
 
 		if (itemstack.itemID < Block.blocksList.length && Block.blocksList[itemstack.itemID] != null
 				&& Block.blocksList[itemstack.itemID].blockID != 0)
-			Minecraft.getMinecraft().renderEngine.bindTexture("/terrain.png");
+			Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
 		else
-			Minecraft.getMinecraft().renderEngine.bindTexture("/gui/items.png");
+			Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationItemsTexture);
 		
 		GL11.glTranslatef((float) d, (float) d1, (float) d2);
 		GL11.glEnable(32826 /* GL_RESCALE_NORMAL_EXT */);

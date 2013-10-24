@@ -12,8 +12,10 @@ package buildcraft.silicon.gui;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
@@ -25,7 +27,6 @@ import buildcraft.core.network.PacketIds;
 import buildcraft.core.network.PacketPayload;
 import buildcraft.core.network.PacketUpdate;
 import buildcraft.core.proxy.CoreProxy;
-import buildcraft.core.utils.StringUtil;
 import buildcraft.factory.TileAssemblyTable;
 import buildcraft.factory.TileAssemblyTable.SelectionMessage;
 
@@ -88,9 +89,9 @@ public class GuiAssemblyTable extends GuiAdvancedInterface {
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-		String title = StringUtil.localize("tile.assemblyTableBlock");
+		String title = I18n.getString("tile.assemblyTableBlock");
 		fontRenderer.drawString(title, getCenteredOffset(title), 15, 0x404040);
-		fontRenderer.drawString(StringUtil.localize("gui.inventory"), 8, ySize - 97, 0x404040);
+		fontRenderer.drawString(I18n.getString("gui.inventory"), 8, ySize - 97, 0x404040);
 
 		drawForegroundSelection();
 	}
@@ -98,7 +99,7 @@ public class GuiAssemblyTable extends GuiAdvancedInterface {
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int x, int y) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.bindTexture(DefaultProps.TEXTURE_PATH_GUI + "/assembly_table.png");
+		mc.renderEngine.bindTexture(new ResourceLocation(DefaultProps.TEXTURE_PATH_GUI + "/assembly_table.png"));
 		int cornerX = (width - xSize) / 2;
 		int cornerY = (height - ySize) / 2;
 		drawTexturedModalRect(cornerX, cornerY, 0, 0, xSize, ySize);

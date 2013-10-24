@@ -4,6 +4,7 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
@@ -49,7 +50,7 @@ public abstract class GuiAdvancedInterface extends GuiBuildCraft {
 			if (getItemStack() != null)
 				drawStack(getItemStack());
 			else if (getTexture() != null && !getTexture().equals("")) {
-				mc.renderEngine.bindTexture(getTexture());
+				mc.renderEngine.bindTexture(new ResourceLocation(getTexture()));
 
 				int textureI = getTextureIndex() >> 4;
 				int textureJ = getTextureIndex() - textureI * 16;

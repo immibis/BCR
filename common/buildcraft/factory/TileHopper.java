@@ -2,10 +2,10 @@ package buildcraft.factory;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ISidedInventory;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.inventory.ISpecialInventory;
 import buildcraft.core.TileBuildCraft;
@@ -57,7 +57,7 @@ public class TileHopper extends TileBuildCraft implements IInventory {
 		if (!(tile instanceof IInventory))
 			return;
 		IInventory inventory = (IInventory) tile;
-		if (tile instanceof ISidedInventory) {
+		if (tile instanceof net.minecraft.inventory.ISidedInventory) {
 			inventory = new SidedInventoryAdapter((ISidedInventory) tile, Orientations.YPos);
 		}
 
@@ -122,7 +122,7 @@ public class TileHopper extends TileBuildCraft implements IInventory {
 	}
 
 	@Override
-	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
+	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
 		return true;
 	}
 }

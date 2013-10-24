@@ -26,6 +26,7 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.MemoryConnection;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
 import buildcraft.core.ItemBlockBuildCraft;
@@ -53,10 +54,6 @@ public class CoreProxy {
 		return world.isRemote;
 	}
 
-	public String getCurrentLanguage() {
-		return null;
-	}
-
 	/* ENTITY HANDLING */
 	public void removeEntity(Entity entity) {
 		entity.setDead();
@@ -64,10 +61,6 @@ public class CoreProxy {
 
 	/* WRAPPER */
 	public void feedSubBlocks(int id, CreativeTabs tab, List itemList) {}
-
-	/* LOCALIZATION */
-	public void addLocalization(String s1, String string) {}
-	public String getItemDisplayName(ItemStack newStack) { return ""; }
 
 	/* GFX */
 	public void obsidianPipePickup(World world, EntityItem item, TileEntity tile) {}
@@ -153,10 +146,10 @@ public class CoreProxy {
 
 	public String playerName() { return ""; }
 	private EntityPlayer createNewPlayer(World world) {
-		return new EntityPlayer(world) {
+		return new EntityPlayer(world, "[Buildcraft]") {
 
 			@Override
-			public void sendChatToPlayer(String var1) {
+			public void sendChatToPlayer(ChatMessageComponent var1) {
 			}
 
 			@Override

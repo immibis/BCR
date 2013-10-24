@@ -9,15 +9,16 @@
 
 package buildcraft.builders.gui;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.Icon;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
 import buildcraft.builders.TileFiller;
 import buildcraft.core.DefaultProps;
 import buildcraft.core.gui.GuiBuildCraft;
-import buildcraft.core.utils.StringUtil;
 
 public class GuiFiller extends GuiBuildCraft {
 
@@ -34,10 +35,10 @@ public class GuiFiller extends GuiBuildCraft {
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-		String title = StringUtil.localize("tile.fillerBlock");
+		String title = I18n.getString("tile.fillerBlock");
 		fontRenderer.drawString(title, getCenteredOffset(title), 6, 0x404040);
-		fontRenderer.drawString(StringUtil.localize("gui.filling.resources"), 8, 74, 0x404040);
-		fontRenderer.drawString(StringUtil.localize("gui.inventory"), 8, 142, 0x404040);
+		fontRenderer.drawString(I18n.getString("gui.filling.resources"), 8, 74, 0x404040);
+		fontRenderer.drawString(I18n.getString("gui.inventory"), 8, 142, 0x404040);
 
 		if (filler.currentPattern != null)
 			drawForegroundSelection(filler.currentPattern.getName());
@@ -47,7 +48,7 @@ public class GuiFiller extends GuiBuildCraft {
 	protected void drawGuiContainerBackgroundLayer(float f, int x, int y) {
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.bindTexture(DefaultProps.TEXTURE_PATH_GUI + "/filler.png");
+		mc.renderEngine.bindTexture(new ResourceLocation(DefaultProps.TEXTURE_PATH_GUI + "/filler.png"));
 
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
@@ -55,7 +56,7 @@ public class GuiFiller extends GuiBuildCraft {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			
 			Icon icon = filler.currentPattern.getTexture();
-			mc.renderEngine.bindTexture("/terrain.png");
+			mc.renderEngine.bindTexture(new ResourceLocation("/terrain.png"));
 			
 			drawTexturedModelRectFromIcon(guiLeft + patternSymbolX, guiTop + patternSymbolY, icon, 16, 16);
 		}

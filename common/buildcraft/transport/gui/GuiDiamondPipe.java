@@ -9,8 +9,10 @@
 
 package buildcraft.transport.gui;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
@@ -19,7 +21,6 @@ import buildcraft.core.gui.GuiAdvancedInterface;
 import buildcraft.core.network.PacketIds;
 import buildcraft.core.network.PacketSlotChange;
 import buildcraft.core.proxy.CoreProxy;
-import buildcraft.core.utils.StringUtil;
 import buildcraft.transport.TileGenericPipe;
 import buildcraft.transport.pipes.PipeLogicDiamond;
 
@@ -47,7 +48,7 @@ public class GuiDiamondPipe extends GuiAdvancedInterface {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int par1, int par2) {
 		fontRenderer.drawString(filterInventory.getInvName(), getCenteredOffset(filterInventory.getInvName()), 6, 0x404040);
-		fontRenderer.drawString(StringUtil.localize("gui.inventory"), 8, ySize - 97, 0x404040);
+		fontRenderer.drawString(I18n.getString("gui.inventory"), 8, ySize - 97, 0x404040);
 
 		drawForegroundSelection();
 	}
@@ -55,7 +56,7 @@ public class GuiDiamondPipe extends GuiAdvancedInterface {
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int x, int y) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.bindTexture(DefaultProps.TEXTURE_PATH_GUI + "/filter.png");
+		mc.renderEngine.bindTexture(new ResourceLocation(DefaultProps.TEXTURE_PATH_GUI + "/filter.png"));
 		int j = (width - xSize) / 2;
 		int k = (height - ySize) / 2;
 		drawTexturedModalRect(j, k, 0, 0, xSize, ySize);

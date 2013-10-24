@@ -6,6 +6,8 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
 
 import buildcraft.BuildCraftCore;
@@ -53,10 +55,10 @@ public class RenderHopper extends TileEntitySpecialRenderer implements IInventor
 		GL11.glDisable(GL11.GL_LIGHTING);
 
 		GL11.glTranslated(x, y, z);
-		Minecraft.getMinecraft().renderEngine.bindTexture(DefaultProps.TEXTURE_PATH_BLOCKS + "/hopper.png");
+		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(DefaultProps.TEXTURE_PATH_BLOCKS + "/hopper.png"));
 		top.render((float) (1.0 / 16.0));
 		bottom.render((float) (1.0 / 16.0));
-		Minecraft.getMinecraft().renderEngine.bindTexture(DefaultProps.TEXTURE_PATH_BLOCKS + "/hopper_middle.png");
+		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(DefaultProps.TEXTURE_PATH_BLOCKS + "/hopper_middle.png"));
 		middle.render(Tessellator.instance, 1F / 16F);
 
 		GL11.glEnable(GL11.GL_LIGHTING);

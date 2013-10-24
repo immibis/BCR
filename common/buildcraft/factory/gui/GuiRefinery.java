@@ -9,8 +9,10 @@
 
 package buildcraft.factory.gui;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
@@ -19,7 +21,6 @@ import buildcraft.api.liquids.LiquidStack;
 import buildcraft.api.recipes.RefineryRecipe;
 import buildcraft.core.DefaultProps;
 import buildcraft.core.gui.GuiAdvancedInterface;
-import buildcraft.core.utils.StringUtil;
 import buildcraft.factory.TileRefinery;
 
 public class GuiRefinery extends GuiAdvancedInterface {
@@ -43,11 +44,11 @@ public class GuiRefinery extends GuiAdvancedInterface {
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-		String title = StringUtil.localize("tile.refineryBlock");
+		String title = I18n.getString("tile.refineryBlock");
 		fontRenderer.drawString(title, getCenteredOffset(title), 6, 0x404040);
 		fontRenderer.drawString("->", 63, 59, 0x404040);
 		fontRenderer.drawString("<-", 106, 59, 0x404040);
-		fontRenderer.drawString(StringUtil.localize("gui.inventory"), 8, (ySize - 96) + 2, 0x404040);
+		fontRenderer.drawString(I18n.getString("gui.inventory"), 8, (ySize - 96) + 2, 0x404040);
 
 		drawForegroundSelection();
 	}
@@ -55,7 +56,7 @@ public class GuiRefinery extends GuiAdvancedInterface {
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int x, int y) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.bindTexture(DefaultProps.TEXTURE_PATH_GUI + "/refinery_filter.png");
+		mc.renderEngine.bindTexture(new ResourceLocation(DefaultProps.TEXTURE_PATH_GUI + "/refinery_filter.png"));
 		int j = (width - xSize) / 2;
 		int k = (height - ySize) / 2;
 		drawTexturedModalRect(j, k, 0, 0, xSize, ySize);

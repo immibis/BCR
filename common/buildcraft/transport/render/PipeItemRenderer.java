@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
@@ -25,7 +26,7 @@ public class PipeItemRenderer implements IItemRenderer {
 		Block block = BuildCraftTransport.genericPipeBlock;
 		Icon textureID = ((ItemPipe) Item.itemsList[item.itemID]).getIconFromDamage(0);
 		
-		Minecraft.getMinecraft().renderEngine.bindTexture("/terrain.png");
+		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
 
 		block.setBlockBounds(Utils.pipeMinPos, 0.0F, Utils.pipeMinPos, Utils.pipeMaxPos, 1.0F, Utils.pipeMaxPos);
 		block.setBlockBoundsForItemRender();

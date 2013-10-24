@@ -1,13 +1,9 @@
 package buildcraft.core.inventory;
 
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.ISidedInventory;
-import buildcraft.api.core.Orientations;
-
 /**
  *	Will respect ISidedInventory implementation but only accept input from above or below. 
  */
-public class TransactorFurnace extends TransactorSided {
+/*public class TransactorFurnace extends TransactorSided {
 
 	public TransactorFurnace(ISidedInventory inventory) {
 		super(inventory);
@@ -22,3 +18,4 @@ public class TransactorFurnace extends TransactorSided {
 		return super.inject(stack, orientation, doAdd);
 	}
 }
+*/

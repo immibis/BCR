@@ -2,6 +2,7 @@ package buildcraft.transport;
 
 import java.util.LinkedList;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -15,7 +16,6 @@ import buildcraft.api.transport.IPipe;
 import buildcraft.core.DefaultProps;
 import buildcraft.core.GuiIds;
 import buildcraft.core.proxy.CoreProxy;
-import buildcraft.core.utils.StringUtil;
 import buildcraft.core.utils.Utils;
 import buildcraft.transport.triggers.ActionEnergyPulser;
 
@@ -82,19 +82,19 @@ public class GateVanilla extends Gate {
 	public String getName() {
 		switch (kind) {
 		case Single:
-			return StringUtil.localize("item.pipeGate.0");
+			return I18n.getString("item.pipeGate.0");
 		case AND_2:
-			return StringUtil.localize("item.pipeGate.1");
+			return I18n.getString("item.pipeGate.1");
 		case AND_3:
-			return StringUtil.localize("item.pipeGate.3");
+			return I18n.getString("item.pipeGate.3");
 		case AND_4:
-			return StringUtil.localize("item.pipeGate.5");
+			return I18n.getString("item.pipeGate.5");
 		case OR_2:
-			return StringUtil.localize("item.pipeGate.2");
+			return I18n.getString("item.pipeGate.2");
 		case OR_3:
-			return StringUtil.localize("item.pipeGate.4");
+			return I18n.getString("item.pipeGate.4");
 		case OR_4:
-			return StringUtil.localize("item.pipeGate.6");
+			return I18n.getString("item.pipeGate.6");
 		default:
 			return "";
 		}

@@ -1,13 +1,9 @@
 package buildcraft.core.inventory;
 
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.ISidedInventory;
-import buildcraft.api.core.Orientations;
-
 /**
  * Manages input on ISidedInventory
  */
-public class TransactorSided extends TransactorSimple {
+/*public class TransactorSided extends TransactorSimple {
 
 	ISidedInventory sided;
 	
@@ -37,3 +33,4 @@ public class TransactorSided extends TransactorSimple {
 	
 
 }
+*/

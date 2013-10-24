@@ -290,7 +290,7 @@ public class TileAutoWorkbench extends TileEntity implements ISpecialInventory {
 	}
 
 	@Override
-	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
+	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
 		// TODO Auto-generated method stub
 		return false;
 	}

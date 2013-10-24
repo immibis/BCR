@@ -7,6 +7,7 @@ import java.util.ListIterator;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -18,7 +19,6 @@ import buildcraft.BuildCraftTransport;
 import buildcraft.api.core.Orientations;
 import buildcraft.api.recipes.AssemblyRecipe;
 import buildcraft.core.proxy.CoreProxy;
-import buildcraft.core.utils.StringUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -41,12 +41,12 @@ public class ItemFacade extends Item {
 	
 	@Override
 	public String getItemDisplayName(ItemStack itemstack) {
-		String name = "" + StringUtil.localize(getUnlocalizedName(itemstack));
+		String name = "" + I18n.getString(getUnlocalizedName(itemstack));
 		int decodedBlockId = ItemFacade.getBlockId(itemstack.getItemDamage());
 		int decodedMeta = ItemFacade.getMetaData(itemstack.getItemDamage());
 		ItemStack newStack = new ItemStack(decodedBlockId, 1, decodedMeta);
 		if (Item.itemsList[decodedBlockId] != null){
-			name += ": " + CoreProxy.proxy.getItemDisplayName(newStack);
+			name += ": " + newStack.getDisplayName();
 		} else {
 			name += " < BROKEN (" + decodedBlockId + ":"+ decodedMeta +" )>";
 		}

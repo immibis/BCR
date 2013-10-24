@@ -38,7 +38,6 @@ import buildcraft.core.network.PacketUpdate;
 import buildcraft.core.proxy.CoreProxy;
 import buildcraft.core.triggers.*;
 import buildcraft.core.triggers.ActionMachineControl.Mode;
-import buildcraft.core.utils.Localization;
 import buildcraft.transport.triggers.TriggerRedstoneInput;
 
 import cpw.mods.fml.common.FMLLog;
@@ -240,8 +239,6 @@ public class BuildCraftCore {
 
 		CoreProxy.proxy.initializeRendering();
 		CoreProxy.proxy.initializeEntityRendering();
-
-		Localization.addLocalization("/lang/buildcraft/", DefaultProps.DEFAULT_LANGUAGE);
 
 	}
 

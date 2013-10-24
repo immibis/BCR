@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraftforge.client.IItemRenderer;
@@ -28,7 +29,7 @@ public class FacadeItemRenderer implements IItemRenderer {
 			return;
 		}
 		
-		Minecraft.getMinecraft().renderEngine.bindTexture("/terrain.png");
+		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
 		
 		GL11.glColor3f(1, 1, 1);
 		

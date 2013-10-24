@@ -10,13 +10,16 @@
 package buildcraft.energy.gui;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.util.Icon;
+import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
 
 import buildcraft.core.DefaultProps;
-import buildcraft.core.utils.StringUtil;
 import buildcraft.energy.EngineIron;
 import buildcraft.energy.TileEngine;
 
@@ -29,15 +32,15 @@ public class GuiCombustionEngine extends GuiEngine {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int par1, int par2) {
 		super.drawGuiContainerForegroundLayer(par1, par2);
-		String title = StringUtil.localize("tile.engineIron");
+		String title = I18n.getString("tile.engineIron");
 		fontRenderer.drawString(title, getCenteredOffset(title), 6, 0x404040);
-		fontRenderer.drawString(StringUtil.localize("gui.inventory"), 8, (ySize - 96) + 2, 0x404040);
+		fontRenderer.drawString(I18n.getString("gui.inventory"), 8, (ySize - 96) + 2, 0x404040);
 	}
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int x, int y) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.bindTexture(DefaultProps.TEXTURE_PATH_GUI + "/combustion_engine_gui.png");
+		mc.renderEngine.bindTexture(new ResourceLocation(DefaultProps.TEXTURE_PATH_GUI + "/combustion_engine_gui.png"));
 		int j = (width - xSize) / 2;
 		int k = (height - ySize) / 2;
 		drawTexturedModalRect(j, k, 0, 0, xSize, ySize);
@@ -57,10 +60,10 @@ public class GuiCombustionEngine extends GuiEngine {
 
 		if (liquidId < Block.blocksList.length && Block.blocksList[liquidId] != null) {
 			liquidImgIndex = Block.blocksList[liquidId].getBlockTextureFromSide(0);
-			mc.renderEngine.bindTexture("/terrain.png");
+			mc.renderEngine.bindTexture(TextureMap.locationBlocksTexture);
 		} else if (Item.itemsList[liquidId] != null) {
 			liquidImgIndex = Item.itemsList[liquidId].getIconFromDamage(0);
-			mc.renderEngine.bindTexture("/gui/items.png");
+			mc.renderEngine.bindTexture(TextureMap.locationItemsTexture);
 		} else {
 			return;			
 		}
@@ -86,7 +89,7 @@ public class GuiCombustionEngine extends GuiEngine {
 				break;
 		}
 
-		mc.renderEngine.bindTexture(DefaultProps.TEXTURE_PATH_GUI + "/combustion_engine_gui.png");
+		mc.renderEngine.bindTexture(new ResourceLocation(DefaultProps.TEXTURE_PATH_GUI + "/combustion_engine_gui.png"));
 		drawTexturedModalRect(j + col, k + line, 176, 0, 16, 60);
 	}
 }

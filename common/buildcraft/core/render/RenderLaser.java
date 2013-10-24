@@ -5,6 +5,8 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
 
 import buildcraft.core.EntityLaser;
@@ -42,7 +44,7 @@ public class RenderLaser extends Render {
 		GL11.glRotatef((float) laser.angleZ, 0, 1, 0);
 		GL11.glRotatef((float) laser.angleY, 0, 0, 1);
 
-		Minecraft.getMinecraft().renderEngine.bindTexture(laser.getTexture());
+		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(laser.getTexture()));
 
 		float factor = (float) (1.0 / 16.0);
 
@@ -71,6 +73,12 @@ public class RenderLaser extends Render {
 
 	protected ModelRenderer getBox(EntityLaser laser) {
 		return box;
+	}
+
+	@Override
+	protected ResourceLocation getEntityTexture(Entity entity) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

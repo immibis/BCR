@@ -1,6 +1,8 @@
 package buildcraft.transport.network;
 
+import java.io.DataInput;
 import java.io.DataInputStream;
+import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import net.minecraft.network.packet.NetHandler;
@@ -41,12 +43,12 @@ public class PacketPowerUpdate extends PacketCoordinates {
 	public Packet getSSPPacket() {
 		return new Packet() {
 			@Override
-			public void writePacketData(DataOutputStream dataoutputstream) throws IOException {
+			public void writePacketData(DataOutput dataoutputstream) throws IOException {
 				throw new UnsupportedOperationException();
 			}
 			
 			@Override
-			public void readPacketData(DataInputStream datainputstream) throws IOException {
+			public void readPacketData(DataInput datainputstream) throws IOException {
 				throw new UnsupportedOperationException();
 			}
 			
