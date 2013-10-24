@@ -20,9 +20,9 @@ public class DefaultProps {
 	public static final String NET_CHANNEL_NAME = "BC";
 	public static int NETWORK_UPDATE_RANGE = 128;
 
-	public static String TEXTURE_PATH_GUI = "/gfx/buildcraft/gui";
-	public static String TEXTURE_PATH_BLOCKS = "/gfx/buildcraft/blocks";
-	public static String TEXTURE_PATH_ENTITIES = "/gfx/buildcraft/entities";
+	public static String TEXTURE_PATH_GUI = "buildcraft:gui";
+	public static String TEXTURE_PATH_BLOCKS = "buildcraft:blocks";
+	public static String TEXTURE_PATH_ENTITIES = "buildcraft:entities";
 	
 	public static String ICON_PREFIX = "BCR:";
 
